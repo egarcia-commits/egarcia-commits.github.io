@@ -464,3 +464,10 @@ details p{color:#C3CEDF;padding-bottom:6px}
   .spec th{width:46%}
   .spec th,.spec td{padding:10px 14px}
 }
+
+/* News tab - far right of header */
+.news-tab{display:inline-flex;align-items:center;gap:.45rem;padding:.42rem .85rem;border-radius:999px;border:1px solid rgba(255,139,34,.45);color:var(--text,#E8EEF7);font-weight:600;font-size:.86rem;letter-spacing:.02em;text-decoration:none;white-space:nowrap;background:rgba(255,139,34,.08);transition:background .2s,border-color .2s}
+.news-tab:hover,.news-tab.is-active{background:rgba(255,139,34,.18);border-color:#FF8B22}
+.news-dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#C52281,#FF8B22);box-shadow:0 0 8px rgba(255,139,34,.8);animation:newsPulse 2s infinite}
+@keyframes newsPulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media (max-width:520px){.news-tab{padding:.35rem .6rem;font-size:.78rem}}

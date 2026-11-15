@@ -139,7 +139,7 @@ function coverSVG(n) {
 const pagesForSitemap = [];
 function nav(lang, cur) {
   const t = I18N[lang].nav;
-  const items = [['products', 'products/'], ['solutions', 'solutions/'], ['b2b', 'distributors/'], ['news', 'news/'], ['support', 'support/'], ['contact', 'contact/']];
+  const items = [['products', 'products/'], ['solutions', 'solutions/'], ['b2b', 'distributors/'], ['support', 'support/'], ['contact', 'contact/']];
   return items.map(([k, p]) => `<a href="${u(lang, p)}"${cur === k ? ' aria-current="page"' : ''}>${esc(t[k])}</a>`).join('');
 }
 function logo(lang) {
@@ -201,6 +201,7 @@ ${PREVIEW ? `<div class="preview-bar">${lang === 'es' ? 'BORRADOR · para revisi
       <nav class="lang-switch" aria-label="${lang === 'es' ? 'Idioma' : 'Language'}">${LANGS.map(l => `<a class="lang${l === lang ? ' is-active' : ''}" href="${u(l, pth)}" hreflang="${l}" lang="${l}" data-lang="${l}"${l === lang ? ' aria-current="true"' : ''}>${l.toUpperCase()}</a>`).join('')}</nav>
       <a class="quote-btn" href="${u(lang, 'quote/')}" aria-label="${esc(T.nav.quote)}">${icon('list')}<span class="badge" data-quote-count hidden>0</span></a>
       <a class="btn btn-sm btn-primary hide-sm" href="${u(lang, 'contact/')}">${esc(T.cta.quote)}</a>
+      <a class="news-tab${o.nav === 'news' ? ' is-active' : ''}" href="${u(lang, 'news/')}"${o.nav === 'news' ? ' aria-current="page"' : ''}><span class="news-dot" aria-hidden="true"></span>${lang === 'es' ? 'Noticias' : 'News'}</a>
       <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false" aria-label="Menu">${icon('menu', 'i-open')}${icon('x', 'i-close')}</button>
     </div>
   </div>
