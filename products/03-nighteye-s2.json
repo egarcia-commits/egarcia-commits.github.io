@@ -1,0 +1,301 @@
+{
+  "_comment": "Specs copied from the original technical manuals. Do NOT edit numbers without checking the source manual.",
+  "slug": "nighteye-s2",
+  "sku": "NE-S2",
+  "category": "cameras",
+  "use_cases": [
+    "fpv",
+    "inspection",
+    "security"
+  ],
+  "featured": true,
+  "order": 3,
+  "images": [
+    "/img/products/nighteye-s2.webp",
+    "/img/products/nighteye-s2-detail.webp"
+  ],
+  "og_image": "/img/products/nighteye-s2.jpg",
+  "price": null,
+  "currency": "EUR",
+  "purchasable": false,
+  "stock": "on_request",
+  "downloads": [
+    {
+      "label": {
+        "en": "Product datasheet (PDF)",
+        "es": "Ficha técnica (PDF)"
+      },
+      "file": {
+        "en": "/downloads/en/Sheet_03_NightEye_S2_Camera.pdf",
+        "es": "/downloads/es/Ficha_03_NightEye_S2_Camara.pdf"
+      }
+    },
+    {
+      "label": {
+        "en": "GT8 system technical dossier (PDF, EN)",
+        "es": "Dossier técnico sistema GT8 (PDF, EN)"
+      },
+      "file": {
+        "en": "/downloads/en/Dossier_AeroLink_GT8_System.pdf",
+        "es": "/downloads/en/Dossier_AeroLink_GT8_System.pdf"
+      }
+    }
+  ],
+  "related": [
+    "aerolink-gt8-vtx",
+    "aerolink-gt8-kit",
+    "thermaview-960"
+  ],
+  "en": {
+    "name": "NightEye S2",
+    "subtitle": "Low-light HD camera for drones",
+    "category_label": "HD FPV camera · low light",
+    "tagline": "See what others can't: clean images even at 0.0001 lux.",
+    "description": [
+      "The NightEye S2 features a large-format Sony STARVIS 2 sensor (1/1.8\") that captures detail and colour in very low light, from dawn flights to night-time inspection and surveillance missions.",
+      "Its 160° wide-angle view and modes of up to 100 fps deliver a smooth, expansive picture from a body measuring just 19 × 19 × 24 mm and weighing 9.5 g."
+    ],
+    "stats": [
+      {
+        "value": "1/1.8\"",
+        "unit": "",
+        "label": "STARVIS 2 sensor"
+      },
+      {
+        "value": "100",
+        "unit": "fps",
+        "label": "at 1080p"
+      },
+      {
+        "value": "160°",
+        "unit": "",
+        "label": "Field of view"
+      },
+      {
+        "value": "9.5",
+        "unit": "g",
+        "label": "Weight"
+      }
+    ],
+    "features": [
+      {
+        "icon": "eye",
+        "title": "Extreme sensitivity",
+        "text": "0.0001 lux minimum illumination."
+      },
+      {
+        "icon": "video",
+        "title": "Up to 100 fps",
+        "text": "1080p and 720p at 60 or 100 fps."
+      },
+      {
+        "icon": "aperture",
+        "title": "Bright optics",
+        "text": "8 MP lens with F1.6 aperture."
+      },
+      {
+        "icon": "target",
+        "title": "Wide angle",
+        "text": "160° field of view."
+      },
+      {
+        "icon": "layers",
+        "title": "Flexible format",
+        "text": "4:3 or 16:9 image."
+      },
+      {
+        "icon": "box",
+        "title": "Micro size",
+        "text": "19 × 19 × 24 mm · 9.5 g."
+      }
+    ],
+    "specs": [
+      {
+        "group": "Camera",
+        "rows": [
+          [
+            "Image sensor",
+            "Sony STARVIS 2, 1/1.8\""
+          ],
+          [
+            "Video modes",
+            "1080p @ 100 fps · 1080p @ 60 fps · 720p @ 100 fps · 720p @ 60 fps"
+          ],
+          [
+            "Aspect ratio",
+            "4:3 and 16:9"
+          ],
+          [
+            "Lens",
+            "8 MP lens"
+          ],
+          [
+            "Field of view",
+            "160°"
+          ],
+          [
+            "Aperture",
+            "F1.6"
+          ],
+          [
+            "Shutter",
+            "Rolling shutter"
+          ],
+          [
+            "Minimum illumination",
+            "0.0001 lux"
+          ],
+          [
+            "Coaxial cable",
+            "140 mm"
+          ],
+          [
+            "Dimensions",
+            "19 × 19 × 24 mm"
+          ],
+          [
+            "Weight",
+            "9.5 g"
+          ]
+        ]
+      }
+    ],
+    "in_the_box": [
+      "Low-light HD camera",
+      "140 mm coaxial cable"
+    ],
+    "compatibility": "Designed for the AeroLink GT8 VTX transmitter (also included in the AeroLink GT8 Kit).",
+    "applications": [
+      "Night and twilight flight",
+      "Infrastructure inspection",
+      "Security and surveillance",
+      "Cinewhoop and freestyle"
+    ]
+  },
+  "es": {
+    "name": "NightEye S2",
+    "subtitle": "Cámara HD de baja luz para drones",
+    "category_label": "Cámara FPV HD · baja luz",
+    "tagline": "Ve lo que otros no ven: imagen limpia incluso con 0,0001 lux.",
+    "description": [
+      "La NightEye S2 monta un sensor Sony STARVIS 2 de gran formato (1/1,8\") que capta detalle y color en condiciones de luz muy escasa, desde el amanecer hasta vuelos nocturnos de inspección o vigilancia.",
+      "Su gran angular de 160° y los modos de hasta 100 fps ofrecen una visión fluida y amplia, en un cuerpo de solo 19 × 19 × 24 mm y 9,5 g."
+    ],
+    "stats": [
+      {
+        "value": "1/1,8\"",
+        "unit": "",
+        "label": "Sensor STARVIS 2"
+      },
+      {
+        "value": "100",
+        "unit": "fps",
+        "label": "a 1080p"
+      },
+      {
+        "value": "160°",
+        "unit": "",
+        "label": "Campo de visión"
+      },
+      {
+        "value": "9,5",
+        "unit": "g",
+        "label": "Peso"
+      }
+    ],
+    "features": [
+      {
+        "icon": "eye",
+        "title": "Extrema sensibilidad",
+        "text": "Iluminación mínima de 0,0001 lux."
+      },
+      {
+        "icon": "video",
+        "title": "Hasta 100 fps",
+        "text": "1080p y 720p a 60 o 100 fps."
+      },
+      {
+        "icon": "aperture",
+        "title": "Óptica luminosa",
+        "text": "Lente de 8 MP con apertura F1.6."
+      },
+      {
+        "icon": "target",
+        "title": "Gran angular",
+        "text": "160° de campo de visión."
+      },
+      {
+        "icon": "layers",
+        "title": "Formato flexible",
+        "text": "Imagen 4:3 o 16:9."
+      },
+      {
+        "icon": "box",
+        "title": "Micro formato",
+        "text": "19 × 19 × 24 mm · 9,5 g."
+      }
+    ],
+    "specs": [
+      {
+        "group": "Cámara",
+        "rows": [
+          [
+            "Sensor de imagen",
+            "Sony STARVIS 2 de 1/1,8\""
+          ],
+          [
+            "Modos de vídeo",
+            "1080p @ 100 fps · 1080p @ 60 fps · 720p @ 100 fps · 720p @ 60 fps"
+          ],
+          [
+            "Formato de imagen",
+            "4:3 y 16:9"
+          ],
+          [
+            "Óptica",
+            "Lente de 8 MP"
+          ],
+          [
+            "Campo de visión",
+            "160°"
+          ],
+          [
+            "Apertura",
+            "F1.6"
+          ],
+          [
+            "Obturador",
+            "Rolling shutter"
+          ],
+          [
+            "Iluminación mínima",
+            "0,0001 lux"
+          ],
+          [
+            "Cable coaxial",
+            "140 mm"
+          ],
+          [
+            "Dimensiones",
+            "19 × 19 × 24 mm"
+          ],
+          [
+            "Peso",
+            "9,5 g"
+          ]
+        ]
+      }
+    ],
+    "in_the_box": [
+      "Cámara HD de baja luz",
+      "Cable coaxial de 140 mm"
+    ],
+    "compatibility": "Diseñada para el transmisor AeroLink GT8 VTX (también incluida en el AeroLink GT8 Kit).",
+    "applications": [
+      "Vuelo nocturno y crepuscular",
+      "Inspección de infraestructuras",
+      "Seguridad y vigilancia",
+      "Cinewhoop y freestyle"
+    ]
+  }
+}

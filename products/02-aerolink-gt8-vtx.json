@@ -1,0 +1,325 @@
+{
+  "_comment": "Specs copied from the original technical manuals. Do NOT edit numbers without checking the source manual.",
+  "slug": "aerolink-gt8-vtx",
+  "sku": "AL-GT8T",
+  "category": "transmitters",
+  "use_cases": [
+    "fpv",
+    "inspection",
+    "oem"
+  ],
+  "featured": true,
+  "order": 2,
+  "images": [
+    "/img/products/aerolink-gt8-vtx.webp",
+    "/img/products/aerolink-gt8-vtx-detail.webp"
+  ],
+  "og_image": "/img/products/aerolink-gt8-vtx.jpg",
+  "price": null,
+  "currency": "EUR",
+  "purchasable": false,
+  "stock": "on_request",
+  "downloads": [
+    {
+      "label": {
+        "en": "Product datasheet (PDF)",
+        "es": "Ficha técnica (PDF)"
+      },
+      "file": {
+        "en": "/downloads/en/Sheet_02_AeroLink_GT8_VTX.pdf",
+        "es": "/downloads/es/Ficha_02_AeroLink_GT8_VTX.pdf"
+      }
+    },
+    {
+      "label": {
+        "en": "GT8 system technical dossier (PDF, EN)",
+        "es": "Dossier técnico sistema GT8 (PDF, EN)"
+      },
+      "file": {
+        "en": "/downloads/en/Dossier_AeroLink_GT8_System.pdf",
+        "es": "/downloads/en/Dossier_AeroLink_GT8_System.pdf"
+      }
+    }
+  ],
+  "related": [
+    "nighteye-s2",
+    "thermaview-960",
+    "omniwave-58-lhcp"
+  ],
+  "en": {
+    "name": "AeroLink GT8 VTX",
+    "subtitle": "HD digital video transmitter (standalone unit)",
+    "category_label": "HD digital video transmitter · FPV",
+    "tagline": "The heart of the GT8 link: compact, cooled and ready to integrate.",
+    "description": [
+      "The AeroLink GT8 VTX is the transmitter from the GT8 system as a standalone unit: ideal for replacements, fleet expansion or custom builds with whichever camera best suits each mission.",
+      "It runs directly from 3S to 6S batteries, records to micro SD and shows flight-controller telemetry on screen through its Canvas-mode OSD."
+    ],
+    "stats": [
+      {
+        "value": "22",
+        "unit": "ms",
+        "label": "Average latency"
+      },
+      {
+        "value": "8",
+        "unit": "",
+        "label": "Channels"
+      },
+      {
+        "value": "29.7",
+        "unit": "g",
+        "label": "Weight"
+      },
+      {
+        "value": "256",
+        "unit": "GB",
+        "label": "Max. micro SD"
+      }
+    ],
+    "features": [
+      {
+        "icon": "clock",
+        "title": "22 ms latency",
+        "text": "Instant in-flight response."
+      },
+      {
+        "icon": "zap",
+        "title": "11.1–25.2 V input",
+        "text": "Powered straight from the battery."
+      },
+      {
+        "icon": "sd",
+        "title": "Records in the air",
+        "text": "1080p/720p to micro SD."
+      },
+      {
+        "icon": "fan",
+        "title": "Built-in fan",
+        "text": "Active heat dissipation."
+      },
+      {
+        "icon": "layers",
+        "title": "Universal mounting",
+        "text": "25.5×25.5 and 20×20 mm holes."
+      },
+      {
+        "icon": "cpu",
+        "title": "Canvas OSD",
+        "text": "Betaflight, INAV, FETtec, KISS, ArduPilot."
+      }
+    ],
+    "specs": [
+      {
+        "group": "Video transmitter",
+        "rows": [
+          [
+            "Frequency band",
+            "5.725 – 5.850 GHz"
+          ],
+          [
+            "Transmit power (EIRP)",
+            "Max. 33 dBm · FCC <30 dBm · CE <14 dBm · SRRC <20 dBm · MIC <25 dBm"
+          ],
+          [
+            "Latency",
+            "22 ms average"
+          ],
+          [
+            "Channels",
+            "8"
+          ],
+          [
+            "Onboard recording",
+            "1080p / 720p"
+          ],
+          [
+            "Storage",
+            "Micro SD slot, up to 256 GB"
+          ],
+          [
+            "Power input",
+            "11.1 – 25.2 V (reference consumption 12 V @ 1.5 A)"
+          ],
+          [
+            "Connections",
+            "4-pin JST 1.0 (power + UART) · 2 × IPEX antenna connectors"
+          ],
+          [
+            "OSD",
+            "Canvas mode (MSP DisplayPort)"
+          ],
+          [
+            "Supported flight controllers",
+            "Betaflight · INAV · FETtec · KISS · ArduPilot"
+          ],
+          [
+            "Mounting holes",
+            "25.5 × 25.5 mm and 20 × 20 mm"
+          ],
+          [
+            "Dimensions",
+            "33.8 × 33.8 × 23.4 mm"
+          ],
+          [
+            "Weight",
+            "29.7 g"
+          ],
+          [
+            "Operating temperature",
+            "−10 °C to 40 °C"
+          ]
+        ]
+      }
+    ],
+    "in_the_box": [
+      "Digital video transmitter with fan",
+      "4-pin power / data cable"
+    ],
+    "compatibility": "Camera and antennas not included. Compatible with the NightEye S2 camera and the ThermaView 960 thermal camera (GT8 version).",
+    "applications": [
+      "FPV racing and freestyle",
+      "Inspection drones",
+      "Fleet replacement and expansion",
+      "Custom integrations"
+    ]
+  },
+  "es": {
+    "name": "AeroLink GT8 VTX",
+    "subtitle": "Transmisor de vídeo digital HD (unidad suelta)",
+    "category_label": "Transmisor de vídeo digital HD · FPV",
+    "tagline": "El corazón del enlace GT8: compacto, refrigerado y listo para integrar.",
+    "description": [
+      "El AeroLink GT8 VTX es el transmisor del sistema GT8 en versión suelta, ideal para sustituir unidades, ampliar flota o montar configuraciones a medida con la cámara que mejor se adapte a cada misión.",
+      "Admite alimentación directa de 3S a 6S, graba en tarjeta micro SD y muestra la telemetría de la controladora en pantalla gracias al OSD en modo Canvas."
+    ],
+    "stats": [
+      {
+        "value": "22",
+        "unit": "ms",
+        "label": "Latencia media"
+      },
+      {
+        "value": "8",
+        "unit": "",
+        "label": "Canales"
+      },
+      {
+        "value": "29,7",
+        "unit": "g",
+        "label": "Peso"
+      },
+      {
+        "value": "256",
+        "unit": "GB",
+        "label": "Micro SD máx."
+      }
+    ],
+    "features": [
+      {
+        "icon": "clock",
+        "title": "22 ms de latencia",
+        "text": "Respuesta inmediata en vuelo."
+      },
+      {
+        "icon": "zap",
+        "title": "Entrada 11,1–25,2 V",
+        "text": "Alimentación directa desde batería."
+      },
+      {
+        "icon": "sd",
+        "title": "Graba en el aire",
+        "text": "1080p/720p en micro SD."
+      },
+      {
+        "icon": "fan",
+        "title": "Ventilador integrado",
+        "text": "Disipación activa del calor."
+      },
+      {
+        "icon": "layers",
+        "title": "Montaje universal",
+        "text": "Taladros 25,5×25,5 y 20×20 mm."
+      },
+      {
+        "icon": "cpu",
+        "title": "OSD Canvas",
+        "text": "Betaflight, INAV, FETtec, KISS, ArduPilot."
+      }
+    ],
+    "specs": [
+      {
+        "group": "Transmisor de vídeo",
+        "rows": [
+          [
+            "Banda de frecuencia",
+            "5,725 – 5,850 GHz"
+          ],
+          [
+            "Potencia de emisión (EIRP)",
+            "Máx. 33 dBm · FCC <30 dBm · CE <14 dBm · SRRC <20 dBm · MIC <25 dBm"
+          ],
+          [
+            "Latencia",
+            "22 ms de media"
+          ],
+          [
+            "Canales",
+            "8"
+          ],
+          [
+            "Grabación a bordo",
+            "1080p / 720p"
+          ],
+          [
+            "Almacenamiento",
+            "Ranura micro SD, hasta 256 GB"
+          ],
+          [
+            "Alimentación",
+            "11,1 – 25,2 V (consumo de referencia 12 V @ 1,5 A)"
+          ],
+          [
+            "Conexiones",
+            "JST 1.0 de 4 pines (alimentación + UART) · 2 conectores de antena IPEX"
+          ],
+          [
+            "OSD",
+            "Modo Canvas (MSP DisplayPort)"
+          ],
+          [
+            "Controladoras compatibles",
+            "Betaflight · INAV · FETtec · KISS · ArduPilot"
+          ],
+          [
+            "Taladros de montaje",
+            "25,5 × 25,5 mm y 20 × 20 mm"
+          ],
+          [
+            "Dimensiones",
+            "33,8 × 33,8 × 23,4 mm"
+          ],
+          [
+            "Peso",
+            "29,7 g"
+          ],
+          [
+            "Temperatura de trabajo",
+            "−10 °C a 40 °C"
+          ]
+        ]
+      }
+    ],
+    "in_the_box": [
+      "Transmisor de vídeo digital con ventilador",
+      "Cable de alimentación / datos de 4 pines"
+    ],
+    "compatibility": "Cámara y antenas no incluidas. Compatible con la cámara NightEye S2 y con la cámara térmica ThermaView 960 (versión GT8).",
+    "applications": [
+      "Carreras y freestyle FPV",
+      "Drones de inspección",
+      "Sustitución y ampliación de flota",
+      "Integraciones a medida"
+    ]
+  }
+}

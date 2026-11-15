@@ -1,0 +1,344 @@
+{
+  "_comment": "Specs copied from the original technical manuals. Do NOT edit numbers without checking the source manual.",
+  "slug": "thermaview-960",
+  "sku": "TV-960",
+  "category": "thermal",
+  "use_cases": [
+    "sar",
+    "security",
+    "inspection",
+    "firefighting"
+  ],
+  "featured": true,
+  "order": 4,
+  "images": [
+    "/img/products/thermaview-960.webp",
+    "/img/products/thermaview-960-detail.webp"
+  ],
+  "og_image": "/img/products/thermaview-960.jpg",
+  "price": null,
+  "currency": "EUR",
+  "purchasable": false,
+  "stock": "on_request",
+  "downloads": [
+    {
+      "label": {
+        "en": "Product datasheet (PDF)",
+        "es": "Ficha técnica (PDF)"
+      },
+      "file": {
+        "en": "/downloads/en/Sheet_04_ThermaView_960_Thermal.pdf",
+        "es": "/downloads/es/Ficha_04_ThermaView_960_Termica.pdf"
+      }
+    },
+    {
+      "label": {
+        "en": "ThermaView 960 technical dossier (PDF, EN)",
+        "es": "Dossier técnico ThermaView 960 (PDF, EN)"
+      },
+      "file": {
+        "en": "/downloads/en/Dossier_ThermaView_960.pdf",
+        "es": "/downloads/en/Dossier_ThermaView_960.pdf"
+      }
+    }
+  ],
+  "related": [
+    "aerolink-gt8-vtx",
+    "aerolink-px",
+    "nighteye-s2"
+  ],
+  "en": {
+    "name": "ThermaView 960",
+    "subtitle": "HD thermal camera for drones",
+    "category_label": "HD thermal FPV camera",
+    "tagline": "Spot people, animals and hot spots in total darkness.",
+    "description": [
+      "The ThermaView 960 brings high-definition thermal imaging to FPV flight. Its third-generation image enhancement produces sharper outlines and makes heat sources stand out clearly — ideal for search and rescue, security, industrial inspection and firefighting.",
+      "Video is sent simultaneously over the HD digital link and via USB (UVC), so you can fly while recording or analysing the image on a computer or AI system on the ground or on board."
+    ],
+    "stats": [
+      {
+        "value": "960×768",
+        "unit": "",
+        "label": "Processed resolution"
+      },
+      {
+        "value": "F1.0",
+        "unit": "",
+        "label": "Aperture"
+      },
+      {
+        "value": "4×",
+        "unit": "",
+        "label": "Digital zoom"
+      },
+      {
+        "value": "<1.5",
+        "unit": "W",
+        "label": "Typical consumption"
+      }
+    ],
+    "features": [
+      {
+        "icon": "thermo",
+        "title": "HD thermal vision",
+        "text": "960 × 768 processed, 50 Hz."
+      },
+      {
+        "icon": "aperture",
+        "title": "F1.0 optics",
+        "text": "9.1 mm focal length, 48.3° × 38.6°."
+      },
+      {
+        "icon": "zoom",
+        "title": "1–4× zoom",
+        "text": "Stepless, controllable via UVC."
+      },
+      {
+        "icon": "sliders",
+        "title": "5 palettes",
+        "text": "Brightness and contrast 0–100."
+      },
+      {
+        "icon": "link",
+        "title": "Dual output",
+        "text": "HD link + USB UVC simultaneously."
+      },
+      {
+        "icon": "cpu",
+        "title": "Custom OSD",
+        "text": "Custom text overlays via ADKEY."
+      }
+    ],
+    "specs": [
+      {
+        "group": "Thermal camera",
+        "rows": [
+          [
+            "Video resolution",
+            "960 × 768 (processed with 3rd-gen image enhancement)"
+          ],
+          [
+            "Frame rate",
+            "50 Hz"
+          ],
+          [
+            "Video output",
+            "HD digital link (GT8 or PX version) + USB UVC, simultaneous"
+          ],
+          [
+            "UVC output",
+            "MJPEG 640 × 512"
+          ],
+          [
+            "Optics",
+            "9.1 mm focal length · F1.0"
+          ],
+          [
+            "Field of view",
+            "48.3° (H) × 38.6° (V)"
+          ],
+          [
+            "Digital zoom",
+            "1.0× – 4.0× stepless (controlled via UVC)"
+          ],
+          [
+            "Color palettes",
+            "5 selectable (0 – 4)"
+          ],
+          [
+            "Brightness / contrast",
+            "Adjustable 0 – 100"
+          ],
+          [
+            "Image mirroring",
+            "Horizontal · vertical · diagonal"
+          ],
+          [
+            "Control",
+            "UVC · external ADKEY keypad (custom OSD)"
+          ],
+          [
+            "Power input",
+            "4.5 – 20 V"
+          ],
+          [
+            "Typical power consumption",
+            "< 1.5 W"
+          ],
+          [
+            "Operating temperature",
+            "−20 °C to 50 °C"
+          ],
+          [
+            "Camera dimensions",
+            "22 × 22 × 28.43 mm"
+          ],
+          [
+            "Processing module dimensions",
+            "33.5 × 33.5 × 16.5 mm"
+          ]
+        ]
+      }
+    ],
+    "in_the_box": [
+      "Thermal camera",
+      "Image processing module",
+      "Available in two versions: GT8 link or PX link"
+    ],
+    "compatibility": "GT8 version: requires the AeroLink GT8 VTX transmitter, with the ground unit set to race mode. PX version: requires the AeroLink PX transmitter.",
+    "applications": [
+      "Search and rescue",
+      "Perimeter security and surveillance",
+      "Industrial and solar PV inspection",
+      "Firefighting and emergency support"
+    ]
+  },
+  "es": {
+    "name": "ThermaView 960",
+    "subtitle": "Cámara térmica HD para drones",
+    "category_label": "Cámara térmica FPV HD",
+    "tagline": "Detecta personas, animales y puntos calientes en plena oscuridad.",
+    "description": [
+      "La ThermaView 960 lleva la imagen térmica al vuelo FPV en alta definición. Su procesado de realce de imagen de tercera generación ofrece contornos más definidos y hace que las fuentes de calor destaquen con claridad, ideal para búsqueda y rescate, seguridad, inspección industrial y lucha contra incendios.",
+      "Envía el vídeo simultáneamente por el enlace digital HD y por USB (UVC), lo que permite pilotar y, a la vez, grabar o analizar la imagen en un ordenador o sistema de IA en tierra o a bordo."
+    ],
+    "stats": [
+      {
+        "value": "960×768",
+        "unit": "",
+        "label": "Resolución procesada"
+      },
+      {
+        "value": "F1.0",
+        "unit": "",
+        "label": "Apertura"
+      },
+      {
+        "value": "4×",
+        "unit": "",
+        "label": "Zoom digital"
+      },
+      {
+        "value": "<1,5",
+        "unit": "W",
+        "label": "Consumo típico"
+      }
+    ],
+    "features": [
+      {
+        "icon": "thermo",
+        "title": "Visión térmica HD",
+        "text": "960 × 768 procesada, 50 Hz."
+      },
+      {
+        "icon": "aperture",
+        "title": "Óptica F1.0",
+        "text": "Focal 9,1 mm, 48,3° × 38,6°."
+      },
+      {
+        "icon": "zoom",
+        "title": "Zoom 1–4×",
+        "text": "Continuo, controlable vía UVC."
+      },
+      {
+        "icon": "sliders",
+        "title": "5 paletas",
+        "text": "Brillo y contraste 0–100."
+      },
+      {
+        "icon": "link",
+        "title": "Doble salida",
+        "text": "Enlace HD + USB UVC simultáneos."
+      },
+      {
+        "icon": "cpu",
+        "title": "OSD propio",
+        "text": "Textos personalizables vía ADKEY."
+      }
+    ],
+    "specs": [
+      {
+        "group": "Cámara térmica",
+        "rows": [
+          [
+            "Resolución de vídeo",
+            "960 × 768 (imagen procesada con realce de 3.ª generación)"
+          ],
+          [
+            "Frecuencia de imagen",
+            "50 Hz"
+          ],
+          [
+            "Salida de vídeo",
+            "Enlace digital HD (versión GT8 o PX) + USB UVC, simultáneas"
+          ],
+          [
+            "Salida UVC",
+            "MJPEG 640 × 512"
+          ],
+          [
+            "Óptica",
+            "Focal 9,1 mm · F1.0"
+          ],
+          [
+            "Campo de visión",
+            "48,3° (H) × 38,6° (V)"
+          ],
+          [
+            "Zoom digital",
+            "1,0× – 4,0× continuo (control vía UVC)"
+          ],
+          [
+            "Paletas de color",
+            "5 seleccionables (0 – 4)"
+          ],
+          [
+            "Brillo / contraste",
+            "Ajustable 0 – 100"
+          ],
+          [
+            "Espejo de imagen",
+            "Horizontal · vertical · diagonal"
+          ],
+          [
+            "Control",
+            "UVC · teclado externo ADKEY (OSD personalizable)"
+          ],
+          [
+            "Alimentación",
+            "4,5 – 20 V"
+          ],
+          [
+            "Consumo típico",
+            "< 1,5 W"
+          ],
+          [
+            "Temperatura de trabajo",
+            "−20 °C a 50 °C"
+          ],
+          [
+            "Dimensiones cámara",
+            "22 × 22 × 28,43 mm"
+          ],
+          [
+            "Dimensiones módulo de proceso",
+            "33,5 × 33,5 × 16,5 mm"
+          ]
+        ]
+      }
+    ],
+    "in_the_box": [
+      "Cámara térmica",
+      "Módulo de proceso de imagen",
+      "Disponible en dos versiones: enlace GT8 o enlace PX"
+    ],
+    "compatibility": "Versión GT8: requiere transmisor AeroLink GT8 VTX y poner el equipo de tierra en modo carrera. Versión PX: requiere transmisor AeroLink PX.",
+    "applications": [
+      "Búsqueda y rescate",
+      "Seguridad y vigilancia perimetral",
+      "Inspección industrial y fotovoltaica",
+      "Apoyo a bomberos y emergencias"
+    ]
+  }
+}

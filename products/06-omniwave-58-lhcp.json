@@ -1,0 +1,244 @@
+{
+  "_comment": "Specs copied from the original technical manuals. Do NOT edit numbers without checking the source manual.",
+  "slug": "omniwave-58-lhcp",
+  "sku": "OW-58",
+  "category": "antennas",
+  "use_cases": [
+    "fpv",
+    "oem"
+  ],
+  "featured": false,
+  "order": 6,
+  "images": [
+    "/img/products/omniwave-58-lhcp.webp",
+    "/img/products/omniwave-58-lhcp-detail.webp"
+  ],
+  "og_image": "/img/products/omniwave-58-lhcp.jpg",
+  "price": null,
+  "currency": "EUR",
+  "purchasable": false,
+  "stock": "on_request",
+  "downloads": [
+    {
+      "label": {
+        "en": "Product datasheet (PDF)",
+        "es": "Ficha técnica (PDF)"
+      },
+      "file": {
+        "en": "/downloads/en/Sheet_06_OmniWave_58_Antennas.pdf",
+        "es": "/downloads/es/Ficha_06_OmniWave_58_Antenas.pdf"
+      }
+    }
+  ],
+  "related": [
+    "aerolink-gt8-vtx",
+    "aerolink-gt8-kit",
+    "nighteye-s2"
+  ],
+  "en": {
+    "name": "OmniWave 5.8 LHCP",
+    "subtitle": "Circularly polarized omnidirectional antennas (pair)",
+    "category_label": "5.8 GHz FPV antennas",
+    "tagline": "A clean, stable signal from just 2 g.",
+    "description": [
+      "The OmniWave 5.8 LHCP are compact left-hand circularly polarized antennas that reduce signal reflections and keep the link stable when flying around obstacles.",
+      "A direct replacement for the AeroLink GT8 transmitter, with IPEX-1 connector and a Ø 15 × 45 mm cylindrical protective housing."
+    ],
+    "stats": [
+      {
+        "value": "1.9",
+        "unit": "dBi",
+        "label": "Average gain"
+      },
+      {
+        "value": "≤1.5",
+        "unit": "",
+        "label": "VSWR"
+      },
+      {
+        "value": "2",
+        "unit": "g",
+        "label": "Weight per unit"
+      },
+      {
+        "value": "LHCP",
+        "unit": "",
+        "label": "Polarization"
+      }
+    ],
+    "features": [
+      {
+        "icon": "radio",
+        "title": "5600–6000 MHz",
+        "text": "Covers the full 5.8 GHz band."
+      },
+      {
+        "icon": "target",
+        "title": "LHCP polarization",
+        "text": "Less multipath interference."
+      },
+      {
+        "icon": "zap",
+        "title": "50 Ω · VSWR ≤1.5",
+        "text": "Efficient power transfer."
+      },
+      {
+        "icon": "box",
+        "title": "Ultralight",
+        "text": "2 g per unit."
+      }
+    ],
+    "specs": [
+      {
+        "group": "Antennas",
+        "rows": [
+          [
+            "Polarization",
+            "Left-hand circular (LHCP)"
+          ],
+          [
+            "Frequency range",
+            "5600 – 6000 MHz"
+          ],
+          [
+            "Average gain",
+            "1.9 dBi"
+          ],
+          [
+            "Impedance",
+            "50 Ω"
+          ],
+          [
+            "VSWR",
+            "≤ 1.5"
+          ],
+          [
+            "Connector",
+            "IPEX-1"
+          ],
+          [
+            "Dimensions",
+            "Ø 15 × 45 mm (excl. cable)"
+          ],
+          [
+            "Weight",
+            "2 g per unit"
+          ]
+        ]
+      }
+    ],
+    "in_the_box": [
+      "2 × LHCP 5.8 GHz antennas with IPEX-1 connector"
+    ],
+    "compatibility": "Compatible with the AeroLink GT8 VTX transmitter and the AeroLink GT8 Kit.",
+    "applications": [
+      "Replacement and maintenance",
+      "Flying around obstacles",
+      "New builds",
+      "Fleet expansion"
+    ]
+  },
+  "es": {
+    "name": "OmniWave 5.8 LHCP",
+    "subtitle": "Antenas omnidireccionales de polarización circular (par)",
+    "category_label": "Antenas FPV 5,8 GHz",
+    "tagline": "Señal limpia y estable en un formato de solo 2 g.",
+    "description": [
+      "Las OmniWave 5.8 LHCP son antenas compactas de polarización circular a izquierdas que reducen los rebotes de señal y mantienen un enlace estable en vuelos entre obstáculos.",
+      "Recambio directo para el transmisor AeroLink GT8, con conector IPEX-1 y protección cilíndrica de Ø 15 × 45 mm."
+    ],
+    "stats": [
+      {
+        "value": "1,9",
+        "unit": "dBi",
+        "label": "Ganancia media"
+      },
+      {
+        "value": "≤1,5",
+        "unit": "",
+        "label": "ROE (VSWR)"
+      },
+      {
+        "value": "2",
+        "unit": "g",
+        "label": "Peso por unidad"
+      },
+      {
+        "value": "LHCP",
+        "unit": "",
+        "label": "Polarización"
+      }
+    ],
+    "features": [
+      {
+        "icon": "radio",
+        "title": "5600–6000 MHz",
+        "text": "Cubre toda la banda de 5,8 GHz."
+      },
+      {
+        "icon": "target",
+        "title": "Polarización LHCP",
+        "text": "Menos interferencias por rebote."
+      },
+      {
+        "icon": "zap",
+        "title": "50 Ω · ROE ≤1,5",
+        "text": "Transferencia de potencia eficiente."
+      },
+      {
+        "icon": "box",
+        "title": "Ultraligeras",
+        "text": "2 g por unidad."
+      }
+    ],
+    "specs": [
+      {
+        "group": "Antenas",
+        "rows": [
+          [
+            "Polarización",
+            "Circular a izquierdas (LHCP)"
+          ],
+          [
+            "Rango de frecuencia",
+            "5600 – 6000 MHz"
+          ],
+          [
+            "Ganancia media",
+            "1,9 dBi"
+          ],
+          [
+            "Impedancia",
+            "50 Ω"
+          ],
+          [
+            "ROE (VSWR)",
+            "≤ 1,5"
+          ],
+          [
+            "Conector",
+            "IPEX-1"
+          ],
+          [
+            "Dimensiones",
+            "Ø 15 × 45 mm (sin cable)"
+          ],
+          [
+            "Peso",
+            "2 g por unidad"
+          ]
+        ]
+      }
+    ],
+    "in_the_box": [
+      "2 antenas LHCP 5,8 GHz con conector IPEX-1"
+    ],
+    "compatibility": "Compatible con el transmisor AeroLink GT8 VTX y el AeroLink GT8 Kit.",
+    "applications": [
+      "Recambio y mantenimiento",
+      "Vuelos entre obstáculos",
+      "Montaje de nuevos equipos",
+      "Ampliación de flota"
+    ]
+  }
+}

@@ -1,0 +1,275 @@
+{
+  "_comment": "Specs copied from the original technical manuals. Do NOT edit numbers without checking the source manual.",
+  "slug": "aerolink-px",
+  "sku": "AL-PX",
+  "category": "transmitters",
+  "use_cases": [
+    "inspection",
+    "security",
+    "oem"
+  ],
+  "featured": false,
+  "order": 5,
+  "images": [
+    "/img/products/aerolink-px.webp",
+    "/img/products/aerolink-px-detail.webp"
+  ],
+  "og_image": "/img/products/aerolink-px.jpg",
+  "price": null,
+  "currency": "EUR",
+  "purchasable": false,
+  "stock": "on_request",
+  "downloads": [
+    {
+      "label": {
+        "en": "Product datasheet (PDF)",
+        "es": "Ficha técnica (PDF)"
+      },
+      "file": {
+        "en": "/downloads/en/Sheet_05_AeroLink_PX_Pro.pdf",
+        "es": "/downloads/es/Ficha_05_AeroLink_PX_Pro.pdf"
+      }
+    }
+  ],
+  "related": [
+    "thermaview-960",
+    "aerolink-gt8-vtx",
+    "omniwave-58-lhcp"
+  ],
+  "en": {
+    "name": "AeroLink PX",
+    "subtitle": "1080p60 digital video transmitter for professional use",
+    "category_label": "Digital video transmitter · professional use",
+    "tagline": "Live 1080p video at 60 fps for professional missions.",
+    "description": [
+      "The AeroLink PX is a digital video transmitter designed for professional and industrial projects: live 1080p video at 60 fps, rugged MMCX antenna connectors and an SBUS input for integration into inspection, security and surveillance platforms.",
+      "It is the link platform for the PX version of the ThermaView 960 thermal camera."
+    ],
+    "stats": [
+      {
+        "value": "1080p",
+        "unit": "60",
+        "label": "Live image"
+      },
+      {
+        "value": "35",
+        "unit": "ms",
+        "label": "Average latency"
+      },
+      {
+        "value": "MMCX",
+        "unit": "×2",
+        "label": "Antenna connectors"
+      },
+      {
+        "value": "11.1–25.2",
+        "unit": "V",
+        "label": "Power input"
+      }
+    ],
+    "features": [
+      {
+        "icon": "video",
+        "title": "1080p at 60 fps",
+        "text": "Smooth live imaging."
+      },
+      {
+        "icon": "clock",
+        "title": "35 ms",
+        "text": "Average latency."
+      },
+      {
+        "icon": "radio",
+        "title": "5.650–5.924 GHz",
+        "text": "5.8 GHz band, 3 channels."
+      },
+      {
+        "icon": "link",
+        "title": "MMCX connectors",
+        "text": "Dual antenna, rugged connection."
+      },
+      {
+        "icon": "cpu",
+        "title": "SBUS + UART",
+        "text": "Platform integration."
+      },
+      {
+        "icon": "zap",
+        "title": "3S to 6S",
+        "text": "11.1–25.2 V input."
+      }
+    ],
+    "specs": [
+      {
+        "group": "Video transmitter",
+        "rows": [
+          [
+            "Frequency band",
+            "5.650 – 5.924 GHz"
+          ],
+          [
+            "Transmit power (EIRP, 5.8 GHz)",
+            "FCC <30 dBm · CE <14 dBm · SRRC <20 dBm · MIC <25 dBm"
+          ],
+          [
+            "Live image",
+            "1080p at 60 fps"
+          ],
+          [
+            "Latency",
+            "35 ms average"
+          ],
+          [
+            "Channels",
+            "3"
+          ],
+          [
+            "Power input",
+            "11.1 – 25.2 V (reference consumption 12 V @ 1.5 A)"
+          ],
+          [
+            "Connections",
+            "VCC · GND · UART RX/TX · SBUS · 2 × MMCX antenna connectors"
+          ],
+          [
+            "OSD",
+            "Canvas mode"
+          ],
+          [
+            "Dimensions",
+            "34 × 34 × 22.7 mm"
+          ]
+        ]
+      }
+    ],
+    "in_the_box": [
+      "Digital video transmitter",
+      "Contact us for the exact kit configuration"
+    ],
+    "compatibility": "Product for professional projects; availability on request. Compatible with the ThermaView 960 thermal camera (PX version).",
+    "applications": [
+      "Industrial inspection",
+      "Security and surveillance",
+      "Thermal payload platforms",
+      "OEM integration projects"
+    ]
+  },
+  "es": {
+    "name": "AeroLink PX",
+    "subtitle": "Transmisor de vídeo digital 1080p60 para uso profesional",
+    "category_label": "Transmisor de vídeo digital · uso profesional",
+    "tagline": "Vídeo 1080p a 60 fps en tiempo real para misiones profesionales.",
+    "description": [
+      "El AeroLink PX es el transmisor de vídeo digital orientado a proyectos profesionales e industriales: imagen 1080p a 60 fps en tiempo real, conectores de antena MMCX robustos y entrada SBUS para integrarse en plataformas de inspección, seguridad y vigilancia.",
+      "Es la plataforma de enlace de la versión PX de la cámara térmica ThermaView 960."
+    ],
+    "stats": [
+      {
+        "value": "1080p",
+        "unit": "60",
+        "label": "Imagen en tiempo real"
+      },
+      {
+        "value": "35",
+        "unit": "ms",
+        "label": "Latencia media"
+      },
+      {
+        "value": "MMCX",
+        "unit": "×2",
+        "label": "Conectores de antena"
+      },
+      {
+        "value": "11,1–25,2",
+        "unit": "V",
+        "label": "Alimentación"
+      }
+    ],
+    "features": [
+      {
+        "icon": "video",
+        "title": "1080p a 60 fps",
+        "text": "Imagen fluida en tiempo real."
+      },
+      {
+        "icon": "clock",
+        "title": "35 ms",
+        "text": "Latencia media."
+      },
+      {
+        "icon": "radio",
+        "title": "5,650–5,924 GHz",
+        "text": "Banda de 5,8 GHz, 3 canales."
+      },
+      {
+        "icon": "link",
+        "title": "Conectores MMCX",
+        "text": "Doble antena, conexión robusta."
+      },
+      {
+        "icon": "cpu",
+        "title": "SBUS + UART",
+        "text": "Integración con la plataforma."
+      },
+      {
+        "icon": "zap",
+        "title": "3S a 6S",
+        "text": "Entrada 11,1–25,2 V."
+      }
+    ],
+    "specs": [
+      {
+        "group": "Transmisor de vídeo",
+        "rows": [
+          [
+            "Banda de frecuencia",
+            "5,650 – 5,924 GHz"
+          ],
+          [
+            "Potencia de emisión (EIRP, 5,8 GHz)",
+            "FCC <30 dBm · CE <14 dBm · SRRC <20 dBm · MIC <25 dBm"
+          ],
+          [
+            "Imagen en tiempo real",
+            "1080p a 60 fps"
+          ],
+          [
+            "Latencia",
+            "35 ms de media"
+          ],
+          [
+            "Canales",
+            "3"
+          ],
+          [
+            "Alimentación",
+            "11,1 – 25,2 V (consumo de referencia 12 V @ 1,5 A)"
+          ],
+          [
+            "Conexiones",
+            "VCC · GND · UART RX/TX · SBUS · 2 conectores de antena MMCX"
+          ],
+          [
+            "OSD",
+            "Modo Canvas"
+          ],
+          [
+            "Dimensiones",
+            "34 × 34 × 22,7 mm"
+          ]
+        ]
+      }
+    ],
+    "in_the_box": [
+      "Transmisor de vídeo digital",
+      "Consulte la configuración exacta del kit"
+    ],
+    "compatibility": "Producto para proyectos profesionales; disponibilidad bajo consulta. Compatible con la cámara térmica ThermaView 960 (versión PX).",
+    "applications": [
+      "Inspección industrial",
+      "Seguridad y vigilancia",
+      "Plataformas con carga térmica",
+      "Proyectos de integración OEM"
+    ]
+  }
+}

@@ -1,0 +1,501 @@
+{
+  "_comment": "Specs copied from the original technical manuals. Do NOT edit numbers without checking the source manual.",
+  "slug": "aerolink-gt8-kit",
+  "sku": "AL-GT8K",
+  "category": "video-systems",
+  "use_cases": [
+    "fpv",
+    "inspection",
+    "oem"
+  ],
+  "featured": true,
+  "order": 1,
+  "images": [
+    "/img/products/aerolink-gt8-kit.webp",
+    "/img/products/aerolink-gt8-kit-detail.webp"
+  ],
+  "og_image": "/img/products/aerolink-gt8-kit.jpg",
+  "price": null,
+  "currency": "EUR",
+  "purchasable": false,
+  "stock": "on_request",
+  "downloads": [
+    {
+      "label": {
+        "en": "Product datasheet (PDF)",
+        "es": "Ficha técnica (PDF)"
+      },
+      "file": {
+        "en": "/downloads/en/Sheet_01_AeroLink_GT8_Kit.pdf",
+        "es": "/downloads/es/Ficha_01_AeroLink_GT8_Kit.pdf"
+      }
+    },
+    {
+      "label": {
+        "en": "GT8 system technical dossier (PDF, EN)",
+        "es": "Dossier técnico sistema GT8 (PDF, EN)"
+      },
+      "file": {
+        "en": "/downloads/en/Dossier_AeroLink_GT8_System.pdf",
+        "es": "/downloads/en/Dossier_AeroLink_GT8_System.pdf"
+      }
+    }
+  ],
+  "related": [
+    "aerolink-gt8-vtx",
+    "nighteye-s2",
+    "omniwave-58-lhcp"
+  ],
+  "en": {
+    "name": "AeroLink GT8 Kit",
+    "subtitle": "Complete HD digital video transmission kit",
+    "category_label": "HD digital video system · FPV",
+    "tagline": "Crisp imaging day and night, with just 22 ms average latency.",
+    "description": [
+      "The AeroLink GT8 Kit puts everything you need for high-definition digital video on a drone into a single box: an actively cooled transmitter, a low-light camera with a Sony STARVIS 2 sensor and a pair of circularly polarized antennas.",
+      "Built for integrators and demanding pilots, it talks to the flight controller over UART to display telemetry on screen, and records every flight to a micro SD card right in the air."
+    ],
+    "stats": [
+      {
+        "value": "22",
+        "unit": "ms",
+        "label": "Average latency"
+      },
+      {
+        "value": "1080p",
+        "unit": "",
+        "label": "Onboard recording"
+      },
+      {
+        "value": "160°",
+        "unit": "",
+        "label": "Field of view"
+      },
+      {
+        "value": "0.0001",
+        "unit": "lux",
+        "label": "Min. illumination"
+      }
+    ],
+    "features": [
+      {
+        "icon": "clock",
+        "title": "Low latency",
+        "text": "22 ms average for precise control."
+      },
+      {
+        "icon": "eye",
+        "title": "Night vision",
+        "text": "STARVIS 2 sensor, 0.0001 lux minimum illumination."
+      },
+      {
+        "icon": "sd",
+        "title": "Onboard recording",
+        "text": "1080p/720p to micro SD up to 256 GB."
+      },
+      {
+        "icon": "fan",
+        "title": "Active cooling",
+        "text": "Fan built into the transmitter."
+      },
+      {
+        "icon": "cpu",
+        "title": "Full integration",
+        "text": "OSD with Betaflight, INAV, FETtec, KISS and ArduPilot."
+      },
+      {
+        "icon": "radio",
+        "title": "8 channels",
+        "text": "Fly several drones at once on 5.8 GHz."
+      }
+    ],
+    "specs": [
+      {
+        "group": "Video transmitter",
+        "rows": [
+          [
+            "Frequency band",
+            "5.725 – 5.850 GHz"
+          ],
+          [
+            "Transmit power (EIRP)",
+            "Max. 33 dBm · FCC <30 dBm · CE <14 dBm · SRRC <20 dBm · MIC <25 dBm"
+          ],
+          [
+            "Latency",
+            "22 ms average"
+          ],
+          [
+            "Channels",
+            "8"
+          ],
+          [
+            "Onboard recording",
+            "1080p / 720p"
+          ],
+          [
+            "Storage",
+            "Micro SD slot, up to 256 GB"
+          ],
+          [
+            "Power input",
+            "11.1 – 25.2 V (reference consumption 12 V @ 1.5 A)"
+          ],
+          [
+            "Connections",
+            "4-pin JST 1.0 (power + UART) · 2 × IPEX antenna connectors"
+          ],
+          [
+            "OSD",
+            "Canvas mode (MSP DisplayPort)"
+          ],
+          [
+            "Supported flight controllers",
+            "Betaflight · INAV · FETtec · KISS · ArduPilot"
+          ],
+          [
+            "Mounting holes",
+            "25.5 × 25.5 mm and 20 × 20 mm"
+          ],
+          [
+            "Dimensions",
+            "33.8 × 33.8 × 23.4 mm"
+          ],
+          [
+            "Weight",
+            "29.7 g"
+          ],
+          [
+            "Operating temperature",
+            "−10 °C to 40 °C"
+          ]
+        ]
+      },
+      {
+        "group": "Camera",
+        "rows": [
+          [
+            "Image sensor",
+            "Sony STARVIS 2, 1/1.8\""
+          ],
+          [
+            "Video modes",
+            "1080p @ 100 fps · 1080p @ 60 fps · 720p @ 100 fps · 720p @ 60 fps"
+          ],
+          [
+            "Aspect ratio",
+            "4:3 and 16:9"
+          ],
+          [
+            "Lens",
+            "8 MP lens"
+          ],
+          [
+            "Field of view",
+            "160°"
+          ],
+          [
+            "Aperture",
+            "F1.6"
+          ],
+          [
+            "Shutter",
+            "Rolling shutter"
+          ],
+          [
+            "Minimum illumination",
+            "0.0001 lux"
+          ],
+          [
+            "Coaxial cable",
+            "140 mm"
+          ],
+          [
+            "Dimensions",
+            "19 × 19 × 24 mm"
+          ],
+          [
+            "Weight",
+            "9.5 g"
+          ]
+        ]
+      },
+      {
+        "group": "Antennas",
+        "rows": [
+          [
+            "Polarization",
+            "Left-hand circular (LHCP)"
+          ],
+          [
+            "Frequency range",
+            "5600 – 6000 MHz"
+          ],
+          [
+            "Average gain",
+            "1.9 dBi"
+          ],
+          [
+            "Impedance",
+            "50 Ω"
+          ],
+          [
+            "VSWR",
+            "≤ 1.5"
+          ],
+          [
+            "Connector",
+            "IPEX-1"
+          ],
+          [
+            "Dimensions",
+            "Ø 15 × 45 mm (excl. cable)"
+          ],
+          [
+            "Weight",
+            "2 g per unit"
+          ]
+        ]
+      }
+    ],
+    "in_the_box": [
+      "Digital video transmitter with fan",
+      "Low-light HD camera with 140 mm coaxial cable",
+      "2 × LHCP 5.8 GHz antennas (IPEX)",
+      "4-pin power / data cable"
+    ],
+    "compatibility": "Works with goggles and receivers from the compatible HD digital ecosystem. Contact us to confirm compatibility with your ground equipment.",
+    "applications": [
+      "FPV racing and freestyle",
+      "Night and twilight flight",
+      "Inspection drones",
+      "Custom integrations"
+    ]
+  },
+  "es": {
+    "name": "AeroLink GT8 Kit",
+    "subtitle": "Kit completo de transmisión de vídeo digital HD",
+    "category_label": "Sistema de vídeo digital HD · FPV",
+    "tagline": "Imagen nítida de día y de noche, con solo 22 ms de latencia media.",
+    "description": [
+      "El AeroLink GT8 Kit reúne en una sola caja todo lo necesario para dotar a un dron de vídeo digital en alta definición: transmisor con ventilación activa, cámara de baja luz con sensor Sony STARVIS 2 y pareja de antenas de polarización circular.",
+      "Pensado para integradores y pilotos exigentes, se comunica con la controladora de vuelo por UART para mostrar telemetría en pantalla y graba el vuelo en tarjeta micro SD directamente en el aire."
+    ],
+    "stats": [
+      {
+        "value": "22",
+        "unit": "ms",
+        "label": "Latencia media"
+      },
+      {
+        "value": "1080p",
+        "unit": "",
+        "label": "Grabación a bordo"
+      },
+      {
+        "value": "160°",
+        "unit": "",
+        "label": "Campo de visión"
+      },
+      {
+        "value": "0,0001",
+        "unit": "lux",
+        "label": "Iluminación mínima"
+      }
+    ],
+    "features": [
+      {
+        "icon": "clock",
+        "title": "Baja latencia",
+        "text": "22 ms de media para un control preciso."
+      },
+      {
+        "icon": "eye",
+        "title": "Visión nocturna",
+        "text": "Sensor STARVIS 2 con 0,0001 lux de iluminación mínima."
+      },
+      {
+        "icon": "sd",
+        "title": "Grabación a bordo",
+        "text": "1080p/720p en micro SD de hasta 256 GB."
+      },
+      {
+        "icon": "fan",
+        "title": "Refrigeración activa",
+        "text": "Ventilador integrado en el transmisor."
+      },
+      {
+        "icon": "cpu",
+        "title": "Integración total",
+        "text": "OSD con Betaflight, INAV, FETtec, KISS y ArduPilot."
+      },
+      {
+        "icon": "radio",
+        "title": "8 canales",
+        "text": "Varios drones operando a la vez en 5,8 GHz."
+      }
+    ],
+    "specs": [
+      {
+        "group": "Transmisor de vídeo",
+        "rows": [
+          [
+            "Banda de frecuencia",
+            "5,725 – 5,850 GHz"
+          ],
+          [
+            "Potencia de emisión (EIRP)",
+            "Máx. 33 dBm · FCC <30 dBm · CE <14 dBm · SRRC <20 dBm · MIC <25 dBm"
+          ],
+          [
+            "Latencia",
+            "22 ms de media"
+          ],
+          [
+            "Canales",
+            "8"
+          ],
+          [
+            "Grabación a bordo",
+            "1080p / 720p"
+          ],
+          [
+            "Almacenamiento",
+            "Ranura micro SD, hasta 256 GB"
+          ],
+          [
+            "Alimentación",
+            "11,1 – 25,2 V (consumo de referencia 12 V @ 1,5 A)"
+          ],
+          [
+            "Conexiones",
+            "JST 1.0 de 4 pines (alimentación + UART) · 2 conectores de antena IPEX"
+          ],
+          [
+            "OSD",
+            "Modo Canvas (MSP DisplayPort)"
+          ],
+          [
+            "Controladoras compatibles",
+            "Betaflight · INAV · FETtec · KISS · ArduPilot"
+          ],
+          [
+            "Taladros de montaje",
+            "25,5 × 25,5 mm y 20 × 20 mm"
+          ],
+          [
+            "Dimensiones",
+            "33,8 × 33,8 × 23,4 mm"
+          ],
+          [
+            "Peso",
+            "29,7 g"
+          ],
+          [
+            "Temperatura de trabajo",
+            "−10 °C a 40 °C"
+          ]
+        ]
+      },
+      {
+        "group": "Cámara",
+        "rows": [
+          [
+            "Sensor de imagen",
+            "Sony STARVIS 2 de 1/1,8\""
+          ],
+          [
+            "Modos de vídeo",
+            "1080p @ 100 fps · 1080p @ 60 fps · 720p @ 100 fps · 720p @ 60 fps"
+          ],
+          [
+            "Formato de imagen",
+            "4:3 y 16:9"
+          ],
+          [
+            "Óptica",
+            "Lente de 8 MP"
+          ],
+          [
+            "Campo de visión",
+            "160°"
+          ],
+          [
+            "Apertura",
+            "F1.6"
+          ],
+          [
+            "Obturador",
+            "Rolling shutter"
+          ],
+          [
+            "Iluminación mínima",
+            "0,0001 lux"
+          ],
+          [
+            "Cable coaxial",
+            "140 mm"
+          ],
+          [
+            "Dimensiones",
+            "19 × 19 × 24 mm"
+          ],
+          [
+            "Peso",
+            "9,5 g"
+          ]
+        ]
+      },
+      {
+        "group": "Antenas",
+        "rows": [
+          [
+            "Polarización",
+            "Circular a izquierdas (LHCP)"
+          ],
+          [
+            "Rango de frecuencia",
+            "5600 – 6000 MHz"
+          ],
+          [
+            "Ganancia media",
+            "1,9 dBi"
+          ],
+          [
+            "Impedancia",
+            "50 Ω"
+          ],
+          [
+            "ROE (VSWR)",
+            "≤ 1,5"
+          ],
+          [
+            "Conector",
+            "IPEX-1"
+          ],
+          [
+            "Dimensiones",
+            "Ø 15 × 45 mm (sin cable)"
+          ],
+          [
+            "Peso",
+            "2 g por unidad"
+          ]
+        ]
+      }
+    ],
+    "in_the_box": [
+      "Transmisor de vídeo digital con ventilador",
+      "Cámara HD de baja luz con cable coaxial de 140 mm",
+      "2 antenas LHCP 5,8 GHz (IPEX)",
+      "Cable de alimentación / datos de 4 pines"
+    ],
+    "compatibility": "Funciona con gafas y receptores del ecosistema digital HD compatible. Consulte con nosotros la compatibilidad con su equipo de tierra.",
+    "applications": [
+      "Carreras y freestyle FPV",
+      "Vuelo nocturno y crepuscular",
+      "Drones de inspección",
+      "Integraciones a medida"
+    ]
+  }
+}
