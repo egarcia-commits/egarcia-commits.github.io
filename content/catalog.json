@@ -1,40 +1,144 @@
 {
   "_comment": "Product categories and use cases. To add a category: add an entry here, then use its id in a product file's \"category\" field.",
   "categories": [
-    { "id": "video-systems", "icon": "layers", "image": "/img/products/aerolink-gt8-kit.webp",
-      "en": { "name": "HD Video Systems", "desc": "Complete digital FPV kits: transmitter, camera and antennas in one box." },
-      "es": { "name": "Sistemas de vídeo HD", "desc": "Kits FPV digitales completos: transmisor, cámara y antenas en una caja." } },
-    { "id": "transmitters", "icon": "radio", "image": "/img/products/aerolink-px.webp",
-      "en": { "name": "Video Transmitters", "desc": "Low-latency HD digital VTX units for FPV and professional platforms." },
-      "es": { "name": "Transmisores de vídeo", "desc": "Transmisores digitales HD de baja latencia para FPV y plataformas profesionales." } },
-    { "id": "cameras", "icon": "eye", "image": "/img/products/nighteye-s2.webp",
-      "en": { "name": "FPV Cameras", "desc": "Low-light HD cameras with large-format sensors." },
-      "es": { "name": "Cámaras FPV", "desc": "Cámaras HD de baja luz con sensores de gran formato." } },
-    { "id": "thermal", "icon": "thermo", "image": "/img/products/thermaview-960.webp",
-      "en": { "name": "Thermal Imaging", "desc": "HD thermal cameras for search & rescue, security and inspection." },
-      "es": { "name": "Imagen térmica", "desc": "Cámaras térmicas HD para rescate, seguridad e inspección." } },
-    { "id": "antennas", "icon": "target", "image": "/img/products/omniwave-58-lhcp.webp",
-      "en": { "name": "Antennas", "desc": "5.8 GHz circularly polarized antennas for a clean, stable link." },
-      "es": { "name": "Antenas", "desc": "Antenas de 5,8 GHz de polarización circular para un enlace limpio y estable." } }
+    {
+      "id": "video-systems",
+      "icon": "layers",
+      "image": "/img/products/aerolink-gt8-kit.webp",
+      "en": {
+        "name": "HD Video Systems",
+        "desc": "Complete digital FPV kits for OEM platforms: transmitter, camera and antennas in one package."
+      },
+      "es": {
+        "name": "Sistemas de vídeo HD",
+        "desc": "Kits FPV digitales completos para plataformas OEM: transmisor, cámara y antenas en un solo conjunto."
+      }
+    },
+    {
+      "id": "transmitters",
+      "icon": "radio",
+      "image": "/img/products/aerolink-px.webp",
+      "en": {
+        "name": "Video Transmitters",
+        "desc": "Low-latency HD digital VTX modules for professional and OEM platforms."
+      },
+      "es": {
+        "name": "Transmisores de vídeo",
+        "desc": "Módulos VTX digitales HD de baja latencia para plataformas profesionales y OEM."
+      }
+    },
+    {
+      "id": "cameras",
+      "icon": "eye",
+      "image": "/img/products/nighteye-s2.webp",
+      "en": {
+        "name": "FPV Cameras",
+        "desc": "Low-light HD cameras with large-format sensors, ready for platform integration."
+      },
+      "es": {
+        "name": "Cámaras FPV",
+        "desc": "Cámaras HD de baja luz con sensores de gran formato, listas para integrar en plataforma."
+      }
+    },
+    {
+      "id": "thermal",
+      "icon": "thermo",
+      "image": "/img/products/thermaview-960.webp",
+      "en": {
+        "name": "Thermal Imaging",
+        "desc": "HD thermal cameras for search and rescue, security, inspection and OEM payloads."
+      },
+      "es": {
+        "name": "Imagen térmica",
+        "desc": "Cámaras térmicas HD para rescate, seguridad, inspección y cargas útiles OEM."
+      }
+    },
+    {
+      "id": "antennas",
+      "icon": "target",
+      "image": "/img/products/omniwave-58-lhcp.webp",
+      "en": {
+        "name": "Antennas",
+        "desc": "5.8 GHz circularly polarized antennas for a clean, stable link."
+      },
+      "es": {
+        "name": "Antenas",
+        "desc": "Antenas de 5,8 GHz de polarización circular para un enlace limpio y estable."
+      }
+    }
   ],
   "use_cases": [
-    { "id": "sar", "icon": "thermo",
-      "en": { "name": "Search & Rescue", "desc": "Locate people and animals in total darkness, smoke or dense vegetation with HD thermal imaging streamed live to the pilot and to the ground team." },
-      "es": { "name": "Búsqueda y rescate", "desc": "Localiza personas y animales en plena oscuridad, humo o vegetación densa con imagen térmica HD transmitida en directo al piloto y al equipo de tierra." } },
-    { "id": "security", "icon": "shield",
-      "en": { "name": "Security & Surveillance", "desc": "Perimeter patrols day and night: low-light cameras down to 0.0001 lux and thermal sensors that make intruders stand out." },
-      "es": { "name": "Seguridad y vigilancia", "desc": "Patrullas perimetrales de día y de noche: cámaras de baja luz hasta 0,0001 lux y sensores térmicos que hacen destacar a los intrusos." } },
-    { "id": "inspection", "icon": "cpu",
-      "en": { "name": "Industrial Inspection", "desc": "Solar PV, power lines, roofs and pipelines: spot hot spots and defects without stopping operations." },
-      "es": { "name": "Inspección industrial", "desc": "Fotovoltaica, líneas eléctricas, cubiertas y tuberías: detecta puntos calientes y defectos sin parar la operación." } },
-    { "id": "firefighting", "icon": "zap",
-      "en": { "name": "Firefighting & Emergencies", "desc": "See through smoke, find hot spots after extinction and give incident commanders a live aerial view." },
-      "es": { "name": "Bomberos y emergencias", "desc": "Ve a través del humo, encuentra rescoldos tras la extinción y da al mando una vista aérea en directo." } },
-    { "id": "fpv", "icon": "video",
-      "en": { "name": "FPV Racing & Freestyle", "desc": "Crisp HD digital video with 22 ms average latency, onboard recording and full OSD integration." },
-      "es": { "name": "Carreras y freestyle FPV", "desc": "Vídeo digital HD nítido con 22 ms de latencia media, grabación a bordo e integración OSD completa." } },
-    { "id": "oem", "icon": "layers",
-      "en": { "name": "OEM & Integrators", "desc": "Drone manufacturers and integrators: volume pricing, white-label options and technical support for your platform." },
-      "es": { "name": "OEM e integradores", "desc": "Fabricantes e integradores de drones: precios por volumen, opciones de marca blanca y soporte técnico para tu plataforma." } }
+    {
+      "id": "sar",
+      "icon": "thermo",
+      "en": {
+        "name": "Search & Rescue",
+        "desc": "Locate people and animals in total darkness, smoke or dense vegetation with HD thermal imaging streamed live to the operator and to the ground team."
+      },
+      "es": {
+        "name": "Búsqueda y rescate",
+        "desc": "Localiza personas y animales en plena oscuridad, humo o vegetación densa con imagen térmica HD transmitida en directo al operador y al equipo de tierra."
+      }
+    },
+    {
+      "id": "security",
+      "icon": "shield",
+      "en": {
+        "name": "Security & Surveillance",
+        "desc": "Perimeter patrols day and night: low-light cameras down to 0.0001 lux and thermal sensors that make intruders stand out."
+      },
+      "es": {
+        "name": "Seguridad y vigilancia",
+        "desc": "Patrullas perimetrales de día y de noche: cámaras de baja luz hasta 0,0001 lux y sensores térmicos que hacen destacar a los intrusos."
+      }
+    },
+    {
+      "id": "inspection",
+      "icon": "cpu",
+      "en": {
+        "name": "Industrial Inspection",
+        "desc": "Solar PV, power lines, roofs and pipelines: spot hot spots and defects without stopping operations."
+      },
+      "es": {
+        "name": "Inspección industrial",
+        "desc": "Fotovoltaica, líneas eléctricas, cubiertas y tuberías: detecta puntos calientes y defectos sin parar la operación."
+      }
+    },
+    {
+      "id": "firefighting",
+      "icon": "zap",
+      "en": {
+        "name": "Firefighting & Emergencies",
+        "desc": "See through smoke, find hot spots after extinction and give incident commanders a live aerial view."
+      },
+      "es": {
+        "name": "Bomberos y emergencias",
+        "desc": "Ve a través del humo, encuentra rescoldos tras la extinción y da al mando una vista aérea en directo."
+      }
+    },
+    {
+      "id": "fpv",
+      "icon": "video",
+      "en": {
+        "name": "Professional FPV",
+        "desc": "Low-latency HD digital video for OEM airframes and professional platforms, with onboard recording and flight-controller OSD integration."
+      },
+      "es": {
+        "name": "FPV profesional",
+        "desc": "Vídeo digital HD de baja latencia para aeronaves OEM y plataformas profesionales, con grabación a bordo e integración OSD con la controladora de vuelo."
+      }
+    },
+    {
+      "id": "oem",
+      "icon": "layers",
+      "en": {
+        "name": "OEM & Integrators",
+        "desc": "White-label options, volume pricing, evaluation kits and engineering support for drone manufacturers integrating these modules into their platforms."
+      },
+      "es": {
+        "name": "OEM e integradores",
+        "desc": "Opciones de marca blanca, precios por volumen, kits de evaluación y soporte de ingeniería para fabricantes que integran estos módulos en sus plataformas."
+      }
+    }
   ]
 }

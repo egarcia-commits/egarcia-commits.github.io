@@ -1,9 +1,10 @@
-# Drone brand website (DUNADRON placeholder)
+# DUNADRON website
 
-Static, bilingual (English `/en/` + Spanish `/es/`) catalogue / e-commerce site for HD digital FPV,
-low-light and thermal camera products. **Zero dependencies**: only Node.js 18+ is needed to build.
-The output in `dist/` is plain HTML/CSS/JS and runs on any cheap host (Netlify, Cloudflare Pages,
-GitHub Pages, Vercel, or any Apache/Nginx hosting such as a regular cPanel plan).
+Static, **English-first** bilingual (English `/en/` default, Spanish `/es/` secondary) B2B catalogue
+for HD digital FPV, low-light and thermal camera **modules sold to drone manufacturers, OEMs and
+integrators**. There is no consumer checkout. **Zero dependencies**: only Node.js 18+ is needed to
+build. The output in `dist/` is plain HTML/CSS/JS and runs on any cheap host (Netlify, Cloudflare
+Pages, GitHub Pages, Vercel, or any Apache/Nginx hosting such as a regular cPanel plan).
 
 ```
 node build.js              # builds ./dist   (or: npm run build)
@@ -20,7 +21,7 @@ npm run serve              # build + preview at http://localhost:8088
 | `content/catalog.json` | Product categories and use cases / solutions. |
 | `content/i18n.json` | All interface and page texts in EN and ES (home, FAQ, about, B2B…). |
 | `content/legal/{en,es}/*.md` | Legal notice, privacy, cookies, terms (Spanish/EU templates). |
-| `public/` | Static files copied as-is: images, fonts, PDF datasheets (`public/downloads/`). |
+| `public/` | Static files copied as-is: images, fonts, PDF datasheets (`public/downloads/`). The `public/img/brand/_old/` archive is kept in source but excluded from `dist/`. |
 | `src/` | `style.css` and `main.js` (copied to `/assets/`). |
 | `build.js` | The generator (no npm packages). |
 
@@ -34,7 +35,7 @@ npm run serve              # build + preview at http://localhost:8088
 4. `node build.js` and upload `dist/`.
 
 Everything written in `[square brackets]` is a **placeholder**. While `site.previewBanner` is `true`,
-placeholders are highlighted in yellow and a "PREVIEW" bar is shown. Set it to `false` before launch.
+placeholders are highlighted in yellow and a "DRAFT · for partner review" bar is shown. Set it to `false` before launch.
 
 ## How to add a product
 
@@ -45,7 +46,7 @@ placeholders are highlighted in yellow and a "PREVIEW" bar is shown. Set it to `
    - `use_cases`: ids from `content/catalog.json` (`sar`, `security`, `inspection`, `firefighting`, `fpv`, `oem`) – used by filters and the Solutions page.
    - `images`: put images in `public/img/products/` (webp or jpg, 4:3 recommended). First image = main image. `og_image` = JPG used for social sharing.
    - `downloads`: PDF datasheets in `public/downloads/en/` and `public/downloads/es/`.
-   - `price` (`null` = "Price on request"), `currency`, `purchasable`, `stock` – ready for a future Stripe/Shopify checkout.
+   - `price` (`null` = "OEM pricing on request"), `currency`, `purchasable`, `stock` – commercial fields; the live site currently works by RFQ, not checkout.
    - `en` / `es`: name, subtitle, tagline, description, stats, features (icon names: clock, eye, sd, fan, cpu, radio, zap, layers, video, aperture, target, box, thermo, zoom, sliders, link), `specs` tables, `in_the_box`, `compatibility`, `applications`.
 3. **Only use specifications from the manufacturer's manual. Never invent numbers. Never mention supplier names/logos.**
 4. `node build.js` – the product appears in listings, filters, category page, sitemap and related products automatically.

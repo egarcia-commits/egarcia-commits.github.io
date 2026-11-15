@@ -1,112 +1,778 @@
 {
   "en": {
     "langName": "English",
-    "nav": { "home": "Home", "products": "Products", "solutions": "Solutions", "b2b": "Distributors", "news": "Drone Tech News", "support": "Support", "about": "About", "contact": "Contact", "quote": "Quote list" },
-    "cta": { "quote": "Request a quote", "whatsapp": "WhatsApp", "catalogue": "Download catalogue", "explore": "Explore products", "b2b": "Become a distributor", "details": "View details", "addQuote": "Add to quote", "added": "Added to quote", "allNews": "All news", "readMore": "Read more", "source": "Read the original source", "back": "Back", "send": "Send request", "viewAll": "View all" },
-    "home": {
-      "metaTitle": "HD digital FPV, low-light & thermal camera systems for drones",
-      "metaDesc": "Professional HD digital FPV video systems, low-light cameras, HD thermal cameras and antennas for drones. B2B and distributor pricing. Request a quote.",
-      "eyebrow": "FPV · Low-light · Thermal",
-      "h1a": "See further.", "h1b": "Fly smarter.",
-      "lead": "HD digital video links, low-light cameras and thermal imaging for drone builders, professional operators and distributors.",
-      "stats": [["22","ms","Average video latency"],["0.0001","lux","Minimum illumination"],["960×768","","Thermal processed resolution"],["1080p","60","Live professional link"]],
-      "featured": "Featured products", "featuredLead": "Engineered for demanding missions, documented with complete technical datasheets.",
-      "categories": "Shop by category", "categoriesLead": "From complete HD video kits to individual components.",
-      "whyTitle": "Why work with us",
-      "why": [
-        ["file","Accurate technical data","Every product ships with a full datasheet. Real specifications, no marketing guesswork."],
-        ["layers","One integrated ecosystem","Transmitters, cameras, thermal sensors and antennas designed to work together."],
-        ["shield","B2B & white-label ready","Volume pricing, private-label options and dedicated support for integrators."],
-        ["chat","Direct technical support","Talk to people who understand FPV links, OSD integration and thermal payloads."]
-      ],
-      "solutionsTitle": "Built for real missions",
-      "b2bTitle": "Distributors, integrators & OEMs",
-      "b2bLead": "Join our partner network: volume pricing, marketing materials, technical datasheets in English and Spanish, and priority support.",
-      "newsTitle": "Latest drone tech news", "newsLead": "A weekly selection of the most relevant developments in drone technology."
+    "nav": {
+      "home": "Home",
+      "products": "Products",
+      "solutions": "Solutions",
+      "b2b": "OEM & Partners",
+      "news": "Drone Tech News",
+      "support": "Support",
+      "about": "About",
+      "contact": "Contact",
+      "quote": "Request pricing"
     },
-    "products": { "title": "Products", "metaDesc": "HD digital FPV video systems, transmitters, low-light cameras, thermal cameras and antennas for drones.", "lead": "HD digital video, low-light and thermal imaging components for drones.", "all": "All", "category": "Category", "useCase": "Application", "search": "Search products…", "results": "products", "none": "No products match these filters.", "reset": "Reset filters", "sku": "Ref.", "price": "Price", "priceOnRequest": "Price on request", "specs": "Technical specifications", "features": "Key features", "box": "In the box", "compat": "Compatibility", "apps": "Applications", "downloads": "Downloads", "related": "Related products", "overview": "Overview", "stock_on_request": "Availability on request", "gallery": "Product gallery", "vat": "Volume and distributor pricing available." },
-    "quote": { "title": "Your quote list", "lead": "Add products to your list and send us a single request. We reply with pricing and availability.", "empty": "Your quote list is empty.", "qty": "Qty", "remove": "Remove", "name": "Name", "company": "Company", "email": "Email", "phone": "Phone", "country": "Country", "message": "Message", "sendEmail": "Send by email", "sendWa": "Send by WhatsApp", "intro": "Hello, I would like a quote for:" },
-    "solutions": { "title": "Solutions", "metaDesc": "Drone video and thermal imaging solutions for search & rescue, security, inspection, firefighting, FPV and OEM integration.", "lead": "Our components power drones across public safety, industry and FPV. Find the right setup for your mission.", "recommended": "Recommended products" },
-    "b2b": { "title": "Distributors & B2B", "metaDesc": "Become a distributor or OEM partner. Volume pricing, white-label options and technical support for drone integrators.", "lead": "Grow your catalogue with high-performance FPV and thermal imaging products.",
-      "benefits": [["percent","Volume pricing","Tiered pricing for distributors, integrators and fleet operators."],["tag","White label / private label","Products and documentation under your own brand on request."],["file","Sales & technical kit","Datasheets, product images and dossiers in English and Spanish."],["chat","Priority support","Direct technical line for pre-sales and after-sales questions."]],
-      "formTitle": "Partner application", "type": "Business type", "types": ["Distributor / reseller","Drone manufacturer (OEM)","System integrator","Professional operator / fleet","Public body / emergency services","Other"], "volume": "Estimated yearly volume", "interest": "Products of interest", "website": "Website", "consent": "I have read and accept the privacy policy." },
-    "support": { "title": "Support & FAQ", "metaDesc": "Frequently asked questions about compatibility, orders, shipping, warranty and radio regulations.", "lead": "Answers to the most common questions. Can't find yours? Contact us.",
-      "faq": [
-        ["Are your video systems compatible with my goggles?","Our GT8 system works with goggles and receivers from the compatible HD digital ecosystem. Send us your ground equipment model and we'll confirm compatibility before you order."],
-        ["Which flight controllers are supported for OSD?","The AeroLink GT8 VTX supports Canvas-mode OSD (MSP DisplayPort) with Betaflight, INAV, FETtec, KISS and ArduPilot."],
-        ["Can I use the ThermaView 960 with the GT8 or PX transmitter?","Yes. The ThermaView 960 is available in two versions: the GT8 version requires the AeroLink GT8 VTX (ground unit in race mode) and the PX version requires the AeroLink PX transmitter."],
-        ["Do you offer volume or distributor pricing?","Yes. Use the Distributors page or the quote list to tell us the products and quantities you need and we'll send you a tailored offer."],
-        ["Can I sell your products under my own brand?","White-label and private-label options are available for distributors and OEMs, subject to minimum quantities. Contact our sales team."],
-        ["How do I place an order?","Add products to your quote list and send the request by email or WhatsApp. We confirm price, availability and delivery time, then send you a pro-forma invoice. Online checkout is coming soon."],
-        ["Where do you ship and how long does it take?","[SHIPPING COUNTRIES AND DELIVERY TIMES – PLACEHOLDER]. Exact shipping cost and lead time are confirmed with every quote."],
-        ["What warranty do products have?","Consumer purchases in the EU are covered by the legal guarantee of conformity. Business (B2B) warranty terms are stated in each offer. See our Terms & Conditions."],
-        ["Am I allowed to transmit at full power?","Transmit power limits depend on your country's radio regulations (e.g. CE <14 dBm EIRP for 5.8 GHz in the EU). Users are responsible for configuring and operating equipment in compliance with local law."]
+    "cta": {
+      "quote": "Request OEM pricing",
+      "whatsapp": "WhatsApp",
+      "catalogue": "Download catalogue",
+      "explore": "Browse the range",
+      "b2b": "Become a distributor",
+      "engineering": "Talk to engineering",
+      "samples": "Request samples / evaluation kit",
+      "details": "View specifications",
+      "addQuote": "Add to RFQ",
+      "added": "Added to RFQ",
+      "allNews": "All news",
+      "readMore": "Read more",
+      "source": "Read the original source",
+      "back": "Back",
+      "send": "Send request",
+      "viewAll": "View all"
+    },
+    "home": {
+      "metaTitle": "OEM FPV, low-light and thermal camera systems for drone manufacturers",
+      "metaDesc": "HD digital video, low-light and thermal imaging modules for drone OEMs and integrators. White-label options, volume pricing and engineering support. Request OEM pricing.",
+      "eyebrow": "OEM · Integrators · White-label",
+      "h1a": "Vision systems",
+      "h1b": "for manufacturers.",
+      "lead": "HD digital video links, low-light cameras and thermal imaging modules for drone OEMs, airframe manufacturers and system integrators. White-label, volume pricing and engineering support.",
+      "stats": [
+        [
+          "22",
+          "ms",
+          "Average video latency"
+        ],
+        [
+          "0.0001",
+          "lux",
+          "Minimum illumination"
+        ],
+        [
+          "960×768",
+          "",
+          "Thermal processed resolution"
+        ],
+        [
+          "1080p",
+          "60",
+          "Live professional link"
+        ]
       ],
-      "docsTitle": "Documentation", "docsLead": "Download the full catalogue and individual product datasheets." },
-    "about": { "title": "About us", "metaDesc": "Who we are: a Spanish company supplying HD digital FPV, low-light and thermal imaging systems for drones.", "lead": "We bring professional-grade FPV and thermal imaging technology to drone builders, operators and distributors.",
-      "p": ["{{brand}} was founded to make advanced drone vision technology easier to buy, integrate and support. We select high-performance HD digital video links, low-light cameras and thermal sensors, document them thoroughly and deliver them with the technical support professionals expect.","We work with FPV pilots, drone manufacturers, system integrators, emergency services and distributors across Europe and beyond."],
-      "values": [["target","Precision","Accurate, verified technical information on every product."],["shield","Reliability","Components selected for demanding, real-world missions."],["chat","Partnership","Long-term relationships with integrators and distributors."]] },
-    "contact": { "title": "Contact", "metaDesc": "Contact our sales and technical team by email, phone or WhatsApp.", "lead": "Questions about a product, a quote or a partnership? We're here to help.", "formTitle": "Send us a message", "subject": "Subject", "hours": "Opening hours" },
-    "news": { "title": "Drone Tech News", "metaDesc": "Weekly roundup of the latest drone technology: FPV, thermal imaging, autonomy, regulation and industry.", "lead": "The latest developments in drone technology, curated every week.", "updated": "Updated weekly", "published": "Published", "sourceLabel": "Source", "disclaimer": "Summary written by our team. All rights to the original reporting belong to the source." },
-    "footer": { "about": "HD digital FPV, low-light and thermal imaging systems for drones.", "shop": "Products", "company": "Company", "legal": "Legal", "rights": "All rights reserved." },
-    "legal": { "privacy": "Privacy policy", "cookies": "Cookie policy", "notice": "Legal notice", "terms": "Terms & conditions" },
-    "cookie": { "text": "We use only essential cookies. With your consent we may also use analytics cookies to improve the site.", "accept": "Accept", "reject": "Reject", "more": "Cookie policy" },
-    "form": { "sent": "Thank you! Your message has been sent.", "mailto": "Your email app will open with the message pre-filled.", "required": "Required" },
-    "notFound": { "title": "Page not found", "lead": "The page you are looking for doesn't exist or has moved." }
+      "featured": "Featured modules",
+      "featuredLead": "Documented for integration, with complete technical datasheets for your engineering and purchasing teams.",
+      "categories": "Product range",
+      "categoriesLead": "Complete HD video kits and individual modules designed for OEM integration.",
+      "whyTitle": "Why manufacturers work with us",
+      "why": [
+        [
+          "file",
+          "Integration-ready documentation",
+          "Every module ships with a full datasheet. Real specifications, written for engineering teams."
+        ],
+        [
+          "layers",
+          "One integrated ecosystem",
+          "Transmitters, cameras, thermal sensors and antennas designed to work together on your platform."
+        ],
+        [
+          "shield",
+          "White-label & volume pricing",
+          "Private-label options, staged volume pricing and dedicated support for OEMs and integrators."
+        ],
+        [
+          "chat",
+          "Direct engineering support",
+          "Talk to people who understand FPV links, OSD integration, payloads and platform bring-up."
+        ]
+      ],
+      "solutionsTitle": "Built for professional platforms",
+      "b2bTitle": "OEM, white-label & integration",
+      "b2bLead": "We supply drone manufacturers and integrators: custom branding and firmware, volume pricing, technical documentation and integration support. Distributors are welcome as secondary partners.",
+      "newsTitle": "Latest drone tech news",
+      "newsLead": "A weekly selection of the most relevant developments in drone technology."
+    },
+    "oem": {
+      "title": "OEM, white-label & integration",
+      "lead": "From evaluation kits to production volumes, we support manufacturers integrating HD video and thermal modules into their platforms.",
+      "eyebrow": "For manufacturers",
+      "items": [
+        [
+          "layers",
+          "White-label & custom branding",
+          "Products and documentation under your brand. Custom firmware and branding are available on request, subject to [MOQ]."
+        ],
+        [
+          "cpu",
+          "Integration support",
+          "Engineering support for flight-controller OSD, payload integration and platform bring-up."
+        ],
+        [
+          "file",
+          "Technical documentation",
+          "Datasheets, catalogues and integration notes for your engineering and purchasing teams."
+        ],
+        [
+          "clock",
+          "Lead times",
+          "Standard lead time: [LEAD TIME]. Confirmed in writing with every quotation."
+        ],
+        [
+          "percent",
+          "Volume pricing",
+          "Tiered OEM pricing based on annual volume. Unit prices are provided on request."
+        ],
+        [
+          "shield",
+          "Certifications",
+          "Regulatory status: [CE/FCC – to confirm]. Applicable markings are confirmed with each offer."
+        ]
+      ],
+      "tiersTitle": "Volume pricing tiers",
+      "tiersLead": "The figures below are placeholders and will be confirmed in your quotation.",
+      "tiersHead": [
+        "Tier",
+        "Annual volume",
+        "Pricing",
+        "MOQ",
+        "Lead time"
+      ],
+      "tiers": [
+        [
+          "Evaluation kit",
+          "[SAMPLE QTY]",
+          "[PRICE]",
+          "—",
+          "[LEAD TIME]"
+        ],
+        [
+          "[Tier 1]",
+          "[VOLUME]",
+          "[PRICE]",
+          "[MOQ]",
+          "[LEAD TIME]"
+        ],
+        [
+          "[Tier 2]",
+          "[VOLUME]",
+          "[PRICE]",
+          "[MOQ]",
+          "[LEAD TIME]"
+        ],
+        [
+          "[Tier 3]",
+          "[VOLUME]",
+          "[PRICE]",
+          "[MOQ]",
+          "[LEAD TIME]"
+        ]
+      ],
+      "certs": "Certifications: [CE/FCC – to confirm].",
+      "moq": "MOQ",
+      "leadTime": "Lead time",
+      "evalKit": "Evaluation kit"
+    },
+    "products": {
+      "title": "Products",
+      "metaDesc": "HD digital FPV video systems, transmitters, low-light cameras, thermal cameras and antennas for drone manufacturers and integrators.",
+      "lead": "HD digital video, low-light and thermal imaging modules for OEM platforms and system integrators.",
+      "all": "All",
+      "category": "Category",
+      "useCase": "Application",
+      "search": "Search products…",
+      "results": "products",
+      "none": "No products match these filters.",
+      "reset": "Reset filters",
+      "sku": "Ref.",
+      "price": "OEM pricing",
+      "priceOnRequest": "OEM pricing on request",
+      "specs": "Technical specifications",
+      "features": "Key features",
+      "box": "In the box",
+      "compat": "Compatibility",
+      "apps": "Applications",
+      "downloads": "Technical documentation",
+      "related": "Related products",
+      "overview": "Overview",
+      "stock_on_request": "Availability on request",
+      "gallery": "Product gallery",
+      "vat": "Volume pricing, MOQ and lead times confirmed in your quotation."
+    },
+    "quote": {
+      "title": "Request OEM pricing",
+      "lead": "Tell us about your company, role and expected annual volume. We reply with pricing, MOQ, lead times and, if you need them, evaluation kits.",
+      "empty": "Your RFQ list is empty. Add modules from the product pages, or describe your interest in the form.",
+      "qty": "Qty",
+      "remove": "Remove",
+      "name": "Name",
+      "role": "Role",
+      "company": "Company",
+      "email": "Email",
+      "phone": "Phone",
+      "country": "Country",
+      "volume": "Annual volume",
+      "volumeHint": "Units per year, or your best estimate",
+      "interest": "Products of interest",
+      "message": "Message",
+      "sendEmail": "Send RFQ",
+      "sendWa": "Send by WhatsApp",
+      "intro": "Hello, I would like OEM pricing and availability for:"
+    },
+    "solutions": {
+      "title": "Solutions",
+      "metaDesc": "Video and thermal imaging modules for OEM platforms used in search and rescue, security, inspection, firefighting and professional FPV.",
+      "lead": "Integrate our modules into platforms built for public safety, industry and professional FPV.",
+      "recommended": "Recommended modules"
+    },
+    "b2b": {
+      "title": "OEM, white-label & partners",
+      "metaDesc": "White-label FPV and thermal modules for drone manufacturers and integrators. Volume pricing, evaluation kits and engineering support. Distributors welcome.",
+      "lead": "Built for drone manufacturers and system integrators. Distributors can also apply to join the partner network.",
+      "benefits": [
+        [
+          "layers",
+          "White-label / private label",
+          "Products and documentation under your own brand. Custom firmware and branding on request, subject to [MOQ]."
+        ],
+        [
+          "percent",
+          "Volume pricing",
+          "Tiered OEM pricing based on annual volume. Unit prices and MOQ are confirmed in your quotation: [PRICE] / [MOQ]."
+        ],
+        [
+          "file",
+          "Technical documentation",
+          "Datasheets, product images and dossiers for your engineering, purchasing and sales teams."
+        ],
+        [
+          "chat",
+          "Engineering support",
+          "A direct technical line for integration, OSD, payloads and after-sales questions."
+        ]
+      ],
+      "formTitle": "OEM / partner enquiry",
+      "type": "Business type",
+      "types": [
+        "Drone manufacturer (OEM)",
+        "System integrator",
+        "Distributor / reseller",
+        "Professional operator / fleet",
+        "Public body / emergency services",
+        "Other"
+      ],
+      "volume": "Estimated yearly volume",
+      "interest": "Products of interest",
+      "website": "Website",
+      "consent": "I have read and accept the privacy policy.",
+      "distributorNote": "If you are a distributor rather than a manufacturer, you can still use this form — select “Distributor / reseller” as your business type."
+    },
+    "support": {
+      "title": "Support & FAQ",
+      "metaDesc": "Frequently asked questions about compatibility, OEM pricing, lead times, warranty and radio regulations.",
+      "lead": "Answers to the most common technical and commercial questions. Can't find yours? Talk to engineering.",
+      "faq": [
+        [
+          "Are your video systems compatible with our ground equipment?",
+          "The GT8 system works with goggles and receivers from the compatible HD digital ecosystem. Send us your ground equipment model and we will confirm compatibility before you commit to an order or integration."
+        ],
+        [
+          "Which flight controllers are supported for OSD?",
+          "The AeroLink GT8 VTX supports Canvas-mode OSD (MSP DisplayPort) with Betaflight, INAV, FETtec, KISS and ArduPilot."
+        ],
+        [
+          "Can I use the ThermaView 960 with the GT8 or PX transmitter?",
+          "Yes. The ThermaView 960 is available in two versions: the GT8 version requires the AeroLink GT8 VTX (ground unit in race mode) and the PX version requires the AeroLink PX transmitter."
+        ],
+        [
+          "How do I get OEM or volume pricing?",
+          "Use the Request OEM pricing form or add modules to an RFQ. Tell us your company, role, country and expected annual volume, and we will send a tailored offer with pricing, [MOQ] and [LEAD TIME]."
+        ],
+        [
+          "Do you offer white-label or custom firmware?",
+          "Yes. White-label branding and custom firmware are available for OEMs and integrators, subject to [MOQ]. Contact our team with your requirements."
+        ],
+        [
+          "Can we request samples or an evaluation kit?",
+          "Yes. Use the RFQ form or the “Request samples / evaluation kit” button on a product page. Evaluation kit pricing and lead time: [PRICE] / [LEAD TIME]."
+        ],
+        [
+          "How do I place an order?",
+          "Send an RFQ by email or WhatsApp. We confirm price, [MOQ], availability and [LEAD TIME], then issue a pro-forma invoice. Sales are currently made to businesses by quotation."
+        ],
+        [
+          "What are your lead times and where do you ship?",
+          "[SHIPPING COUNTRIES AND DELIVERY TIMES – PLACEHOLDER]. Standard lead time: [LEAD TIME]. Exact shipping cost and lead time are confirmed with every quotation."
+        ],
+        [
+          "What warranty applies to business purchases?",
+          "Business (B2B) warranty terms are stated in each offer: [WARRANTY TERMS – to confirm]. See our Terms & Conditions."
+        ],
+        [
+          "Which certifications do the products carry?",
+          "Regulatory status: [CE/FCC – to confirm]. Users are responsible for configuring and operating radio equipment in compliance with local law (for example CE <14 dBm EIRP for 5.8 GHz in the EU)."
+        ]
+      ],
+      "docsTitle": "Documentation",
+      "docsLead": "Download the full catalogue and individual product datasheets."
+    },
+    "about": {
+      "title": "About us",
+      "metaDesc": "A Spanish company supplying HD digital FPV, low-light and thermal imaging modules to drone manufacturers and integrators.",
+      "lead": "We supply professional-grade FPV and thermal imaging technology to drone manufacturers, system integrators and distributors.",
+      "p": [
+        "{{brand}} was founded to make advanced drone vision technology easier to integrate, document and support. We select high-performance HD digital video links, low-light cameras and thermal sensors, document them thoroughly and deliver them with the engineering support manufacturers expect.",
+        "We work with drone OEMs, system integrators, emergency-service programmes and distributors across Europe and beyond. Sales are currently to businesses; consumer retail is not offered at this stage."
+      ],
+      "values": [
+        [
+          "target",
+          "Precision",
+          "Accurate, verified technical information on every product."
+        ],
+        [
+          "shield",
+          "Reliability",
+          "Components selected for demanding, real-world platforms."
+        ],
+        [
+          "chat",
+          "Partnership",
+          "Long-term relationships with manufacturers, integrators and distributors."
+        ]
+      ]
+    },
+    "contact": {
+      "title": "Talk to engineering",
+      "metaDesc": "Contact our sales and engineering team about OEM pricing, evaluation kits and platform integration.",
+      "lead": "Questions about integration, OEM pricing, samples or a partnership? Send us an RFQ or a technical enquiry.",
+      "formTitle": "RFQ / technical enquiry",
+      "subject": "Subject",
+      "hours": "Opening hours"
+    },
+    "news": {
+      "title": "Drone Tech News",
+      "metaDesc": "Weekly roundup of the latest drone technology: FPV, thermal imaging, autonomy, regulation and industry.",
+      "lead": "The latest developments in drone technology, curated every week.",
+      "updated": "Updated weekly",
+      "published": "Published",
+      "sourceLabel": "Source",
+      "disclaimer": "Summary written by our team. All rights to the original reporting belong to the source."
+    },
+    "footer": {
+      "about": "HD digital FPV, low-light and thermal imaging modules for drone manufacturers and integrators.",
+      "shop": "Products",
+      "company": "Company",
+      "legal": "Legal",
+      "rights": "All rights reserved."
+    },
+    "legal": {
+      "privacy": "Privacy policy",
+      "cookies": "Cookie policy",
+      "notice": "Legal notice",
+      "terms": "Terms & conditions"
+    },
+    "cookie": {
+      "text": "We use only essential cookies. With your consent we may also use analytics cookies to improve the site.",
+      "accept": "Accept",
+      "reject": "Reject",
+      "more": "Cookie policy"
+    },
+    "form": {
+      "sent": "Thank you! Your message has been sent.",
+      "mailto": "Your email app will open with the message pre-filled.",
+      "required": "Required"
+    },
+    "notFound": {
+      "title": "Page not found",
+      "lead": "The page you are looking for doesn't exist or has moved."
+    }
   },
   "es": {
     "langName": "Español",
-    "nav": { "home": "Inicio", "products": "Productos", "solutions": "Soluciones", "b2b": "Distribuidores", "news": "Noticias", "support": "Soporte", "about": "Nosotros", "contact": "Contacto", "quote": "Presupuesto" },
-    "cta": { "quote": "Solicitar presupuesto", "whatsapp": "WhatsApp", "catalogue": "Descargar catálogo", "explore": "Ver productos", "b2b": "Hazte distribuidor", "details": "Ver detalles", "addQuote": "Añadir al presupuesto", "added": "Añadido al presupuesto", "allNews": "Todas las noticias", "readMore": "Leer más", "source": "Leer la fuente original", "back": "Volver", "send": "Enviar solicitud", "viewAll": "Ver todo" },
-    "home": {
-      "metaTitle": "Sistemas FPV digitales HD, cámaras de baja luz y térmicas para drones",
-      "metaDesc": "Sistemas de vídeo FPV digital HD, cámaras de baja luz, cámaras térmicas HD y antenas para drones. Precios para empresas y distribuidores. Pide presupuesto.",
-      "eyebrow": "FPV · Baja luz · Térmica",
-      "h1a": "Ve más lejos.", "h1b": "Vuela mejor.",
-      "lead": "Enlaces de vídeo digital HD, cámaras de baja luz e imagen térmica para fabricantes de drones, operadores profesionales y distribuidores.",
-      "stats": [["22","ms","Latencia media de vídeo"],["0,0001","lux","Iluminación mínima"],["960×768","","Resolución térmica procesada"],["1080p","60","Enlace profesional en directo"]],
-      "featured": "Productos destacados", "featuredLead": "Diseñados para misiones exigentes y documentados con fichas técnicas completas.",
-      "categories": "Categorías", "categoriesLead": "Desde kits de vídeo HD completos hasta componentes sueltos.",
-      "whyTitle": "Por qué trabajar con nosotros",
-      "why": [
-        ["file","Datos técnicos precisos","Cada producto incluye ficha técnica completa. Especificaciones reales, sin humo."],
-        ["layers","Un ecosistema integrado","Transmisores, cámaras, sensores térmicos y antenas diseñados para funcionar juntos."],
-        ["shield","Listos para B2B y marca blanca","Precios por volumen, opciones de marca propia y soporte dedicado para integradores."],
-        ["chat","Soporte técnico directo","Habla con gente que entiende de enlaces FPV, integración OSD y cargas térmicas."]
-      ],
-      "solutionsTitle": "Pensados para misiones reales",
-      "b2bTitle": "Distribuidores, integradores y OEM",
-      "b2bLead": "Únete a nuestra red de partners: precios por volumen, material de marketing, fichas técnicas en inglés y español y soporte prioritario.",
-      "newsTitle": "Últimas noticias de tecnología dron", "newsLead": "Una selección semanal de los avances más relevantes en tecnología de drones."
+    "nav": {
+      "home": "Inicio",
+      "products": "Productos",
+      "solutions": "Soluciones",
+      "b2b": "OEM y partners",
+      "news": "Noticias",
+      "support": "Soporte",
+      "about": "Nosotros",
+      "contact": "Contacto",
+      "quote": "Solicitar precios"
     },
-    "products": { "title": "Productos", "metaDesc": "Sistemas de vídeo FPV digital HD, transmisores, cámaras de baja luz, cámaras térmicas y antenas para drones.", "lead": "Componentes de vídeo digital HD, baja luz e imagen térmica para drones.", "all": "Todos", "category": "Categoría", "useCase": "Aplicación", "search": "Buscar productos…", "results": "productos", "none": "Ningún producto coincide con estos filtros.", "reset": "Quitar filtros", "sku": "Ref.", "price": "Precio", "priceOnRequest": "Precio bajo consulta", "specs": "Especificaciones técnicas", "features": "Características principales", "box": "Contenido de la caja", "compat": "Compatibilidad", "apps": "Aplicaciones", "downloads": "Descargas", "related": "Productos relacionados", "overview": "Descripción", "stock_on_request": "Disponibilidad bajo consulta", "gallery": "Galería del producto", "vat": "Precios por volumen y para distribuidores disponibles." },
-    "quote": { "title": "Tu lista de presupuesto", "lead": "Añade productos a tu lista y envíanos una sola solicitud. Te respondemos con precio y disponibilidad.", "empty": "Tu lista de presupuesto está vacía.", "qty": "Cant.", "remove": "Quitar", "name": "Nombre", "company": "Empresa", "email": "Email", "phone": "Teléfono", "country": "País", "message": "Mensaje", "sendEmail": "Enviar por email", "sendWa": "Enviar por WhatsApp", "intro": "Hola, me gustaría un presupuesto de:" },
-    "solutions": { "title": "Soluciones", "metaDesc": "Soluciones de vídeo e imagen térmica para drones: rescate, seguridad, inspección, bomberos, FPV e integración OEM.", "lead": "Nuestros componentes equipan drones de seguridad pública, industria y FPV. Encuentra la configuración ideal para tu misión.", "recommended": "Productos recomendados" },
-    "b2b": { "title": "Distribuidores y B2B", "metaDesc": "Hazte distribuidor o partner OEM. Precios por volumen, marca blanca y soporte técnico para integradores de drones.", "lead": "Amplía tu catálogo con productos FPV e imagen térmica de alto rendimiento.",
-      "benefits": [["percent","Precios por volumen","Tarifas escalonadas para distribuidores, integradores y operadores de flota."],["tag","Marca blanca / marca propia","Productos y documentación con tu propia marca bajo pedido."],["file","Kit comercial y técnico","Fichas técnicas, imágenes de producto y dossiers en inglés y español."],["chat","Soporte prioritario","Línea técnica directa para preventa y posventa."]],
-      "formTitle": "Solicitud de partner", "type": "Tipo de empresa", "types": ["Distribuidor / tienda","Fabricante de drones (OEM)","Integrador de sistemas","Operador profesional / flota","Organismo público / emergencias","Otro"], "volume": "Volumen anual estimado", "interest": "Productos de interés", "website": "Web", "consent": "He leído y acepto la política de privacidad." },
-    "support": { "title": "Soporte y preguntas frecuentes", "metaDesc": "Preguntas frecuentes sobre compatibilidad, pedidos, envíos, garantía y normativa radioeléctrica.", "lead": "Respuestas a las preguntas más habituales. ¿No encuentras la tuya? Contacta con nosotros.",
-      "faq": [
-        ["¿Son vuestros sistemas de vídeo compatibles con mis gafas?","Nuestro sistema GT8 funciona con gafas y receptores del ecosistema digital HD compatible. Envíanos el modelo de tu equipo de tierra y te confirmamos la compatibilidad antes del pedido."],
-        ["¿Qué controladoras de vuelo son compatibles con el OSD?","El AeroLink GT8 VTX admite OSD en modo Canvas (MSP DisplayPort) con Betaflight, INAV, FETtec, KISS y ArduPilot."],
-        ["¿Puedo usar la ThermaView 960 con el transmisor GT8 o PX?","Sí. La ThermaView 960 está disponible en dos versiones: la versión GT8 requiere el AeroLink GT8 VTX (equipo de tierra en modo carrera) y la versión PX requiere el transmisor AeroLink PX."],
-        ["¿Tenéis precios por volumen o para distribuidores?","Sí. Usa la página de Distribuidores o la lista de presupuesto para indicarnos productos y cantidades y te enviaremos una oferta a medida."],
-        ["¿Puedo vender vuestros productos con mi propia marca?","Hay opciones de marca blanca y marca propia para distribuidores y OEM, sujetas a cantidades mínimas. Contacta con nuestro equipo comercial."],
-        ["¿Cómo hago un pedido?","Añade productos a tu lista de presupuesto y envía la solicitud por email o WhatsApp. Confirmamos precio, disponibilidad y plazo y te enviamos una factura proforma. Pronto tendremos pago online."],
-        ["¿A dónde enviáis y cuánto tarda?","[PAÍSES DE ENVÍO Y PLAZOS DE ENTREGA – PENDIENTE]. El coste y el plazo exactos se confirman en cada presupuesto."],
-        ["¿Qué garantía tienen los productos?","Las compras de consumidores en la UE están cubiertas por la garantía legal de conformidad. Las condiciones de garantía para empresas (B2B) se indican en cada oferta. Consulta nuestras Condiciones generales."],
-        ["¿Puedo transmitir a máxima potencia?","Los límites de potencia dependen de la normativa radioeléctrica de cada país (p. ej. CE <14 dBm EIRP en 5,8 GHz en la UE). El usuario es responsable de configurar y utilizar el equipo conforme a la ley local."]
+    "cta": {
+      "quote": "Solicitar precio OEM",
+      "whatsapp": "WhatsApp",
+      "catalogue": "Descargar catálogo",
+      "explore": "Ver la gama",
+      "b2b": "Hazte distribuidor",
+      "engineering": "Hablar con ingeniería",
+      "samples": "Solicitar muestras / kit de evaluación",
+      "details": "Ver especificaciones",
+      "addQuote": "Añadir a la solicitud",
+      "added": "Añadido a la solicitud",
+      "allNews": "Todas las noticias",
+      "readMore": "Leer más",
+      "source": "Leer la fuente original",
+      "back": "Volver",
+      "send": "Enviar solicitud",
+      "viewAll": "Ver todo"
+    },
+    "home": {
+      "metaTitle": "Sistemas FPV, de baja luz y térmicos OEM para fabricantes de drones",
+      "metaDesc": "Módulos de vídeo digital HD, baja luz e imagen térmica para fabricantes e integradores de drones. Marca blanca, precios por volumen y soporte de ingeniería. Solicita precio OEM.",
+      "eyebrow": "OEM · Integradores · Marca blanca",
+      "h1a": "Sistemas de visión",
+      "h1b": "para fabricantes.",
+      "lead": "Enlaces de vídeo digital HD, cámaras de baja luz y módulos de imagen térmica para fabricantes de drones (OEM), de aeronaves e integradores de sistemas. Marca blanca, precios por volumen y soporte de ingeniería.",
+      "stats": [
+        [
+          "22",
+          "ms",
+          "Latencia media de vídeo"
+        ],
+        [
+          "0,0001",
+          "lux",
+          "Iluminación mínima"
+        ],
+        [
+          "960×768",
+          "",
+          "Resolución térmica procesada"
+        ],
+        [
+          "1080p",
+          "60",
+          "Enlace profesional en directo"
+        ]
       ],
-      "docsTitle": "Documentación", "docsLead": "Descarga el catálogo completo y las fichas técnicas de cada producto." },
-    "about": { "title": "Sobre nosotros", "metaDesc": "Quiénes somos: empresa española que suministra sistemas FPV digitales HD, de baja luz e imagen térmica para drones.", "lead": "Llevamos la tecnología FPV e imagen térmica de nivel profesional a fabricantes, operadores y distribuidores de drones.",
-      "p": ["{{brand}} nace para que la tecnología avanzada de visión para drones sea más fácil de comprar, integrar y mantener. Seleccionamos enlaces de vídeo digital HD, cámaras de baja luz y sensores térmicos de alto rendimiento, los documentamos a fondo y los entregamos con el soporte técnico que esperan los profesionales.","Trabajamos con pilotos FPV, fabricantes de drones, integradores, servicios de emergencia y distribuidores de toda Europa y más allá."],
-      "values": [["target","Precisión","Información técnica exacta y verificada en cada producto."],["shield","Fiabilidad","Componentes seleccionados para misiones reales y exigentes."],["chat","Colaboración","Relaciones a largo plazo con integradores y distribuidores."]] },
-    "contact": { "title": "Contacto", "metaDesc": "Contacta con nuestro equipo comercial y técnico por email, teléfono o WhatsApp.", "lead": "¿Dudas sobre un producto, un presupuesto o una colaboración? Estamos para ayudarte.", "formTitle": "Envíanos un mensaje", "subject": "Asunto", "hours": "Horario" },
-    "news": { "title": "Noticias de tecnología dron", "metaDesc": "Resumen semanal de lo último en tecnología de drones: FPV, imagen térmica, autonomía, normativa e industria.", "lead": "Los últimos avances en tecnología de drones, seleccionados cada semana.", "updated": "Actualizado cada semana", "published": "Publicado", "sourceLabel": "Fuente", "disclaimer": "Resumen redactado por nuestro equipo. Todos los derechos de la información original pertenecen a la fuente." },
-    "footer": { "about": "Sistemas FPV digitales HD, de baja luz e imagen térmica para drones.", "shop": "Productos", "company": "Empresa", "legal": "Legal", "rights": "Todos los derechos reservados." },
-    "legal": { "privacy": "Política de privacidad", "cookies": "Política de cookies", "notice": "Aviso legal", "terms": "Condiciones generales" },
-    "cookie": { "text": "Solo usamos cookies esenciales. Con tu consentimiento también podemos usar cookies analíticas para mejorar la web.", "accept": "Aceptar", "reject": "Rechazar", "more": "Política de cookies" },
-    "form": { "sent": "¡Gracias! Tu mensaje se ha enviado.", "mailto": "Se abrirá tu programa de correo con el mensaje ya redactado.", "required": "Obligatorio" },
-    "notFound": { "title": "Página no encontrada", "lead": "La página que buscas no existe o ha cambiado de dirección." }
+      "featured": "Módulos destacados",
+      "featuredLead": "Documentados para integración, con fichas técnicas completas para tus equipos de ingeniería y compras.",
+      "categories": "Gama de productos",
+      "categoriesLead": "Kits de vídeo HD completos y módulos sueltos pensados para integración OEM.",
+      "whyTitle": "Por qué los fabricantes trabajan con nosotros",
+      "why": [
+        [
+          "file",
+          "Documentación lista para integrar",
+          "Cada módulo incluye ficha técnica completa. Especificaciones reales, redactadas para equipos de ingeniería."
+        ],
+        [
+          "layers",
+          "Un ecosistema integrado",
+          "Transmisores, cámaras, sensores térmicos y antenas diseñados para funcionar juntos en tu plataforma."
+        ],
+        [
+          "shield",
+          "Marca blanca y precios por volumen",
+          "Opciones de marca propia, tarifas por volumen y soporte dedicado para OEM e integradores."
+        ],
+        [
+          "chat",
+          "Soporte de ingeniería directo",
+          "Habla con gente que entiende de enlaces FPV, integración OSD, cargas útiles y puesta en marcha de plataformas."
+        ]
+      ],
+      "solutionsTitle": "Pensados para plataformas profesionales",
+      "b2bTitle": "OEM, marca blanca e integración",
+      "b2bLead": "Suministramos a fabricantes e integradores de drones: marca y firmware a medida, precios por volumen, documentación técnica y soporte de integración. Los distribuidores son bienvenidos como partners secundarios.",
+      "newsTitle": "Últimas noticias de tecnología dron",
+      "newsLead": "Una selección semanal de los avances más relevantes en tecnología de drones."
+    },
+    "oem": {
+      "title": "OEM, marca blanca e integración",
+      "lead": "Desde kits de evaluación hasta volúmenes de producción, apoyamos a los fabricantes que integran módulos de vídeo HD y térmicos en sus plataformas.",
+      "eyebrow": "Para fabricantes",
+      "items": [
+        [
+          "layers",
+          "Marca blanca y personalización",
+          "Productos y documentación con tu marca. Firmware y branding a medida bajo pedido, sujetos a [MOQ]."
+        ],
+        [
+          "cpu",
+          "Soporte de integración",
+          "Soporte de ingeniería para OSD de la controladora, integración de carga útil y puesta en marcha de la plataforma."
+        ],
+        [
+          "file",
+          "Documentación técnica",
+          "Fichas técnicas, catálogos y notas de integración para tus equipos de ingeniería y compras."
+        ],
+        [
+          "clock",
+          "Plazos de entrega",
+          "Plazo estándar: [LEAD TIME]. Se confirma por escrito en cada presupuesto."
+        ],
+        [
+          "percent",
+          "Precios por volumen",
+          "Tarifas OEM por tramos según el volumen anual. Los precios unitarios se facilitan bajo consulta."
+        ],
+        [
+          "shield",
+          "Certificaciones",
+          "Estado normativo: [CE/FCC – to confirm]. El marcado aplicable se confirma en cada oferta."
+        ]
+      ],
+      "tiersTitle": "Tarifas por volumen",
+      "tiersLead": "Las cifras siguientes son provisionales y se confirmarán en tu presupuesto.",
+      "tiersHead": [
+        "Tramo",
+        "Volumen anual",
+        "Precio",
+        "MOQ",
+        "Plazo"
+      ],
+      "tiers": [
+        [
+          "Kit de evaluación",
+          "[SAMPLE QTY]",
+          "[PRICE]",
+          "—",
+          "[LEAD TIME]"
+        ],
+        [
+          "[Tier 1]",
+          "[VOLUME]",
+          "[PRICE]",
+          "[MOQ]",
+          "[LEAD TIME]"
+        ],
+        [
+          "[Tier 2]",
+          "[VOLUME]",
+          "[PRICE]",
+          "[MOQ]",
+          "[LEAD TIME]"
+        ],
+        [
+          "[Tier 3]",
+          "[VOLUME]",
+          "[PRICE]",
+          "[MOQ]",
+          "[LEAD TIME]"
+        ]
+      ],
+      "certs": "Certificaciones: [CE/FCC – to confirm].",
+      "moq": "MOQ",
+      "leadTime": "Plazo de entrega",
+      "evalKit": "Kit de evaluación"
+    },
+    "products": {
+      "title": "Productos",
+      "metaDesc": "Sistemas de vídeo FPV digital HD, transmisores, cámaras de baja luz, cámaras térmicas y antenas para fabricantes e integradores de drones.",
+      "lead": "Módulos de vídeo digital HD, baja luz e imagen térmica para plataformas OEM e integradores de sistemas.",
+      "all": "Todos",
+      "category": "Categoría",
+      "useCase": "Aplicación",
+      "search": "Buscar productos…",
+      "results": "productos",
+      "none": "Ningún producto coincide con estos filtros.",
+      "reset": "Quitar filtros",
+      "sku": "Ref.",
+      "price": "Precio OEM",
+      "priceOnRequest": "Precio OEM bajo consulta",
+      "specs": "Especificaciones técnicas",
+      "features": "Características principales",
+      "box": "Contenido de la caja",
+      "compat": "Compatibilidad",
+      "apps": "Aplicaciones",
+      "downloads": "Documentación técnica",
+      "related": "Productos relacionados",
+      "overview": "Descripción",
+      "stock_on_request": "Disponibilidad bajo consulta",
+      "gallery": "Galería del producto",
+      "vat": "Precios por volumen, MOQ y plazos se confirman en el presupuesto."
+    },
+    "quote": {
+      "title": "Solicitar precio OEM",
+      "lead": "Cuéntanos tu empresa, cargo y volumen anual previsto. Te respondemos con precios, MOQ, plazos y, si los necesitas, kits de evaluación.",
+      "empty": "Tu lista de solicitud está vacía. Añade módulos desde las fichas de producto o describe tu interés en el formulario.",
+      "qty": "Cant.",
+      "remove": "Quitar",
+      "name": "Nombre",
+      "role": "Cargo",
+      "company": "Empresa",
+      "email": "Email",
+      "phone": "Teléfono",
+      "country": "País",
+      "volume": "Volumen anual",
+      "volumeHint": "Unidades al año, o tu mejor estimación",
+      "interest": "Productos de interés",
+      "message": "Mensaje",
+      "sendEmail": "Enviar solicitud",
+      "sendWa": "Enviar por WhatsApp",
+      "intro": "Hola, me gustaría precio OEM y disponibilidad de:"
+    },
+    "solutions": {
+      "title": "Soluciones",
+      "metaDesc": "Módulos de vídeo e imagen térmica para plataformas OEM de rescate, seguridad, inspección, bomberos y FPV profesional.",
+      "lead": "Integra nuestros módulos en plataformas de seguridad pública, industria y FPV profesional.",
+      "recommended": "Módulos recomendados"
+    },
+    "b2b": {
+      "title": "OEM, marca blanca y partners",
+      "metaDesc": "Módulos FPV y térmicos de marca blanca para fabricantes e integradores de drones. Precios por volumen, kits de evaluación y soporte de ingeniería.",
+      "lead": "Pensado para fabricantes de drones e integradores de sistemas. Los distribuidores también pueden unirse a la red de partners.",
+      "benefits": [
+        [
+          "layers",
+          "Marca blanca / marca propia",
+          "Productos y documentación con tu propia marca. Firmware y branding a medida bajo pedido, sujetos a [MOQ]."
+        ],
+        [
+          "percent",
+          "Precios por volumen",
+          "Tarifas OEM por tramos según el volumen anual. Precio unitario y MOQ se confirman en el presupuesto: [PRICE] / [MOQ]."
+        ],
+        [
+          "file",
+          "Documentación técnica",
+          "Fichas técnicas, imágenes de producto y dossiers para tus equipos de ingeniería, compras y ventas."
+        ],
+        [
+          "chat",
+          "Soporte de ingeniería",
+          "Línea técnica directa para integración, OSD, cargas útiles y posventa."
+        ]
+      ],
+      "formTitle": "Consulta OEM / partner",
+      "type": "Tipo de empresa",
+      "types": [
+        "Fabricante de drones (OEM)",
+        "Integrador de sistemas",
+        "Distribuidor / tienda",
+        "Operador profesional / flota",
+        "Organismo público / emergencias",
+        "Otro"
+      ],
+      "volume": "Volumen anual estimado",
+      "interest": "Productos de interés",
+      "website": "Web",
+      "consent": "He leído y acepto la política de privacidad.",
+      "distributorNote": "Si eres distribuidor y no fabricante, también puedes usar este formulario: elige «Distribuidor / tienda» como tipo de empresa."
+    },
+    "support": {
+      "title": "Soporte y preguntas frecuentes",
+      "metaDesc": "Preguntas frecuentes sobre compatibilidad, precios OEM, plazos, garantía y normativa radioeléctrica.",
+      "lead": "Respuestas a las preguntas técnicas y comerciales más habituales. ¿No encuentras la tuya? Habla con ingeniería.",
+      "faq": [
+        [
+          "¿Son vuestros sistemas de vídeo compatibles con nuestro equipo de tierra?",
+          "El sistema GT8 funciona con gafas y receptores del ecosistema digital HD compatible. Envíanos el modelo de tu equipo de tierra y te confirmamos la compatibilidad antes de que te comprometas con un pedido o una integración."
+        ],
+        [
+          "¿Qué controladoras de vuelo son compatibles con el OSD?",
+          "El AeroLink GT8 VTX admite OSD en modo Canvas (MSP DisplayPort) con Betaflight, INAV, FETtec, KISS y ArduPilot."
+        ],
+        [
+          "¿Puedo usar la ThermaView 960 con el transmisor GT8 o PX?",
+          "Sí. La ThermaView 960 está disponible en dos versiones: la versión GT8 requiere el AeroLink GT8 VTX (equipo de tierra en modo carrera) y la versión PX requiere el transmisor AeroLink PX."
+        ],
+        [
+          "¿Cómo obtengo precios OEM o por volumen?",
+          "Usa el formulario de solicitud de precio OEM o añade módulos a una solicitud. Indica empresa, cargo, país y volumen anual previsto y te enviaremos una oferta con precios, [MOQ] y [LEAD TIME]."
+        ],
+        [
+          "¿Ofrecéis marca blanca o firmware a medida?",
+          "Sí. La marca blanca y el firmware a medida están disponibles para OEM e integradores, sujetos a [MOQ]. Contacta con nuestro equipo con tus requisitos."
+        ],
+        [
+          "¿Podemos pedir muestras o un kit de evaluación?",
+          "Sí. Usa el formulario de solicitud o el botón «Solicitar muestras / kit de evaluación» en la ficha de producto. Precio y plazo del kit de evaluación: [PRICE] / [LEAD TIME]."
+        ],
+        [
+          "¿Cómo hago un pedido?",
+          "Envía una solicitud por email o WhatsApp. Confirmamos precio, [MOQ], disponibilidad y [LEAD TIME] y emitimos una factura proforma. Las ventas se hacen actualmente a empresas mediante presupuesto."
+        ],
+        [
+          "¿Cuáles son vuestros plazos y a dónde enviáis?",
+          "[PAÍSES DE ENVÍO Y PLAZOS DE ENTREGA – PENDIENTE]. Plazo estándar: [LEAD TIME]. El coste y el plazo exactos se confirman en cada presupuesto."
+        ],
+        [
+          "¿Qué garantía aplica a las compras de empresa?",
+          "Las condiciones de garantía para empresas (B2B) se indican en cada oferta: [WARRANTY TERMS – to confirm]. Consulta nuestras Condiciones generales."
+        ],
+        [
+          "¿Qué certificaciones tienen los productos?",
+          "Estado normativo: [CE/FCC – to confirm]. El usuario es responsable de configurar y utilizar el equipo radioeléctrico conforme a la ley local (p. ej. CE <14 dBm EIRP en 5,8 GHz en la UE)."
+        ]
+      ],
+      "docsTitle": "Documentación",
+      "docsLead": "Descarga el catálogo completo y las fichas técnicas de cada producto."
+    },
+    "about": {
+      "title": "Sobre nosotros",
+      "metaDesc": "Empresa española que suministra módulos FPV digitales HD, de baja luz e imagen térmica a fabricantes e integradores de drones.",
+      "lead": "Suministramos tecnología FPV e imagen térmica de nivel profesional a fabricantes de drones, integradores y distribuidores.",
+      "p": [
+        "{{brand}} nace para que la tecnología avanzada de visión para drones sea más fácil de integrar, documentar y mantener. Seleccionamos enlaces de vídeo digital HD, cámaras de baja luz y sensores térmicos de alto rendimiento, los documentamos a fondo y los entregamos con el soporte de ingeniería que esperan los fabricantes.",
+        "Trabajamos con fabricantes de drones (OEM), integradores, programas de servicios de emergencia y distribuidores de toda Europa y más allá. Las ventas son actualmente a empresas; de momento no ofrecemos venta al consumidor final."
+      ],
+      "values": [
+        [
+          "target",
+          "Precisión",
+          "Información técnica exacta y verificada en cada producto."
+        ],
+        [
+          "shield",
+          "Fiabilidad",
+          "Componentes seleccionados para plataformas reales y exigentes."
+        ],
+        [
+          "chat",
+          "Colaboración",
+          "Relaciones a largo plazo con fabricantes, integradores y distribuidores."
+        ]
+      ]
+    },
+    "contact": {
+      "title": "Hablar con ingeniería",
+      "metaDesc": "Contacta con nuestro equipo comercial y de ingeniería sobre precios OEM, kits de evaluación e integración en plataforma.",
+      "lead": "¿Dudas sobre integración, precios OEM, muestras o una colaboración? Envíanos una solicitud o una consulta técnica.",
+      "formTitle": "Solicitud / consulta técnica",
+      "subject": "Asunto",
+      "hours": "Horario"
+    },
+    "news": {
+      "title": "Noticias de tecnología dron",
+      "metaDesc": "Resumen semanal de lo último en tecnología de drones: FPV, imagen térmica, autonomía, normativa e industria.",
+      "lead": "Los últimos avances en tecnología de drones, seleccionados cada semana.",
+      "updated": "Actualizado cada semana",
+      "published": "Publicado",
+      "sourceLabel": "Fuente",
+      "disclaimer": "Resumen redactado por nuestro equipo. Todos los derechos de la información original pertenecen a la fuente."
+    },
+    "footer": {
+      "about": "Módulos FPV digitales HD, de baja luz e imagen térmica para fabricantes e integradores de drones.",
+      "shop": "Productos",
+      "company": "Empresa",
+      "legal": "Legal",
+      "rights": "Todos los derechos reservados."
+    },
+    "legal": {
+      "privacy": "Política de privacidad",
+      "cookies": "Política de cookies",
+      "notice": "Aviso legal",
+      "terms": "Condiciones generales"
+    },
+    "cookie": {
+      "text": "Solo usamos cookies esenciales. Con tu consentimiento también podemos usar cookies analíticas para mejorar la web.",
+      "accept": "Aceptar",
+      "reject": "Rechazar",
+      "more": "Política de cookies"
+    },
+    "form": {
+      "sent": "¡Gracias! Tu mensaje se ha enviado.",
+      "mailto": "Se abrirá tu programa de correo con el mensaje ya redactado.",
+      "required": "Obligatorio"
+    },
+    "notFound": {
+      "title": "Página no encontrada",
+      "lead": "La página que buscas no existe o ha cambiado de dirección."
+    }
   }
 }

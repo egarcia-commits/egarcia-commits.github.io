@@ -17,15 +17,18 @@ const PREVIEW = !!cfg.site.previewBanner;
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const isPh = s => /\[[^\]]+\]/.test(String(s || ''));
 const ph = s => PREVIEW && isPh(s) ? `<span class="ph">${esc(s)}</span>` : esc(s);
+const phText = s => PREVIEW ? esc(s).replace(/\[[^\]]+\]/g, m => `<span class="ph">${m}</span>`) : esc(s);
 const digits = s => String(s || '').replace(/\D/g, '');
 const tokens = s => String(s).replace(/\{\{(\w+)\}\}/g, (m, k) => ({
   brand: BRAND, legalName: cfg.brand.legalName, taxId: cfg.brand.taxId, registry: cfg.brand.registry,
   address: cfg.contact.address, email: cfg.contact.email, phone: cfg.contact.phone, url: SITE
 })[k] ?? m);
 const write = (rel, content) => { const f = path.join(DIST, rel); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, content); };
-const copyDir = (src, dst) => { if (!fs.existsSync(src)) return; fs.mkdirSync(dst, { recursive: true });
-  for (const e of fs.readdirSync(src, { withFileTypes: true })) { const s = path.join(src, e.name), d = path.join(dst, e.name);
-    e.isDirectory() ? copyDir(s, d) : fs.copyFileSync(s, d); } };
+const copyDir = (src, dst, skip) => { if (!fs.existsSync(src)) return; fs.mkdirSync(dst, { recursive: true });
+  for (const e of fs.readdirSync(src, { withFileTypes: true })) {
+    if (skip && skip(src, e)) continue;
+    const s = path.join(src, e.name), d = path.join(dst, e.name);
+    e.isDirectory() ? copyDir(s, d, skip) : fs.copyFileSync(s, d); } };
 const fmtDate = (d, lang) => new Date(d + 'T12:00:00Z').toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 const u = (lang, p = '') => `/${lang}/${p}`.replace(/\/+/g, '/').replace(/([^/])$/, '$1/');
 
@@ -95,7 +98,7 @@ const P = {
   tag: '<path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/>', mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/>',
   phone: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
   map: '<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>', arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>', check: '<path d="m20 6-11 11-5-5"/>',
-  menu: '<path d="M3 6h18M3 12h18M3 18h18"/>', x: '<path d="M18 6 6 18M6 6l12 12"/>', cart: '<path d="M9 2 7 6M15 2l2 4"/><path d="M3 6h18l-2 13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M9 11h6"/>',
+  menu: '<path d="M3 6h18M3 12h18M3 18h18"/>', x: '<path d="M18 6 6 18M6 6l12 12"/>', list: '<path d="M15 5h2a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/><rect x="9" y="2" width="6" height="5" rx="1"/><path d="M11 12h6M11 16h4"/>',
   download: '<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>', search: '<circle cx="11" cy="11" r="7"/><path d="m21 21-5-5"/>', globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
   external: '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/>', calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>'
 };
@@ -157,7 +160,6 @@ function layout(lang, o) {
   const jsCfg = { lang, brand: BRAND, email: cfg.contact.salesEmail || cfg.contact.email, wa: digits(cfg.contact.whatsapp), endpoint: cfg.forms.endpoint || '', analytics: cfg.analytics,
     t: { added: T.cta.added, addQuote: T.cta.addQuote, empty: T.quote.empty, qty: T.quote.qty, remove: T.quote.remove, intro: T.quote.intro, sent: T.form.sent, mailto: T.form.mailto, results: T.products.results } };
   const social = Object.entries(cfg.social).filter(([, v]) => v).map(([k, v]) => `<a href="${esc(v)}" target="_blank" rel="noopener">${k}</a>`).join(' · ');
-  const other = LANGS.filter(l => l !== lang);
   return `<!doctype html>
 <html lang="${lang}">
 <head>
@@ -190,14 +192,14 @@ ${(o.jsonld || []).map(j => `<script type="application/ld+json">${JSON.stringify
 </head>
 <body class="page-${o.bodyClass || 'default'}">
 <a class="skip" href="#main">${lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
-${PREVIEW ? `<div class="preview-bar">${lang === 'es' ? 'VISTA PREVIA · marca, contacto y precios provisionales' : 'PREVIEW · placeholder brand, contact details and prices'} <span class="ph">[ ]</span></div>` : ''}
+${PREVIEW ? `<div class="preview-bar">${lang === 'es' ? 'BORRADOR · para revisión de socios. Los datos de contacto, precios e información de la empresa son provisionales.' : 'DRAFT · for partner review. Contact details, pricing and company information are placeholders.'}</div>` : ''}
 <header class="site-header" id="top">
   <div class="wrap hdr">
     ${logo(lang)}
     <nav class="main-nav" id="main-nav" aria-label="Main">${nav(lang, o.nav)}</nav>
     <div class="hdr-tools">
-      <a class="lang" href="${u(other[0], pth)}" hreflang="${other[0]}" data-lang="${other[0]}" aria-label="${esc(I18N[other[0]].langName)}">${icon('globe')}<span>${other[0].toUpperCase()}</span></a>
-      <a class="quote-btn" href="${u(lang, 'quote/')}" aria-label="${esc(T.nav.quote)}">${icon('cart')}<span class="badge" data-quote-count hidden>0</span></a>
+      <nav class="lang-switch" aria-label="${lang === 'es' ? 'Idioma' : 'Language'}">${LANGS.map(l => `<a class="lang${l === lang ? ' is-active' : ''}" href="${u(l, pth)}" hreflang="${l}" lang="${l}" data-lang="${l}"${l === lang ? ' aria-current="true"' : ''}>${l.toUpperCase()}</a>`).join('')}</nav>
+      <a class="quote-btn" href="${u(lang, 'quote/')}" aria-label="${esc(T.nav.quote)}">${icon('list')}<span class="badge" data-quote-count hidden>0</span></a>
       <a class="btn btn-sm btn-primary hide-sm" href="${u(lang, 'contact/')}">${esc(T.cta.quote)}</a>
       <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false" aria-label="Menu">${icon('menu', 'i-open')}${icon('x', 'i-close')}</button>
     </div>
@@ -221,7 +223,7 @@ ${o.body}
   </div>
   <div class="wrap foot-bottom"><span>© <span data-year>${new Date().getFullYear()}</span> ${esc(BRAND)} · ${ph(cfg.brand.legalName)} · ${esc(T.footer.rights)}</span><span>${LANGS.map(l => `<a href="${u(l, pth)}" hreflang="${l}" data-lang="${l}"${l === lang ? ' aria-current="true"' : ''}>${esc(I18N[l].langName)}</a>`).join(' · ')}</span></div>
 </footer>
-<a class="wa-float" href="${waLink(lang === 'es' ? `Hola ${BRAND}, me gustaría información.` : `Hello ${BRAND}, I'd like some information.`)}" target="_blank" rel="noopener" aria-label="WhatsApp">${WA}</a>
+<a class="wa-float" href="${waLink(lang === 'es' ? `Hola ${BRAND}, me gustaría información OEM (precios, muestras o integración).` : `Hello ${BRAND}, I would like OEM information (pricing, samples or integration).`)}" target="_blank" rel="noopener" aria-label="WhatsApp">${WA}</a>
 <div class="cookie" id="cookie" hidden role="dialog" aria-live="polite" aria-label="Cookies"><p>${esc(T.cookie.text)} <a href="${u(lang, 'legal/cookies/')}">${esc(T.cookie.more)}</a></p><div><button class="btn btn-ghost btn-sm" data-cookie="reject">${esc(T.cookie.reject)}</button><button class="btn btn-primary btn-sm" data-cookie="accept">${esc(T.cookie.accept)}</button></div></div>
 <script>window.SITE=${JSON.stringify(jsCfg)}</script>
 <script src="/assets/main.js?v=${BUILD_ID}" defer></script>
@@ -240,7 +242,7 @@ function productCard(p, lang, i = 0) {
   <div class="pc-body"><p class="eyebrow">${esc(catById[p.category]?.[lang].name || L.category_label)}</p>
   <h3><a href="${u(lang, 'products/' + p.slug + '/')}">${esc(L.name)}</a></h3><p class="pc-sub">${esc(L.subtitle)}</p>
   <div class="pc-stats">${s}</div>
-  <div class="pc-foot"><span class="price">${p.price != null && cfg.site.showPrices ? esc(p.price + ' ' + p.currency) : esc(T.products.priceOnRequest)}${PREVIEW ? ' <span class="ph">[PRICE]</span>' : ''}</span><a class="link-arrow" href="${u(lang, 'products/' + p.slug + '/')}">${esc(T.cta.details)} ${icon('arrow')}</a></div></div>
+  <div class="pc-foot"><span class="price muted">${esc(T.products.priceOnRequest)}</span><a class="link-arrow" href="${u(lang, 'products/' + p.slug + '/')}">${esc(T.cta.details)} ${icon('arrow')}</a></div></div>
 </article>`;
 }
 function newsCard(n, lang, big = false) {
@@ -258,11 +260,16 @@ const orgLD = () => ({ '@context': 'https://schema.org', '@type': 'Organization'
   sameAs: Object.values(cfg.social).filter(Boolean) });
 function formFields(lang, kind) {
   const Q = I18N[lang].quote, B = I18N[lang].b2b, C = I18N[lang].contact;
-  const f = (n, l, type = 'text', req = false, ac = '') => `<label class="field"><span>${esc(l)}${req ? ' *' : ''}</span><input name="${n}" type="${type}"${req ? ' required' : ''}${ac ? ` autocomplete="${ac}"` : ''}></label>`;
-  let x = `<div class="grid-2">${f('name', Q.name, 'text', true, 'name')}${f('company', Q.company, 'text', kind === 'b2b', 'organization')}${f('email', Q.email, 'email', true, 'email')}${f('phone', Q.phone, 'tel', false, 'tel')}</div>`;
-  if (kind === 'b2b') x += `<div class="grid-2">${f('country', Q.country, 'text', true, 'country-name')}${f('website', B.website, 'url')}</div><div class="grid-2"><label class="field"><span>${esc(B.type)} *</span><select name="business_type" required>${B.types.map(t => `<option>${esc(t)}</option>`).join('')}</select></label>${f('volume', B.volume)}</div>
-    <fieldset class="field checks"><legend>${esc(B.interest)}</legend>${cats.map(c => `<label><input type="checkbox" name="interest" value="${esc(c[lang].name)}"> ${esc(c[lang].name)}</label>`).join('')}</fieldset>`;
-  if (kind === 'contact') x += f('subject', C.subject, 'text', true);
+  const f = (n, l, type = 'text', req = false, ac = '', phold = '') => `<label class="field"><span>${esc(l)}${req ? ' *' : ''}</span><input name="${n}" type="${type}"${req ? ' required' : ''}${ac ? ` autocomplete="${ac}"` : ''}${phold ? ` placeholder="${esc(phold)}"` : ''}></label>`;
+  let x = `<div class="grid-2">${f('company', Q.company, 'text', true, 'organization')}${f('name', Q.name, 'text', true, 'name')}</div>
+    <div class="grid-2">${f('role', Q.role, 'text', false, 'organization-title')}${f('email', Q.email, 'email', true, 'email')}</div>
+    <div class="grid-2">${f('country', Q.country, 'text', true, 'country-name')}${f('phone', Q.phone, 'tel', false, 'tel')}</div>`;
+  if (kind === 'b2b') {
+    x += `<div class="grid-2"><label class="field"><span>${esc(B.type)} *</span><select name="business_type" required>${B.types.map(opt => `<option>${esc(opt)}</option>`).join('')}</select></label>${f('website', B.website, 'url')}</div>`;
+  }
+  x += f('volume', kind === 'b2b' ? B.volume : Q.volume, 'text', false, '', Q.volumeHint);
+  x += `<fieldset class="field checks"><legend>${esc(kind === 'b2b' ? B.interest : Q.interest)}</legend>${cats.map(c => `<label><input type="checkbox" name="interest" value="${esc(c[lang].name)}"> ${esc(c[lang].name)}</label>`).join('')}</fieldset>`;
+  if (kind === 'contact') x += f('subject', C.subject);
   x += `<label class="field"><span>${esc(Q.message)}${kind !== 'quote' ? ' *' : ''}</span><textarea name="message" rows="5"${kind !== 'quote' ? ' required' : ''}></textarea></label>
   <label class="consent"><input type="checkbox" name="consent" required> <span>${esc(B.consent).replace(lang === 'es' ? 'política de privacidad' : 'privacy policy', `<a href="${u(lang, 'legal/privacy/')}">$&</a>`)}</span></label>`;
   return x;
@@ -271,7 +278,8 @@ function formFields(lang, kind) {
 /* ---------- pages ---------- */
 function build() {
   fs.rmSync(DIST, { recursive: true, force: true });
-  copyDir(path.join(ROOT, 'public'), DIST);
+  copyDir(path.join(ROOT, 'public'), DIST, (dir, e) => e.name === '_old');
+  write('.nojekyll', '');
   copyDir(path.join(ROOT, 'src'), path.join(DIST, 'assets'));
   for (const n of news) if (!n.image) write(`img/news/${n.slug}.svg`, coverSVG(n));
 
@@ -288,7 +296,8 @@ function build() {
       <p class="eyebrow pulse">${esc(H.eyebrow)}</p>
       <h1><span>${esc(H.h1a)}</span> <span class="grad">${esc(H.h1b)}</span></h1>
       <p class="lead">${esc(H.lead)}</p>
-      <div class="btn-row"><a class="btn btn-primary btn-lg" href="${u(lang, 'products/')}">${esc(T.cta.explore)} ${icon('arrow')}</a><a class="btn btn-ghost btn-lg" href="${u(lang, 'distributors/')}">${esc(T.cta.b2b)}</a></div>
+      <div class="btn-row"><a class="btn btn-primary btn-lg" href="${u(lang, 'quote/')}">${esc(T.cta.quote)} ${icon('arrow')}</a><a class="btn btn-ghost btn-lg" href="${u(lang, 'contact/')}">${esc(T.cta.engineering)}</a></div>
+      <p class="hero-secondary"><a href="${u(lang, 'products/')}">${esc(T.cta.explore)}</a> · <a href="${u(lang, 'quote/')}">${esc(T.cta.samples)}</a> · <a href="${u(lang, 'distributors/')}">${esc(T.cta.b2b)}</a></p>
     </div>
     <div class="hud" aria-hidden="true"><div class="hud-ring"></div><div class="hud-ring r2"></div><div class="hud-cross"></div><span class="hud-l t">REC ● 1080p</span><span class="hud-l b">LAT 22ms · 5.8GHz</span></div>
   </div>
@@ -310,8 +319,17 @@ function build() {
   <h2 class="center">${esc(H.whyTitle)}</h2>
   <div class="grid-why">${H.why.map(w => `<div class="why reveal"><span class="why-ic">${icon(w[0])}</span><h3>${esc(w[1])}</h3><p>${esc(w[2])}</p></div>`).join('')}</div>
 </div></section>
-<section class="section"><div class="wrap">
-  <div class="b2b-band reveal"><div><p class="eyebrow">B2B</p><h2>${esc(H.b2bTitle)}</h2><p>${esc(H.b2bLead)}</p></div><div class="btn-col"><a class="btn btn-primary btn-lg" href="${u(lang, 'distributors/')}">${esc(T.cta.b2b)} ${icon('arrow')}</a><a class="btn btn-ghost" href="${kitPdf}" download>${icon('download')} ${esc(T.cta.catalogue)}</a></div></div>
+<section class="section" id="oem"><div class="wrap">
+  <div class="sec-head"><div><p class="eyebrow">${esc(T.oem.eyebrow)}</p><h2>${esc(T.oem.title)}</h2><p class="muted">${esc(T.oem.lead)}</p></div></div>
+  <div class="grid-why">${T.oem.items.map(w => `<div class="why reveal"><span class="why-ic">${icon(w[0])}</span><h3>${esc(w[1])}</h3><p>${phText(w[2])}</p></div>`).join('')}</div>
+  <div class="oem-panel reveal">
+    <h3>${esc(T.oem.tiersTitle)}</h3>
+    <p class="muted small">${esc(T.oem.tiersLead)}</p>
+    <div class="table-wrap"><table class="oem-table"><thead><tr>${T.oem.tiersHead.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${T.oem.tiers.map(r => `<tr>${r.map(c => `<td>${phText(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+    <p class="muted small">${phText(T.oem.certs)}</p>
+    <div class="btn-row"><a class="btn btn-primary" href="${u(lang, 'quote/')}">${esc(T.cta.quote)} ${icon('arrow')}</a><a class="btn btn-ghost" href="${u(lang, 'quote/')}">${esc(T.cta.samples)}</a><a class="btn btn-ghost" href="${u(lang, 'contact/')}">${esc(T.cta.engineering)}</a><a class="btn btn-ghost" href="${kitPdf}" download>${icon('download')} ${esc(T.cta.catalogue)}</a></div>
+    <p class="muted small"><a class="link-arrow" href="${u(lang, 'distributors/')}">${esc(T.cta.b2b)} ${icon('arrow')}</a></p>
+  </div>
 </div></section>
 <section class="section alt"><div class="wrap">
   <div class="sec-head"><div><p class="eyebrow">${esc(T.news.updated)}</p><h2>${esc(H.newsTitle)}</h2><p class="muted">${esc(H.newsLead)}</p></div><a class="link-arrow" href="${u(lang, 'news/')}">${esc(T.cta.allNews)} ${icon('arrow')}</a></div>
@@ -344,8 +362,10 @@ function build() {
     for (const p of products) {
       const L = pl(p, lang), cat = catById[p.category];
       const cr = [[P_.title, u(lang, 'products/')], [cat[lang].name, u(lang, 'products/category/' + cat.id + '/')], [L.name, u(lang, 'products/' + p.slug + '/')]];
-      const waText = lang === 'es' ? `Hola, me interesa el producto ${L.name} (Ref. ${p.sku}). ¿Me podéis enviar precio y disponibilidad?` : `Hello, I'm interested in ${L.name} (Ref. ${p.sku}). Could you send me price and availability?`;
-      const mail = `mailto:${cfg.contact.salesEmail}?subject=${encodeURIComponent((lang === 'es' ? 'Solicitud de presupuesto: ' : 'Quote request: ') + L.name + ' (' + p.sku + ')')}&body=${encodeURIComponent(waText)}`;
+      const waText = lang === 'es' ? `Hola, soy un fabricante/integrador y me interesa el módulo ${L.name} (Ref. ${p.sku}). ¿Me podéis enviar precio OEM, MOQ, plazo y, si aplica, un kit de evaluación?` : `Hello, I am a manufacturer/integrator interested in the ${L.name} module (Ref. ${p.sku}). Please send OEM pricing, MOQ, lead time and, if available, evaluation kit details.`;
+      const mail = `mailto:${cfg.contact.salesEmail}?subject=${encodeURIComponent((lang === 'es' ? 'Solicitud de precio OEM: ' : 'OEM pricing request: ') + L.name + ' (' + p.sku + ')')}&body=${encodeURIComponent(waText)}`;
+      const evalMail = `mailto:${cfg.contact.salesEmail}?subject=${encodeURIComponent((lang === 'es' ? 'Solicitud de kit de evaluación: ' : 'Evaluation kit request: ') + L.name + ' (' + p.sku + ')')}&body=${encodeURIComponent(waText)}`;
+      const engMail = `mailto:${cfg.contact.salesEmail}?subject=${encodeURIComponent((lang === 'es' ? 'Consulta de ingeniería: ' : 'Engineering enquiry: ') + L.name + ' (' + p.sku + ')')}&body=${encodeURIComponent(waText)}`;
       const cartData = { sku: p.sku, slug: p.slug, name: L.name, price: p.price, currency: p.currency, image: p.images[0], url: u(lang, 'products/' + p.slug + '/') };
       const body = `
 <section class="pd-top"><div class="wrap">${crumbs(lang, cr)}
@@ -360,12 +380,13 @@ function build() {
     <p class="pd-tag">${esc(L.tagline)}</p>
     <ul class="pd-stats">${L.stats.map(s => `<li><b>${esc(s.value)}${s.unit ? `<small>${esc(s.unit)}</small>` : ''}</b><span>${esc(s.label)}</span></li>`).join('')}</ul>
     <div class="buy-box" data-product='${esc(JSON.stringify(cartData))}'>
-      <div class="bb-row"><div><span class="muted small">${esc(P_.price)}</span><div class="bb-price">${p.price != null && cfg.site.showPrices ? esc(p.price + ' ' + p.currency) : esc(P_.priceOnRequest)} ${PREVIEW ? '<span class="ph">[PRICE]</span>' : ''}</div><span class="muted small">${esc(P_.vat)}</span></div><div class="bb-meta"><span>${esc(P_.sku)} <b>${esc(p.sku)}</b></span><span class="stock">${icon('check')} ${esc(P_.stock_on_request)}</span></div></div>
+      <div class="bb-row"><div><span class="muted small">${esc(P_.price)}</span><div class="bb-price">${esc(P_.priceOnRequest)}</div><span class="muted small">${esc(P_.vat)}</span></div><div class="bb-meta"><span>${esc(P_.sku)} <b>${esc(p.sku)}</b></span><span class="stock">${icon('check')} ${esc(P_.stock_on_request)}</span></div></div>
+      <ul class="bb-terms"><li>${esc(T.oem.moq)}: ${ph('[MOQ]')}</li><li>${esc(T.oem.leadTime)}: ${ph('[LEAD TIME]')}</li><li>${phText(T.oem.certs)}</li></ul>
       <div class="bb-actions">
         <div class="qty"><button type="button" data-qty="-1" aria-label="-">−</button><input type="number" min="1" value="1" aria-label="${esc(T.quote.qty)}" data-qty-input><button type="button" data-qty="1" aria-label="+">+</button></div>
-        <button class="btn btn-primary" data-add-quote>${icon('cart')} <span>${esc(T.cta.addQuote)}</span></button>
+        <button class="btn btn-primary" data-add-quote>${icon('list')} <span>${esc(T.cta.addQuote)}</span></button>
       </div>
-      <div class="bb-actions"><a class="btn btn-ghost" href="${esc(mail)}">${icon('mail')} ${esc(T.cta.quote)}</a><a class="btn btn-wa" href="${waLink(waText)}" target="_blank" rel="noopener">${WA} ${esc(T.cta.whatsapp)}</a></div>
+      <div class="bb-actions wrap-actions"><a class="btn btn-ghost" href="${esc(mail)}">${icon('mail')} ${esc(T.cta.quote)}</a><a class="btn btn-ghost" href="${esc(evalMail)}">${icon('box')} ${esc(T.cta.samples)}</a><a class="btn btn-ghost" href="${esc(engMail)}">${icon('chat')} ${esc(T.cta.engineering)}</a><a class="btn btn-wa" href="${waLink(waText)}" target="_blank" rel="noopener">${WA} ${esc(T.cta.whatsapp)}</a></div>
     </div>
     <div class="downloads"><h2 class="h-sm">${esc(P_.downloads)}</h2>${p.downloads.map(d => `<a class="dl" href="${d.file[lang] || d.file.en}" download>${icon('file')}<span>${esc(d.label[lang] || d.label.en)}</span>${icon('download')}</a>`).join('')}</div>
   </div>
@@ -412,9 +433,16 @@ function build() {
     /* B2B */
     const B = T.b2b;
     write(`${lang}/distributors/index.html`, layout(lang, { title: B.title, desc: B.metaDesc, path: 'distributors/', nav: 'b2b',
-      body: pageHead('B2B', B.title, B.lead, crumbs(lang, [[B.title, u(lang, 'distributors/')]])) + `<section class="section tight"><div class="wrap"><div class="grid-why">${B.benefits.map(w => `<div class="why reveal"><span class="why-ic">${icon(w[0])}</span><h3>${esc(w[1])}</h3><p>${esc(w[2])}</p></div>`).join('')}</div></div></section>
-      <section class="section alt"><div class="wrap form-wrap"><div><h2>${esc(B.formTitle)}</h2><p class="muted">${esc(H.b2bLead)}</p><a class="btn btn-ghost" href="${kitPdf}" download>${icon('download')} ${esc(T.cta.catalogue)}</a>
-      <ul class="contact-list big"><li>${icon('mail')}<a href="mailto:${esc(cfg.contact.salesEmail)}">${ph(cfg.contact.salesEmail)}</a></li><li>${WA}<a href="${waLink(lang === 'es' ? 'Hola, quiero ser distribuidor.' : 'Hello, I would like to become a distributor.')}" target="_blank" rel="noopener">WhatsApp</a></li></ul></div>
+      body: pageHead(T.oem.eyebrow, B.title, B.lead, crumbs(lang, [[B.title, u(lang, 'distributors/')]])) + `<section class="section tight"><div class="wrap"><div class="grid-why">${B.benefits.map(w => `<div class="why reveal"><span class="why-ic">${icon(w[0])}</span><h3>${esc(w[1])}</h3><p>${phText(w[2])}</p></div>`).join('')}</div>
+      <div class="oem-panel reveal">
+        <h3>${esc(T.oem.tiersTitle)}</h3>
+        <p class="muted small">${esc(T.oem.tiersLead)}</p>
+        <div class="table-wrap"><table class="oem-table"><thead><tr>${T.oem.tiersHead.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${T.oem.tiers.map(r => `<tr>${r.map(c => `<td>${phText(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+        <p class="muted small">${phText(T.oem.certs)}</p>
+      </div></div></section>
+      <section class="section alt"><div class="wrap form-wrap"><div><h2>${esc(B.formTitle)}</h2><p class="muted">${esc(H.b2bLead)}</p><p class="muted small">${esc(B.distributorNote)}</p>
+      <div class="btn-row"><a class="btn btn-ghost" href="${u(lang, 'quote/')}">${esc(T.cta.quote)}</a><a class="btn btn-ghost" href="${u(lang, 'contact/')}">${esc(T.cta.engineering)}</a><a class="btn btn-ghost" href="${kitPdf}" download>${icon('download')} ${esc(T.cta.catalogue)}</a></div>
+      <ul class="contact-list big"><li>${icon('mail')}<a href="mailto:${esc(cfg.contact.salesEmail)}">${ph(cfg.contact.salesEmail)}</a></li><li>${WA}<a href="${waLink(lang === 'es' ? 'Hola, soy un fabricante/integrador y quiero información OEM.' : 'Hello, I am a manufacturer/integrator and would like OEM information.')}" target="_blank" rel="noopener">WhatsApp</a></li></ul></div>
       <form class="panel form" data-form="b2b" novalidate>${formFields(lang, 'b2b')}<button class="btn btn-primary" type="submit">${esc(T.cta.send)} ${icon('arrow')}</button><p class="form-msg" role="status"></p></form></div></section>` }));
 
     /* SUPPORT */
@@ -484,7 +512,7 @@ function build() {
 
   /* root: language redirect */
   write('index.html', `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${esc(BRAND)}</title><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="canonical" href="${SITE}/${DEF}/">${LANGS.map(l => `<link rel="alternate" hreflang="${l}" href="${SITE}/${l}/">`).join('')}<link rel="alternate" hreflang="x-default" href="${SITE}/${DEF}/"><meta name="robots" content="noindex,follow"><link rel="icon" href="${cfg.brand.favicon}"><style>body{background:${cfg.colors.bg};color:${cfg.colors.text};font-family:system-ui;display:grid;place-items:center;min-height:100vh;margin:0}a{color:${cfg.colors.primary}}</style>
-<script>(function(){var s=null;try{s=localStorage.getItem('lang')}catch(e){}var l=s||((navigator.language||'').toLowerCase().indexOf('es')===0?'es':'${DEF}');if(${JSON.stringify(LANGS)}.indexOf(l)<0)l='${DEF}';location.replace('/'+l+'/');})();</script>
+<script>location.replace('/${DEF}/');</script>
 <noscript><meta http-equiv="refresh" content="0; url=/${DEF}/"></noscript></head><body><p>${LANGS.map(l => `<a href="/${l}/">${esc(I18N[l].langName)}</a>`).join(' · ')}</p></body></html>`);
   fs.copyFileSync(path.join(DIST, DEF, '404.html'), path.join(DIST, '404.html'));
 

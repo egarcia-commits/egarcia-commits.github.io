@@ -166,10 +166,10 @@
     ],
     "compatibility": "Designed for the AeroLink GT8 VTX transmitter (also included in the AeroLink GT8 Kit).",
     "applications": [
-      "Night and twilight flight",
+      "Night and low-light operations",
       "Infrastructure inspection",
       "Security and surveillance",
-      "Cinewhoop and freestyle"
+      "Compact professional platforms"
     ]
   },
   "es": {
@@ -292,10 +292,10 @@
     ],
     "compatibility": "Diseñada para el transmisor AeroLink GT8 VTX (también incluida en el AeroLink GT8 Kit).",
     "applications": [
-      "Vuelo nocturno y crepuscular",
+      "Operaciones nocturnas y de baja luz",
       "Inspección de infraestructuras",
       "Seguridad y vigilancia",
-      "Cinewhoop y freestyle"
+      "Plataformas profesionales compactas"
     ]
   }
 }

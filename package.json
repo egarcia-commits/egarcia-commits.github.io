@@ -2,7 +2,7 @@
   "name": "drone-brand-website",
   "version": "1.0.0",
   "private": true,
-  "description": "Static bilingual catalogue/e-commerce site. Zero dependencies: Node 18+ only.",
+  "description": "English-first B2B catalogue for drone OEMs and integrators. Zero dependencies: Node 18+ only.",
   "scripts": {
     "build": "node build.js",
     "serve": "node build.js && cd dist && python3 -m http.server 8088",

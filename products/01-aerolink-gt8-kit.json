@@ -53,7 +53,7 @@
     "tagline": "Crisp imaging day and night, with just 22 ms average latency.",
     "description": [
       "The AeroLink GT8 Kit puts everything you need for high-definition digital video on a drone into a single box: an actively cooled transmitter, a low-light camera with a Sony STARVIS 2 sensor and a pair of circularly polarized antennas.",
-      "Built for integrators and demanding pilots, it talks to the flight controller over UART to display telemetry on screen, and records every flight to a micro SD card right in the air."
+      "Built for integrators and OEM platforms, it talks to the flight controller over UART to display telemetry on screen, and records every flight to a micro SD card right in the air."
     ],
     "stats": [
       {
@@ -266,8 +266,8 @@
     ],
     "compatibility": "Works with goggles and receivers from the compatible HD digital ecosystem. Contact us to confirm compatibility with your ground equipment.",
     "applications": [
-      "FPV racing and freestyle",
-      "Night and twilight flight",
+      "Professional FPV platforms",
+      "Night and low-light operations",
       "Inspection drones",
       "Custom integrations"
     ]
@@ -279,7 +279,7 @@
     "tagline": "Imagen nítida de día y de noche, con solo 22 ms de latencia media.",
     "description": [
       "El AeroLink GT8 Kit reúne en una sola caja todo lo necesario para dotar a un dron de vídeo digital en alta definición: transmisor con ventilación activa, cámara de baja luz con sensor Sony STARVIS 2 y pareja de antenas de polarización circular.",
-      "Pensado para integradores y pilotos exigentes, se comunica con la controladora de vuelo por UART para mostrar telemetría en pantalla y graba el vuelo en tarjeta micro SD directamente en el aire."
+      "Pensado para integradores y plataformas OEM, se comunica con la controladora de vuelo por UART para mostrar telemetría en pantalla y graba el vuelo en tarjeta micro SD directamente en el aire."
     ],
     "stats": [
       {
@@ -492,8 +492,8 @@
     ],
     "compatibility": "Funciona con gafas y receptores del ecosistema digital HD compatible. Consulte con nosotros la compatibilidad con su equipo de tierra.",
     "applications": [
-      "Carreras y freestyle FPV",
-      "Vuelo nocturno y crepuscular",
+      "Plataformas FPV profesionales",
+      "Operaciones nocturnas y de baja luz",
       "Drones de inspección",
       "Integraciones a medida"
     ]

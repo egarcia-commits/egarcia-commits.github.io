@@ -1,4 +1,4 @@
-/* Site JS – no dependencies. Quote list (cart-ready), filters, gallery, forms, cookies. */
+/* Site JS – no dependencies. RFQ list, filters, gallery, forms, cookies. */
 (function () {
   'use strict';
   var S = window.SITE || {}, T = S.t || {}, d = document;
@@ -27,7 +27,7 @@
   function toast(msg) { var t = d.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); t.textContent = msg; d.body.appendChild(t);
     requestAnimationFrame(function () { t.classList.add('show'); }); setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.remove(); }, 400); }, 2600); }
 
-  /* ===== Quote list (cart-ready: items have sku, price, currency, qty) ===== */
+  /* ===== RFQ list (items have sku, qty, name) ===== */
   var Q = {
     items: function () { return store.get('quote-list', []); },
     save: function (it) { store.set('quote-list', it); Q.badge(); },
@@ -74,7 +74,7 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
-      var data = collect(form), kind = form.dataset.form, subject = '[' + S.brand + '] ' + (kind === 'quote' ? 'Quote request' : kind === 'b2b' ? 'Distributor application' : (data.subject || 'Contact'));
+      var data = collect(form), kind = form.dataset.form, subject = '[' + S.brand + '] ' + (kind === 'quote' ? 'OEM pricing / RFQ' : kind === 'b2b' ? 'OEM / partner enquiry' : (data.subject || 'Engineering enquiry'));
       if (kind === 'quote') data.items = Q.text();
       if (S.endpoint) {
         fetch(S.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(Object.assign({ _subject: subject, form: kind, lang: S.lang }, data)) })
