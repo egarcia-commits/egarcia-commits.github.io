@@ -13,7 +13,7 @@
     "faviconPng": "/img/brand/favicon-32.png",
     "appleTouchIcon": "/img/brand/icon-512.png",
     "ogImage": "/img/og-default.jpg",
-    "legalName": "[COMPANY LEGAL NAME, S.L.]",
+    "legalName": "WSO Operations S.L.",
     "taxId": "[CIF/NIF]",
     "registry": "[Registro Mercantil de ..., Tomo ..., Folio ..., Hoja ...]",
     "foundedYear": "[YEAR]"
@@ -52,12 +52,12 @@
     "palette_note": "Gradient stops are copied exactly from the 4A Sweep logo SVG (magenta/purple → orange). primary is #E43948 (the 0.58 stop), the first exact stop that meets WCAG AA 4.5:1 for body text on bg #070B12; deeper magentas are used only in the gradient. secondary is #FF8B22. accent is #C52281 (0.45 magenta)."
   },
   "contact": {
-    "email": "[info@yourdomain.com]",
-    "salesEmail": "[sales@yourdomain.com]",
+    "email": "info@dunadron.com",
+    "salesEmail": "info@dunadron.com",
     "phone": "[+34 600 000 000]",
     "whatsapp": "[34600000000]",
     "whatsapp_note": "International format, digits only, no + or spaces (e.g. 34612345678)",
-    "address": "[Street, number, postcode, city, Spain]",
+    "address": "Calle Playa de Riazor nº 22, P.4, 28042 Madrid, Spain",
     "hours": {
       "en": "Mon–Fri 9:00–18:00 (CET)",
       "es": "Lun–Vie 9:00–18:00 (CET)"

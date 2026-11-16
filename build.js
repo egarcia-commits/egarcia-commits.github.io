@@ -466,7 +466,7 @@ function build() {
     const C = T.contact;
     write(`${lang}/contact/index.html`, layout(lang, { title: C.title, desc: C.metaDesc, path: 'contact/', nav: 'contact',
       body: pageHead(T.nav.contact, C.title, C.lead, crumbs(lang, [[C.title, u(lang, 'contact/')]])) + `<section class="section tight"><div class="wrap form-wrap"><div>
-      <ul class="contact-cards"><li><span class="why-ic">${icon('mail')}</span><div><small>Email</small><a href="mailto:${esc(cfg.contact.email)}">${ph(cfg.contact.email)}</a><a href="mailto:${esc(cfg.contact.salesEmail)}">${ph(cfg.contact.salesEmail)}</a></div></li>
+      <ul class="contact-cards"><li><span class="why-ic">${icon('mail')}</span><div><small>Email</small><a href="mailto:${esc(cfg.contact.email)}">${ph(cfg.contact.email)}</a>${cfg.contact.salesEmail && cfg.contact.salesEmail !== cfg.contact.email ? `<a href="mailto:${esc(cfg.contact.salesEmail)}">${ph(cfg.contact.salesEmail)}</a>` : ''}</div></li>
       <li><span class="why-ic">${icon('phone')}</span><div><small>${esc(T.quote.phone)}</small><a href="tel:${digits(cfg.contact.phone)}">${ph(cfg.contact.phone)}</a></div></li>
       <li><span class="why-ic wa">${WA}</span><div><small>WhatsApp</small><a href="${waLink(BRAND)}" target="_blank" rel="noopener">${ph('+' + cfg.contact.whatsapp)}</a></div></li>
       <li><span class="why-ic">${icon('map')}</span><div><small>${lang === 'es' ? 'Dirección' : 'Address'}</small><span>${ph(cfg.contact.address)}</span></div></li>
