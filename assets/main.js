@@ -87,7 +87,7 @@
     });
   });
   var qwa = $('[data-quote-wa]');
-  if (qwa) qwa.addEventListener('click', function () { var f = qwa.closest('form'), data = collect(f);
+  if (qwa && S.wa) qwa.addEventListener('click', function () { var f = qwa.closest('form'), data = collect(f);
     var txt = T.intro + '\n' + Q.text() + (data.name ? '\n\n' + data.name : '') + (data.company ? ' – ' + data.company : '') + (data.message ? '\n' + data.message : '');
     window.open('https://wa.me/' + S.wa + '?text=' + encodeURIComponent(txt), '_blank', 'noopener'); });
 
