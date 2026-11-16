@@ -390,9 +390,7 @@ FileETag None
   RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
   # 3. Block hidden files and folders (.git, .env, .DS_Store...) except /.well-known/
   RewriteRule (^|/)\\.(?!well-known(/|$)) - [F,L]
-  # 4. Root: Spanish browsers -> /es/, everyone else -> /${DEF}/
-  RewriteCond %{HTTP:Accept-Language} ^es [NC]
-  RewriteRule ^$ /es/ [R=302,L]
+  # 4. Root: always open in English (/${DEF}/), whatever the browser language; Spanish via the language switcher
   RewriteRule ^$ /${DEF}/ [R=302,L]
 </IfModule>
 
