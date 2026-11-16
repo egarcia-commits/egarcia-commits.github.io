@@ -8,6 +8,10 @@ source: "Publication name"
 source_url: "https://link-to-the-original-article"
 image: ""
 image_alt: ""
+seo_title: ""        # optional: Google title, max 60 chars (else the headline is shortened automatically)
+seo_title_es: ""
+seo_description: ""  # optional: max 155 chars (else the summary is used)
+seo_description_es: ""
 tags: [fpv, thermal]
 ---
 English article body in Markdown. Write an ORIGINAL summary — never copy text from the source.

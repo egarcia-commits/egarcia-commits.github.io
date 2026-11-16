@@ -20,10 +20,14 @@ const I18N = readJSON('content/i18n.json');
 const prodCopy = PROD ? require('./content/production-copy') : null;
 if (prodCopy) prodCopy.applyToI18n(I18N);
 const CATALOG = readJSON('content/catalog.json');
+const SEO = fs.existsSync(path.join(ROOT, 'content/seo.json')) ? readJSON('content/seo.json') : {};
+const seo = (key, lang) => (SEO[key] && SEO[key][lang]) || null;
+let esbuild = null; try { esbuild = require('esbuild'); } catch (e) { /* optional: JS minification */ }
 const LANGS = cfg.site.languages, DEF = cfg.site.defaultLang;
 const SITE = cfg.site.url.replace(/\/$/, '');
 const BRAND = cfg.brand.name;
 const PREVIEW = !!cfg.site.previewBanner;
+const NOINDEX = !PROD; // draft builds must never be indexed
 const onRequest = lang => (lang === 'es' ? 'Bajo consulta' : 'On request');
 
 /* ---------- helpers ---------- */
@@ -43,6 +47,8 @@ const copyDir = (src, dst, skip) => { if (!fs.existsSync(src)) return; fs.mkdirS
     const s = path.join(src, e.name), d = path.join(dst, e.name);
     e.isDirectory() ? copyDir(s, d, skip) : fs.copyFileSync(s, d); } };
 const fmtDate = (d, lang) => new Date(d + 'T12:00:00Z').toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const clip = (str, max) => { str = String(str || '').replace(/\s+/g, ' ').trim(); if (str.length <= max) return str; const cut = str.slice(0, max - 1); return cut.slice(0, Math.max(cut.lastIndexOf(' '), max - 20)).replace(/[\s,;:–-]+$/, '') + '…'; };
+const seoWarn = [];
 const u = (lang, p = '') => `/${lang}/${p}`.replace(/\/+/g, '/').replace(/([^/])$/, '$1/');
 
 const hexToRgb = hex => {
@@ -64,7 +70,7 @@ function inline(s) {
   return s.replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, '$1<em>$2</em>')
-    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, t, h) => `<a href="${h}"${/^https?:/.test(h) ? ' target="_blank" rel="noopener"' : ''}>${t}</a>`);
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, t, h) => `<a href="${h}"${/^https?:/.test(h) ? ' target="_blank" rel="noopener noreferrer"' : ''}>${t}</a>`);
 }
 function md(src) {
   const lines = tokens(src).replace(/\r/g, '').split('\n'); let out = [], i = 0;
@@ -148,6 +154,25 @@ function coverSVG(n) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630"><defs><radialGradient id="g" cx="70%" cy="40%" r="70%"><stop offset="0" stop-color="${pal[1]}" stop-opacity=".35"/><stop offset=".55" stop-color="#0C1320" stop-opacity=".9"/><stop offset="1" stop-color="#070B12"/></radialGradient><pattern id="p" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#fff" stroke-opacity=".05"/></pattern></defs><rect width="1200" height="630" fill="#070B12"/><rect width="1200" height="630" fill="url(#g)"/><rect width="1200" height="630" fill="url(#p)"/>${lines}${dots}${drone}<text x="60" y="570" font-family="Chakra Petch, Arial, sans-serif" font-weight="700" font-size="34" fill="#fff" fill-opacity=".85" letter-spacing="6">${esc((n.tags[0] || 'DRONE TECH').toUpperCase())}</text></svg>`;
 }
 
+/* image dimensions (JPEG/PNG/WebP header read, no deps) for og:image width/height */
+function imgSize(rel) {
+  try {
+    const b = fs.readFileSync(path.join(ROOT, 'public', rel));
+    if (b[0] === 0x89 && b[1] === 0x50) return [b.readUInt32BE(16), b.readUInt32BE(20)];
+    if (b.toString('ascii', 0, 4) === 'RIFF' && b.toString('ascii', 12, 16) === 'VP8X') return [1 + b.readUIntLE(24, 3), 1 + b.readUIntLE(27, 3)];
+    let i = 2; while (i < b.length) { if (b[i] !== 0xFF) { i++; continue; } const m = b[i + 1], len = b.readUInt16BE(i + 2);
+      if (m >= 0xC0 && m <= 0xCF && ![0xC4, 0xC8, 0xCC].includes(m)) return [b.readUInt16BE(i + 7), b.readUInt16BE(i + 5)]; i += 2 + len; }
+  } catch (e) {}
+  return null;
+}
+const OG_DIMS = {};
+const LOGO_W = (() => { try { const m = fs.readFileSync(path.join(ROOT, 'public', cfg.brand.logoFull), 'utf8').match(/viewBox="[\d.\s-]+?\s([\d.]+)\s([\d.]+)"/); return m ? Math.round(40 * m[1] / m[2]) : 160; } catch (e) { return 160; } })();
+
+/* responsive images: uses <name>-640.webp next to the original when it exists */
+const small = src => { const s = String(src || '').replace(/\.webp$/, '-640.webp'); return s !== src && fs.existsSync(path.join(ROOT, 'public', s)) ? s : null; };
+const srcset = (src, w, sizes) => { const s = small(src); return s ? ` srcset="${s} 640w, ${src} ${w}w" sizes="${sizes}"` : ''; };
+const preloadImg = (src, w, sizes) => { const s = small(src); return s ? { href: src, srcset: `${s} 640w, ${src} ${w}w`, sizes } : { href: src }; };
+
 /* ---------- layout ---------- */
 const pagesForSitemap = [];
 function nav(lang, cur) {
@@ -157,7 +182,7 @@ function nav(lang, cur) {
 }
 function logo(lang) {
   const b = cfg.brand;
-  if (b.logoFull) return `<a class="logo logo-full" href="${u(lang)}" aria-label="${esc(BRAND)} – home"><img src="${b.logoFull}" alt="${esc(BRAND)}" height="40"></a>`;
+  if (b.logoFull) return `<a class="logo logo-full" href="${u(lang)}" aria-label="${esc(BRAND)} – home"><img src="${b.logoFull}" alt="${esc(BRAND)}" width="${LOGO_W}" height="40"></a>`;
   return `<a class="logo" href="${u(lang)}" aria-label="${esc(BRAND)} – ${esc(I18N[lang].nav.home)}">${b.logoMark ? `<img src="${b.logoMark}" alt="" width="38" height="38">` : ''}<span class="logo-txt"><b>${esc(BRAND)}</b><small>${esc(b.tagline[lang])}</small></span></a>`;
 }
 function waNumber() {
@@ -169,41 +194,50 @@ function layout(lang, o) {
   const T = I18N[lang];
   const pth = o.path; // path after /lang/
   const canonical = SITE + u(lang, pth);
-  const title = o.rawTitle ? o.title : `${o.title} | ${BRAND}`;
-  const og = o.ogImage && !/\.svg$/.test(o.ogImage) ? o.ogImage : cfg.brand.ogImage;
-  pagesForSitemap.push({ loc: canonical, lastmod: o.lastmod });
-  const alt = LANGS.map(l => `<link rel="alternate" hreflang="${l}" href="${SITE + u(l, pth)}">`).join('') + `<link rel="alternate" hreflang="x-default" href="${SITE + u(DEF, pth)}">`;
+  const S_ = o.seoKey ? seo(o.seoKey, lang) : null;
+  let title = S_ ? S_.title : (o.rawTitle ? o.title : `${o.title} | ${BRAND}`);
+  if (!S_ && title.length > 60) title = o.rawTitle ? clip(title, 60) : (o.title.length <= 60 ? o.title : clip(o.title, 60));
+  const desc = clip(S_ ? S_.desc : o.desc, 155);
+  const ogTitle = S_ ? S_.title.replace(/\s*\|\s*[^|]+$/, '') : o.title;
+  if (title.length > 60 || desc.length > 155 || desc.length < 50) seoWarn.push(`${lang}/${pth}: title ${title.length}, desc ${desc.length}`);
+  const ogImg = o.ogImage && !/\.svg$/.test(o.ogImage) ? o.ogImage : cfg.brand.ogImage;
+  const ogDims = OG_DIMS[ogImg] || (OG_DIMS[ogImg] = imgSize(ogImg) || [1200, 630]);
+  if (!o.noindex) pagesForSitemap.push({ loc: canonical, lastmod: o.lastmod, alts: LANGS.map(l => [l, SITE + u(l, pth)]) });
+  const alt = o.noindex ? '' : LANGS.map(l => `<link rel="alternate" hreflang="${l}" href="${SITE + u(l, pth)}">`).join('') + `<link rel="alternate" hreflang="x-default" href="${SITE + u(DEF, pth)}">`;
   const c = cfg.colors;
   const jsCfg = { lang, brand: BRAND, email: cfg.contact.salesEmail || cfg.contact.email, wa: waNumber(), endpoint: cfg.forms.endpoint || '', analytics: cfg.analytics,
     t: { added: T.cta.added, addQuote: T.cta.addQuote, empty: T.quote.empty, qty: T.quote.qty, remove: T.quote.remove, intro: T.quote.intro, sent: T.form.sent, mailto: T.form.mailto, results: T.products.results } };
-  const social = Object.entries(cfg.social).filter(([, v]) => v).map(([k, v]) => `<a href="${esc(v)}" target="_blank" rel="noopener">${k}</a>`).join(' · ');
+  const social = Object.entries(cfg.social).filter(([, v]) => v).map(([k, v]) => `<a href="${esc(v)}" target="_blank" rel="noopener noreferrer">${k}</a>`).join(' · ');
   return `<!doctype html>
 <html lang="${lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>
-<meta name="description" content="${esc(o.desc)}">
-<link rel="canonical" href="${canonical}">
-${alt}
-<meta property="og:type" content="${o.ogType || 'website'}">
+<meta name="description" content="${esc(desc)}">
+${NOINDEX || o.noindex ? '<meta name="robots" content="noindex, nofollow">\n' : ''}${o.noindex ? '' : `<link rel="canonical" href="${canonical}">\n${alt}\n`}<meta property="og:type" content="${o.ogType || 'website'}">
 <meta property="og:site_name" content="${esc(BRAND)}">
-<meta property="og:title" content="${esc(o.title)}">
-<meta property="og:description" content="${esc(o.desc)}">
+<meta property="og:title" content="${esc(ogTitle)}">
+<meta property="og:description" content="${esc(desc)}">
 <meta property="og:url" content="${canonical}">
-<meta property="og:image" content="${SITE + og}">
+<meta property="og:image" content="${SITE + ogImg}">
+<meta property="og:image:width" content="${ogDims[0]}">
+<meta property="og:image:height" content="${ogDims[1]}">
+<meta property="og:image:alt" content="${esc(o.ogAlt || ogTitle)}">
 <meta property="og:locale" content="${lang === 'es' ? 'es_ES' : 'en_GB'}">
+${LANGS.filter(l => l !== lang).map(l => `<meta property="og:locale:alternate" content="${l === 'es' ? 'es_ES' : 'en_GB'}">`).join('\n')}
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${esc(o.title)}">
-<meta name="twitter:description" content="${esc(o.desc)}">
-<meta name="twitter:image" content="${SITE + og}">
+<meta name="twitter:title" content="${esc(ogTitle)}">
+<meta name="twitter:description" content="${esc(desc)}">
+<meta name="twitter:image" content="${SITE + ogImg}">
+<meta name="twitter:image:alt" content="${esc(o.ogAlt || ogTitle)}">
 <meta name="theme-color" content="${c.bg}">
 <link rel="icon" href="${cfg.brand.favicon}" type="image/svg+xml">
 <link rel="icon" href="${cfg.brand.faviconPng}" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="${cfg.brand.appleTouchIcon}">
-<link rel="preload" href="/fonts/chakra-petch-Bold.woff" as="font" type="font/woff" crossorigin>
-${o.preload ? `<link rel="preload" as="image" href="${o.preload}">` : ''}
-<style>${rootVars()}</style>
+<link rel="preload" href="/fonts/chakra-petch-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+${o.preload ? `<link rel="preload" as="image" href="${o.preload.href}"${o.preload.srcset ? ` imagesrcset="${o.preload.srcset}" imagesizes="${o.preload.sizes}"` : ''} fetchpriority="high">` : ''}
 <link rel="stylesheet" href="/assets/style.css?v=${BUILD_ID}">
 ${(o.jsonld || []).map(j => `<script type="application/ld+json">${JSON.stringify(j).replace(/</g, '\\u003c')}</script>`).join('\n')}
 </head>
@@ -232,18 +266,18 @@ ${o.body}
       <ul class="contact-list">
         <li>${icon('mail')}<a href="mailto:${esc(cfg.contact.email)}">${ph(cfg.contact.email)}</a></li>
         <li>${icon('phone')}<a href="tel:+${digits(cfg.contact.phone)}">${ph(cfg.contact.phone)}</a></li>
-        ${waNumber() ? `<li>${WA}<a href="${waLink(BRAND)}" target="_blank" rel="noopener">WhatsApp ${ph('+' + cfg.contact.whatsapp)}</a></li>` : ''}
+        ${waNumber() ? `<li>${WA}<a href="${waLink(BRAND)}" target="_blank" rel="noopener noreferrer">WhatsApp ${ph('+' + cfg.contact.whatsapp)}</a></li>` : ''}
       </ul>${social ? `<p class="social">${social}</p>` : ''}
     </div>
-    <div><h3>${esc(T.footer.shop)}</h3><ul>${cats.map(c => `<li><a href="${u(lang, 'products/category/' + c.id + '/')}">${esc(c[lang].name)}</a></li>`).join('')}<li><a href="${u(lang, 'quote/')}">${esc(T.nav.quote)}</a></li></ul></div>
-    <div><h3>${esc(T.footer.company)}</h3><ul><li><a href="${u(lang, 'about/')}">${esc(T.nav.about)}</a></li><li><a href="${u(lang, 'solutions/')}">${esc(T.nav.solutions)}</a></li><li><a href="${u(lang, 'distributors/')}">${esc(T.nav.b2b)}</a></li><li><a href="${u(lang, 'news/')}">${esc(T.nav.news)}</a></li><li><a href="${u(lang, 'support/')}">${esc(T.nav.support)}</a></li><li><a href="${u(lang, 'contact/')}">${esc(T.nav.contact)}</a></li></ul></div>
-    <div><h3>${esc(T.footer.legal)}</h3><ul>${['legal-notice', 'privacy', 'cookies', 'terms'].map(k => `<li><a href="${u(lang, 'legal/' + k + '/')}">${esc(T.legal[{ 'legal-notice': 'notice' }[k] || k])}</a></li>`).join('')}</ul></div>
+    <div><h2 class="foot-h">${esc(T.footer.shop)}</h2><ul>${cats.map(c => `<li><a href="${u(lang, 'products/category/' + c.id + '/')}">${esc(c[lang].name)}</a></li>`).join('')}<li><a href="${u(lang, 'quote/')}">${esc(T.nav.quote)}</a></li></ul></div>
+    <div><h2 class="foot-h">${esc(T.footer.company)}</h2><ul><li><a href="${u(lang, 'about/')}">${esc(T.nav.about)}</a></li><li><a href="${u(lang, 'solutions/')}">${esc(T.nav.solutions)}</a></li><li><a href="${u(lang, 'distributors/')}">${esc(T.nav.b2b)}</a></li><li><a href="${u(lang, 'news/')}">${esc(T.nav.news)}</a></li><li><a href="${u(lang, 'support/')}">${esc(T.nav.support)}</a></li><li><a href="${u(lang, 'contact/')}">${esc(T.nav.contact)}</a></li></ul></div>
+    <div><h2 class="foot-h">${esc(T.footer.legal)}</h2><ul>${['legal-notice', 'privacy', 'cookies', 'terms'].map(k => `<li><a href="${u(lang, 'legal/' + k + '/')}">${esc(T.legal[{ 'legal-notice': 'notice' }[k] || k])}</a></li>`).join('')}</ul></div>
   </div>
   <div class="wrap foot-bottom"><span>© <span data-year>${new Date().getFullYear()}</span> ${esc(BRAND)} · ${ph(cfg.brand.legalName)} · ${esc(T.footer.rights)}</span><span>${LANGS.map(l => `<a href="${u(l, pth)}" hreflang="${l}" data-lang="${l}"${l === lang ? ' aria-current="true"' : ''}>${esc(I18N[l].langName)}</a>`).join(' · ')}</span></div>
 </footer>
-${waNumber() ? `<a class="wa-float" href="${waLink(lang === 'es' ? `Hola ${BRAND}, me gustaría información OEM (precios, muestras o integración).` : `Hello ${BRAND}, I would like OEM information (pricing, samples or integration).`)}" target="_blank" rel="noopener" aria-label="WhatsApp">${WA}</a>` : ''}
+${waNumber() ? `<a class="wa-float" href="${waLink(lang === 'es' ? `Hola ${BRAND}, me gustaría información OEM (precios, muestras o integración).` : `Hello ${BRAND}, I would like OEM information (pricing, samples or integration).`)}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">${WA}</a>` : ''}
 <div class="cookie" id="cookie" hidden role="dialog" aria-live="polite" aria-label="Cookies"><p>${esc(T.cookie.text)} <a href="${u(lang, 'legal/cookies/')}">${esc(T.cookie.more)}</a></p><div><button class="btn btn-ghost btn-sm" data-cookie="reject">${esc(T.cookie.reject)}</button><button class="btn btn-primary btn-sm" data-cookie="accept">${esc(T.cookie.accept)}</button></div></div>
-<script>window.SITE=${JSON.stringify(jsCfg)}</script>
+<script type="application/json" id="site-data">${JSON.stringify(jsCfg).replace(/</g, '\\u003c')}</script>
 <script src="/assets/main.js?v=${BUILD_ID}" defer></script>
 </body>
 </html>`;
@@ -256,7 +290,7 @@ function productCard(p, lang, i = 0) {
   const L = pl(p, lang), T = I18N[lang];
   const s = L.stats.slice(0, 2).map(x => `<span><b>${esc(x.value)}${x.unit ? `<small>${esc(x.unit)}</small>` : ''}</b>${esc(x.label)}</span>`).join('');
   return `<article class="card product-card reveal" data-cat="${p.category}" data-uses="${p.use_cases.join(' ')}" data-search="${esc((L.name + ' ' + L.subtitle + ' ' + p.sku + ' ' + L.category_label).toLowerCase())}">
-  <a class="pc-media" href="${u(lang, 'products/' + p.slug + '/')}" tabindex="-1" aria-hidden="true"><img src="${p.images[0]}" alt="" loading="${i < 3 ? 'eager' : 'lazy'}" width="1024" height="768"></a>
+  <a class="pc-media" href="${u(lang, 'products/' + p.slug + '/')}" tabindex="-1" aria-hidden="true"><img src="${p.images[0]}"${srcset(p.images[0], 1024, '(max-width: 700px) 92vw, 400px')} alt="${esc(L.name)} – ${esc(L.subtitle)}" loading="${i < 3 ? 'eager' : 'lazy'}" decoding="async" width="1024" height="768"></a>
   <div class="pc-body"><p class="eyebrow">${esc(catById[p.category]?.[lang].name || L.category_label)}</p>
   <h3><a href="${u(lang, 'products/' + p.slug + '/')}">${esc(L.name)}</a></h3><p class="pc-sub">${esc(L.subtitle)}</p>
   <div class="pc-stats">${s}</div>
@@ -264,7 +298,7 @@ function productCard(p, lang, i = 0) {
 </article>`;
 }
 function newsCard(n, lang, big = false) {
-  return `<article class="card news-card reveal${big ? ' big' : ''}"><a class="nc-media" href="${u(lang, 'news/' + n.slug + '/')}" tabindex="-1" aria-hidden="true"><img src="${n.image || `/img/news/${n.slug}.svg`}" alt="" loading="lazy" width="1200" height="630"></a>
+  return `<article class="card news-card reveal${big ? ' big' : ''}"><a class="nc-media" href="${u(lang, 'news/' + n.slug + '/')}" tabindex="-1" aria-hidden="true"><img src="${n.image || `/img/news/${n.slug}.svg`}" alt="" loading="lazy" decoding="async" width="1200" height="630"></a>
   <div class="nc-body"><p class="meta">${icon('calendar')}<time datetime="${n.date}">${fmtDate(n.date, lang)}</time><span class="src">${esc(n.source || '')}</span></p><h3><a href="${u(lang, 'news/' + n.slug + '/')}">${esc(nt(n, 'title', lang))}</a></h3><p>${esc(nt(n, 'summary', lang))}</p>
   <p class="tags">${n.tags.map(t => `<span>#${esc(t)}</span>`).join('')}</p></div></article>`;
 }
@@ -274,8 +308,15 @@ function crumbs(lang, items) {
   return `<nav class="crumbs" aria-label="Breadcrumb"><ol>${all.map(([n, h], i) => `<li>${i < all.length - 1 ? `<a href="${h}">${esc(n)}</a>` : `<span aria-current="page">${esc(n)}</span>`}</li>`).join('')}</ol></nav>`;
 }
 const crumbLD = (lang, items) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [[I18N[lang].nav.home, u(lang)], ...items].map(([n, h], i) => ({ '@type': 'ListItem', position: i + 1, name: n, item: SITE + h })) });
-const orgLD = () => ({ '@context': 'https://schema.org', '@type': 'Organization', name: BRAND, legalName: cfg.brand.legalName, url: SITE, logo: SITE + cfg.brand.appleTouchIcon, email: cfg.contact.email, telephone: cfg.contact.phone,
-  sameAs: Object.values(cfg.social).filter(Boolean) });
+const ORG_ID = SITE + '/#organization', WEBSITE_ID = SITE + '/#website';
+const orgLD = () => { const a = cfg.contact.addressParts || {};
+  return { '@context': 'https://schema.org', '@type': 'Organization', '@id': ORG_ID, name: BRAND, legalName: cfg.brand.legalName, url: SITE + '/',
+    logo: { '@type': 'ImageObject', url: SITE + cfg.brand.appleTouchIcon, width: 512, height: 512 }, image: SITE + cfg.brand.ogImage,
+    description: I18N.en.footer.about, email: cfg.contact.email, telephone: cfg.contact.phone,
+    ...(a.street ? { address: { '@type': 'PostalAddress', streetAddress: a.street, postalCode: a.postalCode, addressLocality: a.locality, addressRegion: a.region, addressCountry: a.country } } : {}),
+    contactPoint: [{ '@type': 'ContactPoint', contactType: 'sales', email: cfg.contact.salesEmail || cfg.contact.email, telephone: cfg.contact.phone, availableLanguage: ['English', 'Spanish'] }],
+    sameAs: Object.values(cfg.social).filter(Boolean) }; };
+const websiteLD = lang => ({ '@context': 'https://schema.org', '@type': 'WebSite', '@id': WEBSITE_ID, name: BRAND, url: SITE + '/', inLanguage: LANGS, publisher: { '@id': ORG_ID } });
 function formFields(lang, kind) {
   const Q = I18N[lang].quote, B = I18N[lang].b2b, C = I18N[lang].contact;
   const f = (n, l, type = 'text', req = false, ac = '', phold = '') => `<label class="field"><span>${esc(l)}${req ? ' *' : ''}</span><input name="${n}" type="${type}"${req ? ' required' : ''}${ac ? ` autocomplete="${ac}"` : ''}${phold ? ` placeholder="${esc(phold)}"` : ''}></label>`;
@@ -294,62 +335,145 @@ function formFields(lang, kind) {
 }
 
 
+/* ---------- security ---------- */
+const originOf = x => { try { return new URL(x).origin; } catch (e) { return ''; } };
+function csp() {
+  const an = cfg.analytics || {}, script = ["'self'"], connect = ["'self'"], img = ["'self'", 'data:'], form = ["'self'"];
+  if (an.plausibleDomain) { script.push('https://plausible.io'); connect.push('https://plausible.io'); }
+  if (an.gaMeasurementId) { script.push('https://www.googletagmanager.com'); connect.push('https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://*.googletagmanager.com'); img.push('https://*.google-analytics.com', 'https://*.googletagmanager.com'); }
+  const ep = originOf(cfg.forms.endpoint || ''); if (ep) { connect.push(ep); form.push(ep); }
+  return [`default-src 'self'`, `script-src ${script.join(' ')}`, `style-src 'self'`, `img-src ${img.join(' ')}`, `font-src 'self'`, `connect-src ${connect.join(' ')}`,
+    `media-src 'self'`, `object-src 'none'`, `frame-src 'none'`, `worker-src 'self'`, `manifest-src 'self'`, `base-uri 'self'`, `form-action ${form.join(' ')}`, `frame-ancestors 'none'`, `upgrade-insecure-requests`].join('; ');
+}
+function securityHeaders() {
+  return {
+    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+    'Content-Security-Policy': csp(),
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
+    'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), browsing-topics=()',
+    'Cross-Origin-Opener-Policy': 'same-origin',
+    'X-Permitted-Cross-Domain-Policies': 'none'
+  };
+}
+function securityTxt() {
+  const exp = new Date(Date.now() + 365 * 864e5); exp.setUTCHours(0, 0, 0, 0);
+  return `Contact: mailto:${cfg.contact.email}\nExpires: ${exp.toISOString().replace('.000Z', 'Z')}\nPreferred-Languages: en, es\nCanonical: ${SITE}/.well-known/security.txt\n`;
+}
 function apacheHtaccess() {
-  return `# DUNADRON – Apache config for dunadron.com
-Options -Indexes
+  const H = securityHeaders();
+  return `# ${BRAND} – Apache config (${PROD ? 'production: ' + SITE : 'draft build – not used by GitHub Pages'})
+# Generated by build.js – edit there, not here.
+Options -Indexes -MultiViews
 DirectoryIndex index.html
+AddDefaultCharset UTF-8
+ServerSignature Off
+FileETag None
+
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType font/woff .woff
+  AddType image/webp .webp
+  AddType image/svg+xml .svg
+  AddCharset UTF-8 .html .css .js .xml .txt .svg
+</IfModule>
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  # HTTPS (also honours a proxy / load-balancer header)
+  # 1. HTTPS (also honours a proxy / load-balancer header)
   RewriteCond %{HTTPS} !=on
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-  # www → apex (dunadron.com)
+  # 2. www -> apex
   RewriteCond %{HTTP_HOST} ^www\\.(.+)$ [NC]
   RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+  # 3. Block hidden files and folders (.git, .env, .DS_Store...) except /.well-known/
+  RewriteRule (^|/)\\.(?!well-known(/|$)) - [F,L]
+  # 4. Root: Spanish browsers -> /es/, everyone else -> /${DEF}/
+  RewriteCond %{HTTP:Accept-Language} ^es [NC]
+  RewriteRule ^$ /es/ [R=302,L]
+  RewriteRule ^$ /${DEF}/ [R=302,L]
 </IfModule>
 
+# Deny source, config and backup files if they are ever uploaded by mistake
+<FilesMatch "(^\\.|\\.(map|md|markdown|bak|old|orig|save|swp|tmp|sql|sqlite|db|log|sh|bash|ini|env|cfg|conf|config|lock|yml|yaml|ts|tsx|scss|less|psd|ai|zip|tar|gz|7z|rar)$|^(_headers|_redirects|package(-lock)?\\.json|composer\\.(json|lock)|site\\.config\\.json|build\\.js|README.*|LEEME.*|Thumbs\\.db)$)">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
 ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
+
+<IfModule mod_headers.c>
+${Object.entries(H).map(([k, v]) => `  Header always set ${k} "${v}"`).join('\n')}
+  Header always unset X-Powered-By
+  Header unset X-Powered-By
+  # Caching: HTML is always revalidated; CSS/JS are versioned (?v=build) so they can be cached long
+  <FilesMatch "\\.(html|xml|txt)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "\\.(css|js|woff|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\\.(webp|jpg|jpeg|png|svg|ico|gif|avif)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  # PDFs open in the browser's built-in viewer: no CSP on them
+  <FilesMatch "\\.pdf$">
+    Header always unset Content-Security-Policy
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
 
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml image/svg+xml
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml application/rss+xml image/svg+xml
 </IfModule>
 
 <IfModule mod_expires.c>
   ExpiresActive On
-  ExpiresByType text/html "access plus 1 hour"
-  ExpiresByType text/css "access plus 7 days"
-  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
   ExpiresByType image/webp "access plus 30 days"
   ExpiresByType image/jpeg "access plus 30 days"
   ExpiresByType image/png "access plus 30 days"
   ExpiresByType image/svg+xml "access plus 30 days"
   ExpiresByType image/x-icon "access plus 30 days"
-  ExpiresByType font/woff "access plus 1 year"
-  ExpiresByType font/woff2 "access plus 1 year"
   ExpiresByType application/pdf "access plus 7 days"
 </IfModule>
-
-<IfModule mod_headers.c>
-  Header set X-Content-Type-Options "nosniff"
-  Header set Referrer-Policy "strict-origin-when-cross-origin"
-  <FilesMatch "\\.(css|js)$">
-    Header set Cache-Control "public, max-age=604800"
-  </FilesMatch>
-  <FilesMatch "\\.(webp|jpg|jpeg|png|svg|ico|woff|woff2)$">
-    Header set Cache-Control "public, max-age=2592000"
-  </FilesMatch>
-</IfModule>
 `;
+}
+
+/* ---------- assets: CSS (brand vars + style.css) and JS, minified ---------- */
+function minifyCSS(css) {
+  if (esbuild) try { return esbuild.transformSync(css, { loader: 'css', minify: true }).code; } catch (e) { console.warn('esbuild CSS failed, using fallback:', e.message); }
+  return css.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ').replace(/\s*([{}:;,>])\s*/g, '$1').replace(/;}/g, '}').trim();
+}
+function buildAssets() {
+  const css = rootVars() + '\n' + fs.readFileSync(path.join(ROOT, 'src/style.css'), 'utf8');
+  write('assets/style.css', minifyCSS(css));
+  let js = fs.readFileSync(path.join(ROOT, 'src/main.js'), 'utf8');
+  if (esbuild) try { js = esbuild.transformSync(js, { loader: 'js', minify: true, target: 'es2017' }).code; } catch (e) { console.warn('esbuild JS failed, copying unminified:', e.message); }
+  write('assets/main.js', js);
+  for (const f of fs.readdirSync(path.join(ROOT, 'src'))) if (!/^(style\.css|main\.js)$/.test(f)) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, 'assets', f));
 }
 
 /* ---------- pages ---------- */
 function build() {
   fs.rmSync(DIST, { recursive: true, force: true });
   copyDir(path.join(ROOT, 'public'), DIST, (dir, e) => e.name === '_old');
-  write('.nojekyll', '');
-  copyDir(path.join(ROOT, 'src'), path.join(DIST, 'assets'));
+  if (!PROD) write('.nojekyll', '');
+  buildAssets();
+  write('.well-known/security.txt', securityTxt());
   for (const n of news) if (!n.image) write(`img/news/${n.slug}.svg`, coverSVG(n));
 
   for (const lang of LANGS) {
@@ -359,7 +483,7 @@ function build() {
     const kitPdf = lang === 'es' ? '/downloads/es/Catalogo_2026.pdf' : '/downloads/en/Catalogue_2026.pdf';
     const home = `
 <section class="hero">
-  <div class="hero-bg" aria-hidden="true"><img src="/img/hero.webp" alt="" fetchpriority="high"><div class="hero-grid"></div><div class="hero-scan"></div></div>
+  <div class="hero-bg" aria-hidden="true"><img src="/img/hero.webp"${srcset('/img/hero.webp', 1280, '100vw')} alt="" width="1280" height="720" fetchpriority="high"><div class="hero-grid"></div><div class="hero-scan"></div></div>
   <div class="wrap hero-in">
     <div class="hero-copy">
       <p class="eyebrow pulse">${esc(H.eyebrow)}</p>
@@ -378,7 +502,7 @@ function build() {
 </div></section>
 <section class="section alt"><div class="wrap">
   <div class="sec-head"><div><p class="eyebrow">${esc(T.products.category)}</p><h2>${esc(H.categories)}</h2><p class="muted">${esc(H.categoriesLead)}</p></div></div>
-  <div class="grid-cats">${cats.map(c => `<a class="cat-tile reveal" href="${u(lang, 'products/category/' + c.id + '/')}"><img src="${c.image}" alt="" loading="lazy" width="1024" height="768"><span class="ct-ic">${icon(c.icon)}</span><span class="ct-txt"><b>${esc(c[lang].name)}</b><small>${esc(c[lang].desc)}</small></span><span class="ct-count">${products.filter(p => p.category === c.id).length}</span></a>`).join('')}</div>
+  <div class="grid-cats">${cats.map(c => `<a class="cat-tile reveal" href="${u(lang, 'products/category/' + c.id + '/')}"><img src="${c.image}"${srcset(c.image, 1024, '(max-width: 700px) 92vw, 400px')} alt="" loading="lazy" decoding="async" width="1024" height="768"><span class="ct-ic">${icon(c.icon)}</span><span class="ct-txt"><b>${esc(c[lang].name)}</b><small>${esc(c[lang].desc)}</small></span><span class="ct-count">${products.filter(p => p.category === c.id).length}</span></a>`).join('')}</div>
 </div></section>
 <section class="section"><div class="wrap">
   <div class="sec-head"><div><p class="eyebrow">${esc(T.nav.solutions)}</p><h2>${esc(H.solutionsTitle)}</h2></div><a class="link-arrow" href="${u(lang, 'solutions/')}">${esc(T.cta.viewAll)} ${icon('arrow')}</a></div>
@@ -404,8 +528,8 @@ function build() {
   <div class="sec-head"><div><p class="eyebrow">${esc(T.news.updated)}</p><h2>${esc(H.newsTitle)}</h2><p class="muted">${esc(H.newsLead)}</p></div><a class="link-arrow" href="${u(lang, 'news/')}">${esc(T.cta.allNews)} ${icon('arrow')}</a></div>
   <div class="grid-news">${news.slice(0, 3).map(n => newsCard(n, lang)).join('')}</div>
 </div></section>`;
-    write(`${lang}/index.html`, layout(lang, { title: `${BRAND} – ${H.metaTitle}`, rawTitle: true, desc: H.metaDesc, path: '', body: home, nav: 'home', bodyClass: 'home', preload: '/img/hero.webp',
-      jsonld: [orgLD(), { '@context': 'https://schema.org', '@type': 'WebSite', name: BRAND, url: SITE + u(lang), inLanguage: lang }] }));
+    write(`${lang}/index.html`, layout(lang, { seoKey: 'home', title: `${BRAND} – ${H.metaTitle}`, rawTitle: true, desc: H.metaDesc, path: '', body: home, nav: 'home', bodyClass: 'home', preload: preloadImg('/img/hero.webp', 1280, '100vw'),
+      jsonld: [orgLD(), websiteLD(lang)] }));
 
     /* PRODUCTS LISTING */
     const P_ = T.products;
@@ -414,7 +538,7 @@ function build() {
       <div class="chips" role="group" aria-label="${esc(P_.category)}"><span class="chip-label">${esc(P_.category)}</span><button class="chip" aria-pressed="true" data-filter-cat="">${esc(P_.all)}</button>${cats.map(c => `<button class="chip" aria-pressed="false" data-filter-cat="${c.id}">${esc(c[lang].name)}</button>`).join('')}</div>
       <div class="chips" role="group" aria-label="${esc(P_.useCase)}"><span class="chip-label">${esc(P_.useCase)}</span><button class="chip" aria-pressed="true" data-filter-use="">${esc(P_.all)}</button>${uses.map(c => `<button class="chip" aria-pressed="false" data-filter-use="${c.id}">${esc(c[lang].name)}</button>`).join('')}</div>
       <p class="count" aria-live="polite"><span data-count>${products.length}</span> / ${products.length} ${esc(P_.results)}</p></div>`;
-    write(`${lang}/products/index.html`, layout(lang, { title: P_.title, desc: P_.metaDesc, path: 'products/', nav: 'products',
+    write(`${lang}/products/index.html`, layout(lang, { seoKey: 'products', title: P_.title, desc: P_.metaDesc, path: 'products/', nav: 'products',
       body: pageHead(BRAND, P_.title, P_.lead, crumbs(lang, [[P_.title, u(lang, 'products/')]])) + `<section class="section tight"><div class="wrap">${filters}<div class="grid-products" data-list>${products.map((p, i) => productCard(p, lang, i)).join('')}</div><div class="empty" data-empty hidden><p>${esc(P_.none)}</p><button class="btn btn-ghost" data-reset>${esc(P_.reset)}</button></div></div></section>`,
       jsonld: [crumbLD(lang, [[P_.title, u(lang, 'products/')]]), { '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: products.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: SITE + u(lang, 'products/' + p.slug + '/'), name: pl(p, lang).name })) }] }));
 
@@ -422,9 +546,10 @@ function build() {
     for (const c of cats) {
       const list = products.filter(p => p.category === c.id);
       const cr = [[P_.title, u(lang, 'products/')], [c[lang].name, u(lang, 'products/category/' + c.id + '/')]];
-      write(`${lang}/products/category/${c.id}/index.html`, layout(lang, { title: c[lang].name, desc: c[lang].desc, path: `products/category/${c.id}/`, nav: 'products',
-        body: pageHead(P_.category, c[lang].name, c[lang].desc, crumbs(lang, cr)) + `<section class="section tight"><div class="wrap"><div class="chips static">${cats.map(x => `<a class="chip" href="${u(lang, 'products/category/' + x.id + '/')}"${x.id === c.id ? ' aria-current="page"' : ''}>${esc(x[lang].name)}</a>`).join('')}</div><div class="grid-products">${list.map((p, i) => productCard(p, lang, i)).join('') || `<p class="muted">${esc(P_.none)}</p>`}</div></div></section>`,
-        jsonld: [crumbLD(lang, cr)] }));
+      write(`${lang}/products/category/${c.id}/index.html`, layout(lang, { seoKey: 'cat:' + c.id, title: c[lang].name, desc: c[lang].desc, path: `products/category/${c.id}/`, nav: 'products', ogImage: list[0] && list[0].og_image,
+        body: pageHead(P_.category, c[lang].name, c[lang].desc, crumbs(lang, cr)) + `<section class="section tight"><div class="wrap">${seo('cat:' + c.id, lang)?.intro ? `<p class="cat-intro">${esc(seo('cat:' + c.id, lang).intro)}</p>` : ''}<div class="chips static">${cats.map(x => `<a class="chip" href="${u(lang, 'products/category/' + x.id + '/')}"${x.id === c.id ? ' aria-current="page"' : ''}>${esc(x[lang].name)}</a>`).join('')}</div><div class="grid-products">${list.map((p, i) => productCard(p, lang, i)).join('') || `<p class="muted">${esc(P_.none)}</p>`}</div></div></section>`,
+        jsonld: [crumbLD(lang, cr), { '@context': 'https://schema.org', '@type': 'CollectionPage', name: c[lang].name, description: (seo('cat:' + c.id, lang) || {}).desc || c[lang].desc, url: SITE + u(lang, 'products/category/' + c.id + '/'), inLanguage: lang, isPartOf: { '@id': SITE + '/#website' },
+          mainEntity: { '@type': 'ItemList', itemListElement: list.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: SITE + u(lang, 'products/' + p.slug + '/'), name: pl(p, lang).name })) } }] }));
     }
 
     /* PRODUCT DETAIL */
@@ -440,8 +565,8 @@ function build() {
 <section class="pd-top"><div class="wrap">${crumbs(lang, cr)}
  <div class="pd-grid">
   <div class="gallery" data-gallery aria-label="${esc(P_.gallery)}">
-    <div class="g-main"><img src="${p.images[0]}" alt="${esc(L.name)} – ${esc(L.subtitle)}" width="1024" height="768" data-g-main fetchpriority="high"><span class="g-badge">${esc(p.sku)}</span></div>
-    ${p.images.length > 1 ? `<div class="g-thumbs">${p.images.map((im, i) => `<button class="g-thumb" aria-pressed="${i === 0}" data-g-src="${im}" aria-label="${esc(L.name)} ${i + 1}"><img src="${im}" alt="" width="160" height="120" loading="lazy"></button>`).join('')}</div>` : ''}
+    <div class="g-main"><img src="${p.images[0]}"${srcset(p.images[0], 1024, '(max-width: 900px) 92vw, 600px')} alt="${esc(L.name)} – ${esc(L.subtitle)}" width="1024" height="768" data-g-main fetchpriority="high"><span class="g-badge">${esc(p.sku)}</span></div>
+    ${p.images.length > 1 ? `<div class="g-thumbs">${p.images.map((im, i) => `<button class="g-thumb" aria-pressed="${i === 0}" data-g-src="${im}" data-g-srcset="${small(im) ? `${small(im)} 640w, ${im} 1024w` : ''}" aria-label="${esc(L.name)} ${i + 1}"><img src="${small(im) || im}" alt="" width="160" height="120" loading="lazy" decoding="async"></button>`).join('')}</div>` : ''}
   </div>
   <div class="pd-info">
     <p class="eyebrow">${esc(L.category_label)}</p>
@@ -455,7 +580,7 @@ function build() {
         <div class="qty"><button type="button" data-qty="-1" aria-label="-">−</button><input type="number" min="1" value="1" aria-label="${esc(T.quote.qty)}" data-qty-input><button type="button" data-qty="1" aria-label="+">+</button></div>
         <button class="btn btn-primary" data-add-quote>${icon('list')} <span>${esc(T.cta.addQuote)}</span></button>
       </div>
-      <div class="bb-actions wrap-actions"><a class="btn btn-ghost" href="${esc(mail)}">${icon('mail')} ${esc(T.cta.quote)}</a><a class="btn btn-ghost" href="${esc(evalMail)}">${icon('box')} ${esc(T.cta.samples)}</a><a class="btn btn-ghost" href="${esc(engMail)}">${icon('chat')} ${esc(T.cta.engineering)}</a>${waNumber() ? `<a class="btn btn-wa" href="${waLink(waText)}" target="_blank" rel="noopener">${WA} ${esc(T.cta.whatsapp)}</a>` : ''}</div>
+      <div class="bb-actions wrap-actions"><a class="btn btn-ghost" href="${esc(mail)}">${icon('mail')} ${esc(T.cta.quote)}</a><a class="btn btn-ghost" href="${esc(evalMail)}">${icon('box')} ${esc(T.cta.samples)}</a><a class="btn btn-ghost" href="${esc(engMail)}">${icon('chat')} ${esc(T.cta.engineering)}</a>${waNumber() ? `<a class="btn btn-wa" href="${waLink(waText)}" target="_blank" rel="noopener noreferrer">${WA} ${esc(T.cta.whatsapp)}</a>` : ''}</div>
     </div>
     <div class="downloads"><h2 class="h-sm">${esc(P_.downloads)}</h2>${p.downloads.map(d => `<a class="dl" href="${d.file[lang] || d.file.en}" download>${icon('file')}<span>${esc(d.label[lang] || d.label.en)}</span>${icon('download')}</a>`).join('')}</div>
   </div>
@@ -475,16 +600,16 @@ function build() {
 </div></section>
 <section class="section alt"><div class="wrap"><h2>${esc(P_.related)}</h2><div class="grid-products g3">${(p.related || []).map(s => bySlug[s]).filter(Boolean).map(r => productCard(r, lang)).join('')}</div></div></section>`;
       const ld = { '@context': 'https://schema.org', '@type': 'Product', name: L.name, sku: p.sku, mpn: p.sku, description: L.description.join(' '), image: p.images.map(i => SITE + i).concat(SITE + p.og_image),
-        brand: { '@type': 'Brand', name: BRAND }, category: cat[lang].name, url: SITE + u(lang, 'products/' + p.slug + '/'),
+        '@id': SITE + u(lang, 'products/' + p.slug + '/') + '#product', brand: { '@type': 'Brand', name: BRAND }, category: cat[lang].name, url: SITE + u(lang, 'products/' + p.slug + '/'),
         additionalProperty: L.specs.flatMap(g => g.rows.map(r => ({ '@type': 'PropertyValue', name: r[0], value: r[1] }))) };
       if (p.price != null) ld.offers = { '@type': 'Offer', price: p.price, priceCurrency: p.currency, availability: 'https://schema.org/InStock', url: ld.url };
-      write(`${lang}/products/${p.slug}/index.html`, layout(lang, { title: `${L.name} – ${L.subtitle}`, desc: `${L.tagline} ${L.description[0]}`.slice(0, 158), path: `products/${p.slug}/`, nav: 'products', bodyClass: 'product', ogImage: p.og_image, ogType: 'product', preload: p.images[0],
+      write(`${lang}/products/${p.slug}/index.html`, layout(lang, { seoKey: 'prod:' + p.slug, ogAlt: `${L.name} – ${L.subtitle}`, title: `${L.name} – ${L.subtitle}`, desc: `${L.tagline} ${L.description[0]}`, path: `products/${p.slug}/`, nav: 'products', bodyClass: 'product', ogImage: p.og_image, ogType: 'product', preload: preloadImg(p.images[0], 1024, '(max-width: 900px) 92vw, 600px'),
         body, jsonld: [ld, crumbLD(lang, cr)] }));
     }
 
     /* QUOTE LIST (cart-ready) */
     const Q = T.quote;
-    write(`${lang}/quote/index.html`, layout(lang, { title: Q.title, desc: Q.lead, path: 'quote/', nav: '',
+    write(`${lang}/quote/index.html`, layout(lang, { seoKey: 'quote', title: Q.title, desc: Q.lead, path: 'quote/', nav: '',
       body: pageHead(T.nav.quote, Q.title, Q.lead, crumbs(lang, [[Q.title, u(lang, 'quote/')]])) + `<section class="section tight"><div class="wrap quote-grid">
       <div><div class="quote-list" data-quote-list><p class="muted">${esc(Q.empty)}</p></div><a class="link-arrow" href="${u(lang, 'products/')}">${esc(T.cta.explore)} ${icon('arrow')}</a></div>
       <form class="panel form" data-form="quote" novalidate><h2 class="h-sm">${esc(T.cta.quote)}</h2>${formFields(lang, 'quote')}<div class="btn-row"><button class="btn btn-primary" type="submit">${icon('mail')} ${esc(Q.sendEmail)}</button>${waNumber() ? `<button class="btn btn-wa" type="button" data-quote-wa>${WA} ${esc(Q.sendWa)}</button>` : ''}</div><p class="form-msg" role="status"></p></form>
@@ -492,16 +617,16 @@ function build() {
 
     /* SOLUTIONS */
     const S = T.solutions;
-    write(`${lang}/solutions/index.html`, layout(lang, { title: S.title, desc: S.metaDesc, path: 'solutions/', nav: 'solutions',
+    write(`${lang}/solutions/index.html`, layout(lang, { seoKey: 'solutions', title: S.title, desc: S.metaDesc, path: 'solutions/', nav: 'solutions',
       body: pageHead(T.nav.solutions, S.title, S.lead, crumbs(lang, [[S.title, u(lang, 'solutions/')]])) + uses.map((x, i) => {
         const rec = products.filter(p => p.use_cases.includes(x.id));
         return `<section class="section ${i % 2 ? 'alt' : ''}" id="${x.id}"><div class="wrap sol"><div class="sol-txt reveal"><span class="why-ic">${icon(x.icon)}</span><h2>${esc(x[lang].name)}</h2><p class="lead">${esc(x[lang].desc)}</p><a class="btn btn-ghost" href="${u(lang, 'products/')}?use=${x.id}">${esc(T.cta.explore)} ${icon('arrow')}</a></div>
-        <div><h3 class="h-sm muted">${esc(S.recommended)}</h3><div class="mini-list">${rec.map(p => `<a class="mini" href="${u(lang, 'products/' + p.slug + '/')}"><img src="${p.images[0]}" alt="" loading="lazy" width="120" height="90"><span><b>${esc(pl(p, lang).name)}</b><small>${esc(pl(p, lang).subtitle)}</small></span>${icon('arrow')}</a>`).join('')}</div></div></div></section>`;
+        <div><h3 class="h-sm muted">${esc(S.recommended)}</h3><div class="mini-list">${rec.map(p => `<a class="mini" href="${u(lang, 'products/' + p.slug + '/')}"><img src="${small(p.images[0]) || p.images[0]}" alt="" loading="lazy" decoding="async" width="120" height="90"><span><b>${esc(pl(p, lang).name)}</b><small>${esc(pl(p, lang).subtitle)}</small></span>${icon('arrow')}</a>`).join('')}</div></div></div></section>`;
       }).join(''), jsonld: [crumbLD(lang, [[S.title, u(lang, 'solutions/')]])] }));
 
     /* B2B */
     const B = T.b2b;
-    write(`${lang}/distributors/index.html`, layout(lang, { title: B.title, desc: B.metaDesc, path: 'distributors/', nav: 'b2b',
+    write(`${lang}/distributors/index.html`, layout(lang, { seoKey: 'distributors', title: B.title, desc: B.metaDesc, path: 'distributors/', nav: 'b2b',
       body: pageHead(T.oem.eyebrow, B.title, B.lead, crumbs(lang, [[B.title, u(lang, 'distributors/')]])) + `<section class="section tight"><div class="wrap"><div class="grid-why">${B.benefits.map(w => `<div class="why reveal"><span class="why-ic">${icon(w[0])}</span><h3>${esc(w[1])}</h3><p>${phText(w[2])}</p></div>`).join('')}</div>
       <div class="oem-panel reveal">
         <h3>${esc(T.oem.tiersTitle)}</h3>
@@ -511,41 +636,41 @@ function build() {
       </div></div></section>
       <section class="section alt"><div class="wrap form-wrap"><div><h2>${esc(B.formTitle)}</h2><p class="muted">${esc(H.b2bLead)}</p><p class="muted small">${esc(B.distributorNote)}</p>
       <div class="btn-row"><a class="btn btn-ghost" href="${u(lang, 'quote/')}">${esc(T.cta.quote)}</a><a class="btn btn-ghost" href="${u(lang, 'contact/')}">${esc(T.cta.engineering)}</a><a class="btn btn-ghost" href="${kitPdf}" download>${icon('download')} ${esc(T.cta.catalogue)}</a></div>
-      <ul class="contact-list big"><li>${icon('mail')}<a href="mailto:${esc(cfg.contact.salesEmail)}">${ph(cfg.contact.salesEmail)}</a></li>${waNumber() ? `<li>${WA}<a href="${waLink(lang === 'es' ? 'Hola, soy un fabricante/integrador y quiero información OEM.' : 'Hello, I am a manufacturer/integrator and would like OEM information.')}" target="_blank" rel="noopener">WhatsApp</a></li>` : ''}</ul></div>
+      <ul class="contact-list big"><li>${icon('mail')}<a href="mailto:${esc(cfg.contact.salesEmail)}">${ph(cfg.contact.salesEmail)}</a></li>${waNumber() ? `<li>${WA}<a href="${waLink(lang === 'es' ? 'Hola, soy un fabricante/integrador y quiero información OEM.' : 'Hello, I am a manufacturer/integrator and would like OEM information.')}" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>` : ''}</ul></div>
       <form class="panel form" data-form="b2b" novalidate>${formFields(lang, 'b2b')}<button class="btn btn-primary" type="submit">${esc(T.cta.send)} ${icon('arrow')}</button><p class="form-msg" role="status"></p></form></div></section>` }));
 
     /* SUPPORT */
     const SU = T.support;
     const faqLD = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: SU.faq.map(q => ({ '@type': 'Question', name: q[0], acceptedAnswer: { '@type': 'Answer', text: q[1] } })) };
-    write(`${lang}/support/index.html`, layout(lang, { title: SU.title, desc: SU.metaDesc, path: 'support/', nav: 'support',
+    write(`${lang}/support/index.html`, layout(lang, { seoKey: 'support', title: SU.title, desc: SU.metaDesc, path: 'support/', nav: 'support',
       body: pageHead(T.nav.support, SU.title, SU.lead, crumbs(lang, [[SU.title, u(lang, 'support/')]])) + `<section class="section tight"><div class="wrap support-grid"><div class="faq">${SU.faq.map(q => `<details class="reveal"><summary>${esc(q[0])}</summary><p>${PREVIEW && isPh(q[1]) ? q[1].replace(/\[[^\]]+\]/g, m => `<span class="ph">${esc(m)}</span>`) : esc(q[1])}</p></details>`).join('')}</div>
       <aside><div class="panel"><h2 class="h-sm">${icon('file')} ${esc(SU.docsTitle)}</h2><p class="muted small">${esc(SU.docsLead)}</p><a class="dl" href="${kitPdf}" download>${icon('file')}<span>${esc(T.cta.catalogue)}</span>${icon('download')}</a>${products.map(p => `<a class="dl" href="${p.downloads[0].file[lang]}" download>${icon('file')}<span>${esc(pl(p, lang).name)}</span>${icon('download')}</a>`).join('')}</div>
-      <div class="panel"><h2 class="h-sm">${icon('chat')} ${esc(T.nav.contact)}</h2><ul class="contact-list"><li>${icon('mail')}<a href="mailto:${esc(cfg.contact.email)}">${ph(cfg.contact.email)}</a></li>${waNumber() ? `<li>${WA}<a href="${waLink(BRAND)}" target="_blank" rel="noopener">WhatsApp</a></li>` : ''}</ul></div></aside></div></section>`,
+      <div class="panel"><h2 class="h-sm">${icon('chat')} ${esc(T.nav.contact)}</h2><ul class="contact-list"><li>${icon('mail')}<a href="mailto:${esc(cfg.contact.email)}">${ph(cfg.contact.email)}</a></li>${waNumber() ? `<li>${WA}<a href="${waLink(BRAND)}" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>` : ''}</ul></div></aside></div></section>`,
       jsonld: [faqLD, crumbLD(lang, [[SU.title, u(lang, 'support/')]])] }));
 
     /* ABOUT */
     const A = T.about;
-    write(`${lang}/about/index.html`, layout(lang, { title: A.title, desc: A.metaDesc, path: 'about/', nav: '',
-      body: pageHead(BRAND, A.title, A.lead, crumbs(lang, [[A.title, u(lang, 'about/')]])) + `<section class="section tight"><div class="wrap about-grid"><div class="prose">${A.p.map(x => `<p>${esc(tokens(x))}</p>`).join('')}<p class="muted small">${ph(cfg.brand.legalName)} · ${ph(cfg.contact.address)}</p></div><div class="about-img"><img src="/img/hero.webp" alt="" loading="lazy" width="1280" height="720"></div></div></section>
+    write(`${lang}/about/index.html`, layout(lang, { seoKey: 'about', title: A.title, desc: A.metaDesc, path: 'about/', nav: '',
+      body: pageHead(BRAND, A.title, A.lead, crumbs(lang, [[A.title, u(lang, 'about/')]])) + `<section class="section tight"><div class="wrap about-grid"><div class="prose">${A.p.map(x => `<p>${esc(tokens(x))}</p>`).join('')}<p class="muted small">${ph(cfg.brand.legalName)} · ${ph(cfg.contact.address)}</p></div><div class="about-img"><img src="/img/hero.webp"${srcset('/img/hero.webp', 1280, '(max-width: 900px) 92vw, 600px')} alt="" loading="lazy" decoding="async" width="1280" height="720"></div></div></section>
       <section class="section alt"><div class="wrap"><div class="grid-why g3">${A.values.map(w => `<div class="why reveal"><span class="why-ic">${icon(w[0])}</span><h3>${esc(w[1])}</h3><p>${esc(w[2])}</p></div>`).join('')}</div></div></section>`,
-      jsonld: [orgLD()] }));
+      jsonld: [orgLD(), crumbLD(lang, [[A.title, u(lang, 'about/')]])] }));
 
     /* CONTACT */
     const C = T.contact;
-    write(`${lang}/contact/index.html`, layout(lang, { title: C.title, desc: C.metaDesc, path: 'contact/', nav: 'contact',
+    write(`${lang}/contact/index.html`, layout(lang, { seoKey: 'contact', title: C.title, desc: C.metaDesc, path: 'contact/', nav: 'contact',
       body: pageHead(T.nav.contact, C.title, C.lead, crumbs(lang, [[C.title, u(lang, 'contact/')]])) + `<section class="section tight"><div class="wrap form-wrap"><div>
       <ul class="contact-cards"><li><span class="why-ic">${icon('mail')}</span><div><small>Email</small><a href="mailto:${esc(cfg.contact.email)}">${ph(cfg.contact.email)}</a>${cfg.contact.salesEmail && cfg.contact.salesEmail !== cfg.contact.email ? `<a href="mailto:${esc(cfg.contact.salesEmail)}">${ph(cfg.contact.salesEmail)}</a>` : ''}</div></li>
       <li><span class="why-ic">${icon('phone')}</span><div><small>${esc(T.quote.phone)}</small><a href="tel:+${digits(cfg.contact.phone)}">${ph(cfg.contact.phone)}</a></div></li>
-      ${waNumber() ? `<li><span class="why-ic wa">${WA}</span><div><small>WhatsApp</small><a href="${waLink(BRAND)}" target="_blank" rel="noopener">${ph('+' + cfg.contact.whatsapp)}</a></div></li>` : ''}
+      ${waNumber() ? `<li><span class="why-ic wa">${WA}</span><div><small>WhatsApp</small><a href="${waLink(BRAND)}" target="_blank" rel="noopener noreferrer">${ph('+' + cfg.contact.whatsapp)}</a></div></li>` : ''}
       <li><span class="why-ic">${icon('map')}</span><div><small>${lang === 'es' ? 'Dirección' : 'Address'}</small><span>${ph(cfg.contact.address)}</span></div></li>
       <li><span class="why-ic">${icon('clock')}</span><div><small>${esc(C.hours)}</small><span>${esc(cfg.contact.hours[lang])}</span></div></li></ul></div>
       <form class="panel form" data-form="contact" novalidate><h2 class="h-sm">${esc(C.formTitle)}</h2>${formFields(lang, 'contact')}<button class="btn btn-primary" type="submit">${esc(T.cta.send)} ${icon('arrow')}</button><p class="form-msg" role="status"></p></form></div></section>`,
-      jsonld: [{ ...orgLD(), '@type': 'Organization', address: cfg.contact.address, contactPoint: [{ '@type': 'ContactPoint', contactType: 'sales', email: cfg.contact.salesEmail, telephone: cfg.contact.phone, availableLanguage: ['English', 'Spanish'] }] }] }));
+      jsonld: [orgLD(), crumbLD(lang, [[C.title, u(lang, 'contact/')]])] }));
 
     /* NEWS */
     const N = T.news;
     const [first, ...rest] = news;
-    write(`${lang}/news/index.html`, layout(lang, { title: N.title, desc: N.metaDesc, path: 'news/', nav: 'news', lastmod: news[0]?.date,
+    write(`${lang}/news/index.html`, layout(lang, { seoKey: 'news', title: N.title, desc: N.metaDesc, path: 'news/', nav: 'news', lastmod: news[0]?.date,
       body: pageHead(N.updated, N.title, N.lead, crumbs(lang, [[N.title, u(lang, 'news/')]])) + `<section class="section tight"><div class="wrap">${first ? newsCard(first, lang, true) : ''}<div class="grid-news">${rest.map(n => newsCard(n, lang)).join('')}</div></div></section>`,
       jsonld: [crumbLD(lang, [[N.title, u(lang, 'news/')]]), { '@context': 'https://schema.org', '@type': 'CollectionPage', name: N.title, hasPart: news.map(n => ({ '@type': 'NewsArticle', headline: nt(n, 'title', lang), datePublished: n.date, url: SITE + u(lang, 'news/' + n.slug + '/') })) }] }));
     for (const n of news) {
@@ -555,10 +680,10 @@ function build() {
       const body = `<article class="article"><header class="art-head"><div class="wrap narrow">${crumbs(lang, cr)}<p class="meta">${icon('calendar')}<time datetime="${n.date}">${esc(N.published)} ${fmtDate(n.date, lang)}</time> · ${esc(N.sourceLabel)}: ${esc(n.source || '')}</p><h1>${esc(nt(n, 'title', lang))}</h1><p class="lead">${esc(nt(n, 'summary', lang))}</p><p class="tags">${n.tags.map(t => `<span>#${esc(t)}</span>`).join('')}</p></div></header>
       <div class="wrap narrow"><figure class="art-img"><img src="${img}" alt="${esc(n.image_alt || nt(n, 'title', lang))}" width="1200" height="630"></figure>
       <div class="prose">${md(n.body[lang] || n.body.en)}</div>
-      ${n.source_url ? `<a class="btn btn-ghost source-btn" href="${esc(n.source_url)}" target="_blank" rel="noopener nofollow">${icon('external')} ${esc(T.cta.source)} – ${esc(n.source || '')}</a>` : ''}
+      ${n.source_url ? `<a class="btn btn-ghost source-btn" href="${esc(n.source_url)}" target="_blank" rel="noopener noreferrer nofollow">${icon('external')} ${esc(T.cta.source)} – ${esc(n.source || '')}</a>` : ''}
       <p class="muted small disclaimer">${esc(N.disclaimer)}</p></div></article>
       <section class="section alt"><div class="wrap"><div class="sec-head"><h2>${esc(T.cta.allNews)}</h2><a class="link-arrow" href="${u(lang, 'news/')}">${esc(T.cta.viewAll)} ${icon('arrow')}</a></div><div class="grid-news">${more.map(x => newsCard(x, lang)).join('')}</div></div></section>`;
-      write(`${lang}/news/${n.slug}/index.html`, layout(lang, { title: nt(n, 'title', lang), desc: nt(n, 'summary', lang).slice(0, 158), path: `news/${n.slug}/`, nav: 'news', ogType: 'article', ogImage: n.image, lastmod: n.date, body,
+      write(`${lang}/news/${n.slug}/index.html`, layout(lang, { title: nt(n, 'seo_title', lang) || nt(n, 'title', lang), desc: nt(n, 'seo_description', lang) || nt(n, 'summary', lang), ogAlt: nt(n, 'title', lang), path: `news/${n.slug}/`, nav: 'news', ogType: 'article', ogImage: n.image, lastmod: n.date, body,
         jsonld: [{ '@context': 'https://schema.org', '@type': 'NewsArticle', headline: nt(n, 'title', lang).slice(0, 110), description: nt(n, 'summary', lang), datePublished: n.date, dateModified: n.updated || n.date, inLanguage: lang,
           image: [SITE + img], author: { '@type': 'Organization', name: BRAND, url: SITE }, publisher: { '@type': 'Organization', name: BRAND, logo: { '@type': 'ImageObject', url: SITE + cfg.brand.appleTouchIcon } },
           mainEntityOfPage: SITE + u(lang, 'news/' + n.slug + '/'), isBasedOn: n.source_url, citation: n.source_url }, crumbLD(lang, cr)] }));
@@ -570,31 +695,32 @@ function build() {
       const { data, body } = frontmatter(fs.readFileSync(fs.existsSync(f) ? f : path.join(ROOT, 'content/legal', DEF, k + '.md'), 'utf8'));
       const legalBody = prodCopy ? prodCopy.applyToLegal(body, lang) : body;
       let html = md(legalBody); if (PREVIEW) html = html.replace(/\[[^\]<]{2,}\]/g, m => `<span class="ph">${m}</span>`);
-      write(`${lang}/legal/${k}/index.html`, layout(lang, { title: data.title, desc: `${data.title} – ${BRAND}`, path: `legal/${k}/`, nav: '',
+      write(`${lang}/legal/${k}/index.html`, layout(lang, { seoKey: 'legal:' + k, title: data.title, desc: `${data.title} – ${BRAND}`, path: `legal/${k}/`, nav: '',
         body: pageHead(T.footer.legal, data.title, '', crumbs(lang, [[data.title, u(lang, 'legal/' + k + '/')]])) + `<section class="section tight"><div class="wrap narrow prose legal">${html}</div></section>` }));
     }
 
     /* 404 */
-    write(`${lang}/404.html`, layout(lang, { title: T.notFound.title, desc: T.notFound.lead, path: '404.html', nav: '',
+    write(`${lang}/404.html`, layout(lang, { title: T.notFound.title, desc: T.notFound.lead, path: '', nav: '', noindex: true,
       body: `<section class="section nf"><div class="wrap center"><p class="nf-code">404</p><h1>${esc(T.notFound.title)}</h1><p class="lead">${esc(T.notFound.lead)}</p><a class="btn btn-primary" href="${u(lang)}">${esc(T.nav.home)}</a> <a class="btn btn-ghost" href="${u(lang, 'products/')}">${esc(T.nav.products)}</a></div></section>` }));
-    pagesForSitemap.pop();
   }
 
-  /* root: language redirect */
-  write('index.html', `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${esc(BRAND)}</title><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="canonical" href="${SITE}/${DEF}/">${LANGS.map(l => `<link rel="alternate" hreflang="${l}" href="${SITE}/${l}/">`).join('')}<link rel="alternate" hreflang="x-default" href="${SITE}/${DEF}/"><meta name="robots" content="noindex,follow"><link rel="icon" href="${cfg.brand.favicon}"><style>body{background:${cfg.colors.bg};color:${cfg.colors.text};font-family:system-ui;display:grid;place-items:center;min-height:100vh;margin:0}a{color:${cfg.colors.primary}}</style>
-<script>location.replace('/${DEF}/');</script>
-<noscript><meta http-equiv="refresh" content="0; url=/${DEF}/"></noscript></head><body><p>${LANGS.map(l => `<a href="/${l}/">${esc(I18N[l].langName)}</a>`).join(' · ')}</p></body></html>`);
+  /* root: language redirect (no inline JS/CSS so the CSP stays strict; Apache also redirects / server-side) */
+  write('index.html', `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${esc(BRAND)}</title><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0; url=/${DEF}/"><link rel="canonical" href="${SITE}/${DEF}/">${LANGS.map(l => `<link rel="alternate" hreflang="${l}" href="${SITE}/${l}/">`).join('')}<link rel="alternate" hreflang="x-default" href="${SITE}/${DEF}/"><meta name="robots" content="noindex,follow"><link rel="icon" href="${cfg.brand.favicon}"><link rel="stylesheet" href="/assets/style.css?v=${BUILD_ID}"></head><body><main class="section center"><p>${LANGS.map(l => `<a href="/${l}/" hreflang="${l}">${esc(I18N[l].langName)}</a>`).join(' · ')}</p></main></body></html>`);
   fs.copyFileSync(path.join(DIST, DEF, '404.html'), path.join(DIST, '404.html'));
 
   /* sitemap + robots */
   const today = new Date().toISOString().slice(0, 10);
-  write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pagesForSitemap.map(p => `  <url><loc>${p.loc}</loc><lastmod>${p.lastmod || today}</lastmod></url>`).join('\n')}\n</urlset>\n`);
-  write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
+  write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${pagesForSitemap.map(p => `  <url><loc>${p.loc}</loc><lastmod>${p.lastmod || today}</lastmod>${(p.alts || []).map(([l, h]) => `<xhtml:link rel="alternate" hreflang="${l}" href="${h}"/>`).join('')}${p.alts ? `<xhtml:link rel="alternate" hreflang="x-default" href="${p.alts.find(a => a[0] === DEF)[1]}"/>` : ''}</url>`).join('\n')}\n</urlset>\n`);
+  write('robots.txt', NOINDEX
+    ? `# Draft / preview build – not for search engines (pages also carry noindex)\nUser-agent: *\nAllow: /\n`
+    : `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
   /* RSS feed for news (EN) */
   write('en/news/feed.xml', `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>${esc(BRAND)} – ${esc(I18N.en.news.title)}</title><link>${SITE}/en/news/</link><description>${esc(I18N.en.news.metaDesc)}</description>${news.map(n => `<item><title>${esc(n.title)}</title><link>${SITE}/en/news/${n.slug}/</link><guid>${SITE}/en/news/${n.slug}/</guid><pubDate>${new Date(n.date + 'T08:00:00Z').toUTCString()}</pubDate><description>${esc(n.summary)}</description></item>`).join('')}</channel></rss>`);
   /* hosting helpers */
-  write('_headers', `/assets/*\n  Cache-Control: public, max-age=604800\n/img/*\n  Cache-Control: public, max-age=2592000\n/fonts/*\n  Cache-Control: public, max-age=31536000, immutable\n/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n`);
-  write('.htaccess', PROD ? apacheHtaccess() : `ErrorDocument 404 /404.html\nOptions -Indexes\n<IfModule mod_expires.c>\nExpiresActive On\nExpiresByType image/webp "access plus 30 days"\nExpiresByType text/css "access plus 7 days"\nExpiresByType application/javascript "access plus 7 days"\n</IfModule>\n`);
+  /* Netlify / Cloudflare Pages header file (same policy as .htaccess; ignored by Apache and blocked there) */
+  write('_headers', `/assets/*\n  Cache-Control: public, max-age=604800\n/img/*\n  Cache-Control: public, max-age=2592000\n/fonts/*\n  Cache-Control: public, max-age=31536000, immutable\n/*\n${Object.entries(securityHeaders()).map(([k, v]) => `  ${k}: ${v}`).join('\n')}${NOINDEX ? '\n  X-Robots-Tag: noindex, nofollow' : ''}\n`);
+  write('.htaccess', apacheHtaccess());
+  if (seoWarn.length) console.warn('SEO length warnings:\n  ' + seoWarn.join('\n  '));
   const outRel = path.relative(ROOT, DIST) || DIST;
   console.log(`Built ${pagesForSitemap.length} indexable pages · ${products.length} products · ${news.length} news → ${outRel}/${PROD ? ' (production)' : ' (draft)'}`);
 }

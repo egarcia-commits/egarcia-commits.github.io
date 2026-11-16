@@ -1,0 +1,253 @@
+{
+  "_README": "Per-page SEO titles (<= 60 chars) and meta descriptions (<= 155 chars), EN + ES. build.js warns if a value is too long. 'intro' = optional keyword-rich paragraph shown under the page header (category pages). Keep facts identical to products/*.json.",
+  "home": {
+    "en": {
+      "title": "Thermal & FPV Camera Modules for Drone OEMs | DUNADRON",
+      "desc": "OEM thermal cameras, HD digital FPV systems and drone accessories for UAV manufacturers. White-label, evaluation kits and engineering support from Madrid."
+    },
+    "es": {
+      "title": "Cámaras térmicas y FPV OEM para drones | DUNADRON",
+      "desc": "Cámaras térmicas, sistemas FPV digitales HD y accesorios para fabricantes de drones. Marca blanca, kits de evaluación y soporte de ingeniería desde Madrid."
+    }
+  },
+  "products": {
+    "en": {
+      "title": "Drone Camera Modules & FPV Components | DUNADRON",
+      "desc": "Thermal cameras, low-light FPV cameras, HD digital video transmitters, FPV kits and 5.8 GHz antennas for drone manufacturers. Datasheets and OEM pricing."
+    },
+    "es": {
+      "title": "Módulos de cámara y componentes FPV para drones | DUNADRON",
+      "desc": "Cámaras térmicas, cámaras FPV de baja luz, transmisores de vídeo digital HD, kits FPV y antenas 5,8 GHz para fabricantes de drones. Fichas y precio OEM."
+    }
+  },
+  "cat:thermal": {
+    "en": {
+      "title": "Thermal Camera for Drones – OEM Module | DUNADRON",
+      "desc": "OEM thermal camera for drones: 960 × 768 processed video at 50 Hz, F1.0 optics, HD digital link + USB UVC, under 1.5 W. For SAR, security and inspection.",
+      "intro": "Thermal imaging for drone manufacturers and integrators. The ThermaView 960 delivers 960 × 768 processed thermal video at 50 Hz through 9.1 mm F1.0 optics, streams simultaneously over the HD digital video link and USB UVC, and typically draws under 1.5 W. It is supplied as an OEM module or under your own brand, with evaluation kits and integration support for search and rescue, security, industrial inspection and firefighting drones."
+    },
+    "es": {
+      "title": "Cámara térmica para drones – módulo OEM | DUNADRON",
+      "desc": "Cámara térmica OEM para drones: vídeo 960 × 768 a 50 Hz, óptica F1.0, enlace digital HD + USB UVC y menos de 1,5 W. Para rescate, seguridad e inspección.",
+      "intro": "Imagen térmica para fabricantes e integradores de drones. La ThermaView 960 ofrece vídeo térmico procesado de 960 × 768 a 50 Hz con óptica de 9,1 mm F1.0, transmite a la vez por el enlace de vídeo digital HD y por USB UVC, y su consumo típico es inferior a 1,5 W. Se suministra como módulo OEM o con tu propia marca, con kits de evaluación y soporte de integración para drones de rescate, seguridad, inspección industrial y bomberos."
+    }
+  },
+  "cat:video-systems": {
+    "en": {
+      "title": "Digital FPV System Kits for OEM Drones | DUNADRON",
+      "desc": "Complete HD digital FPV systems for drone manufacturers: transmitter, low-light camera and LHCP antennas, 22 ms average latency, 1080p onboard recording.",
+      "intro": "A complete digital FPV system in one part number: HD video transmitter, low-light camera and circularly polarized antennas, matched and tested together. The AeroLink GT8 Kit offers 22 ms average latency, 8 channels and 1080p onboard recording, so OEMs can integrate a proven video link instead of sourcing parts separately."
+    },
+    "es": {
+      "title": "Kits de sistema FPV digital para drones OEM | DUNADRON",
+      "desc": "Sistemas FPV digitales HD completos para fabricantes de drones: transmisor, cámara de baja luz y antenas LHCP, 22 ms de latencia media y grabación 1080p.",
+      "intro": "Un sistema FPV digital completo en una sola referencia: transmisor de vídeo HD, cámara de baja luz y antenas de polarización circular, emparejados y probados juntos. El AeroLink GT8 Kit ofrece 22 ms de latencia media, 8 canales y grabación a bordo en 1080p, para que el fabricante integre un enlace de vídeo probado sin comprar las piezas por separado."
+    }
+  },
+  "cat:transmitters": {
+    "en": {
+      "title": "HD Digital Video Transmitters (VTX) for UAVs | DUNADRON",
+      "desc": "Low-latency HD digital video transmitters for drone OEMs: 22 ms GT8 VTX and 1080p60 AeroLink PX for professional platforms. Datasheets and OEM pricing.",
+      "intro": "HD digital video transmitters (VTX) for drone and UAV platforms. Choose the AeroLink GT8 VTX for 22 ms average latency and onboard recording, or the AeroLink PX for live 1080p at 60 fps on professional inspection and security aircraft. Both are available for OEM integration with engineering support."
+    },
+    "es": {
+      "title": "Transmisores de vídeo digital HD (VTX) | DUNADRON",
+      "desc": "Transmisores de vídeo digital HD de baja latencia para fabricantes de drones: GT8 VTX de 22 ms y AeroLink PX 1080p60 para uso profesional. Precio OEM.",
+      "intro": "Transmisores de vídeo digital HD (VTX) para drones y UAV. El AeroLink GT8 VTX ofrece 22 ms de latencia media y grabación a bordo; el AeroLink PX transmite imagen en directo 1080p a 60 fps para drones profesionales de inspección y seguridad. Ambos están disponibles para integración OEM con soporte de ingeniería."
+    }
+  },
+  "cat:cameras": {
+    "en": {
+      "title": "Low-Light FPV Camera Modules for Drones | DUNADRON",
+      "desc": "Low-light HD FPV camera for drone OEMs: 1/1.8\" STARVIS 2 sensor, 1080p at 100 fps, 160° field of view, 9.5 g. Clean images down to 0.0001 lux.",
+      "intro": "Low-light FPV camera modules for drone manufacturers. The NightEye S2 uses a 1/1.8\" STARVIS 2 sensor with an F1.6 lens to deliver 1080p at up to 100 fps and a 160° field of view at just 9.5 g, keeping images usable down to 0.0001 lux for night inspection, security and professional FPV."
+    },
+    "es": {
+      "title": "Cámaras FPV de baja luz para drones | DUNADRON",
+      "desc": "Cámara FPV HD de baja luz para fabricantes de drones: sensor STARVIS 2 de 1/1,8\", 1080p a 100 fps, 160° y 9,5 g. Imagen limpia hasta 0,0001 lux.",
+      "intro": "Cámaras FPV de baja luz para fabricantes de drones. La NightEye S2 combina un sensor STARVIS 2 de 1/1,8\" con lente F1.6 para ofrecer 1080p hasta 100 fps y 160° de campo de visión con solo 9,5 g, y mantiene una imagen útil hasta 0,0001 lux en inspección nocturna, seguridad y FPV profesional."
+    }
+  },
+  "cat:antennas": {
+    "en": {
+      "title": "5.8 GHz LHCP FPV Antennas – OEM Supply | DUNADRON",
+      "desc": "Compact 5.8 GHz LHCP omnidirectional FPV antennas for drone manufacturers: 1.9 dBi average gain, VSWR ≤ 1.5, IPEX-1, 2 g per unit. OEM volume supply.",
+      "intro": "Drone accessories that protect the video link: compact 5.8 GHz left-hand circularly polarized (LHCP) omnidirectional antennas. The OmniWave 5.8 LHCP covers 5600–6000 MHz with 1.9 dBi average gain and VSWR ≤ 1.5, weighs 2 g per unit and uses an IPEX-1 connector for clean integration on OEM airframes."
+    },
+    "es": {
+      "title": "Antenas FPV 5,8 GHz LHCP – suministro OEM | DUNADRON",
+      "desc": "Antenas FPV omnidireccionales LHCP de 5,8 GHz para fabricantes de drones: 1,9 dBi de ganancia media, VSWR ≤ 1,5, IPEX-1 y 2 g por unidad.",
+      "intro": "Accesorios para drones que protegen el enlace de vídeo: antenas omnidireccionales compactas de 5,8 GHz con polarización circular a izquierdas (LHCP). La OmniWave 5.8 LHCP cubre 5600–6000 MHz con 1,9 dBi de ganancia media y VSWR ≤ 1,5, pesa 2 g por unidad y usa conector IPEX-1 para integrarse limpiamente en estructuras OEM."
+    }
+  },
+  "prod:thermaview-960": {
+    "en": {
+      "title": "ThermaView 960 Thermal Camera for Drones | DUNADRON",
+      "desc": "ThermaView 960 drone thermal camera: 960 × 768 processed video, 50 Hz, F1.0, 4× digital zoom, HD digital link + USB UVC, <1.5 W. OEM pricing on request."
+    },
+    "es": {
+      "title": "ThermaView 960: cámara térmica para drones | DUNADRON",
+      "desc": "Cámara térmica ThermaView 960 para drones: vídeo procesado 960 × 768, 50 Hz, F1.0, zoom digital 4×, enlace digital HD + USB UVC y <1,5 W. Precio OEM."
+    }
+  },
+  "prod:aerolink-gt8-kit": {
+    "en": {
+      "title": "AeroLink GT8 Digital FPV System Kit | DUNADRON",
+      "desc": "AeroLink GT8 Kit: HD digital FPV system with 22 ms average latency, STARVIS 2 low-light camera, 1080p onboard recording and LHCP antennas. For drone OEMs."
+    },
+    "es": {
+      "title": "AeroLink GT8: kit de sistema FPV digital | DUNADRON",
+      "desc": "AeroLink GT8 Kit: sistema FPV digital HD con 22 ms de latencia media, cámara de baja luz STARVIS 2, grabación 1080p y antenas LHCP. Para fabricantes."
+    }
+  },
+  "prod:aerolink-gt8-vtx": {
+    "en": {
+      "title": "AeroLink GT8 VTX – HD Digital Video Transmitter | DUNADRON",
+      "desc": "AeroLink GT8 VTX: HD digital video transmitter for drones with 22 ms average latency, 8 channels, 1080p onboard recording and up to 256 GB micro SD."
+    },
+    "es": {
+      "title": "AeroLink GT8 VTX: transmisor de vídeo digital HD | DUNADRON",
+      "desc": "AeroLink GT8 VTX: transmisor de vídeo digital HD para drones con 22 ms de latencia media, 8 canales, grabación 1080p y micro SD de hasta 256 GB. 29,7 g."
+    }
+  },
+  "prod:aerolink-px": {
+    "en": {
+      "title": "AeroLink PX 1080p60 Digital Video Transmitter | DUNADRON",
+      "desc": "AeroLink PX: professional digital video transmitter with live 1080p at 60 fps, 35 ms average latency, dual MMCX antennas and 11.1–25.2 V input. OEM supply."
+    },
+    "es": {
+      "title": "AeroLink PX: transmisor de vídeo digital 1080p60 | DUNADRON",
+      "desc": "AeroLink PX: transmisor de vídeo digital profesional con imagen en directo 1080p a 60 fps, 35 ms de latencia media, doble MMCX y entrada de 11,1–25,2 V."
+    }
+  },
+  "prod:nighteye-s2": {
+    "en": {
+      "title": "NightEye S2 Low-Light FPV Camera | DUNADRON",
+      "desc": "NightEye S2 low-light FPV camera: 1/1.8\" STARVIS 2 sensor, 1080p at 100 fps, 160° FOV, F1.6, 9.5 g. Clean images down to 0.0001 lux. OEM pricing."
+    },
+    "es": {
+      "title": "NightEye S2: cámara FPV de baja luz | DUNADRON",
+      "desc": "Cámara FPV de baja luz NightEye S2: sensor STARVIS 2 de 1/1,8\", 1080p a 100 fps, 160°, F1.6 y 9,5 g. Imagen limpia hasta 0,0001 lux. Precio OEM."
+    }
+  },
+  "prod:omniwave-58-lhcp": {
+    "en": {
+      "title": "OmniWave 5.8 GHz LHCP FPV Antennas (Pair) | DUNADRON",
+      "desc": "OmniWave 5.8 LHCP omnidirectional FPV antennas: 5600–6000 MHz, 1.9 dBi average gain, VSWR ≤ 1.5, IPEX-1, 2 g each. Drone accessories for OEM volume supply."
+    },
+    "es": {
+      "title": "OmniWave 5.8: antenas FPV LHCP de 5,8 GHz | DUNADRON",
+      "desc": "Antenas FPV omnidireccionales OmniWave 5.8 LHCP: 5600–6000 MHz, 1,9 dBi de ganancia media, VSWR ≤ 1,5, IPEX-1 y 2 g cada una. Suministro OEM por volumen."
+    }
+  },
+  "quote": {
+    "en": {
+      "title": "Request OEM Pricing & Evaluation Kits | DUNADRON",
+      "desc": "Build your list of thermal and FPV modules and request OEM pricing, MOQ, lead times and evaluation kits. Our team replies by email with a tailored quote."
+    },
+    "es": {
+      "title": "Solicitar precio OEM y kit de evaluación | DUNADRON",
+      "desc": "Crea tu lista de módulos térmicos y FPV y solicita precio OEM, pedido mínimo, plazos y kits de evaluación. Te respondemos por email con una oferta."
+    }
+  },
+  "solutions": {
+    "en": {
+      "title": "Thermal & FPV Solutions by Application | DUNADRON",
+      "desc": "Thermal and FPV vision modules for search and rescue, security, industrial inspection, firefighting, professional FPV and OEM drone platforms."
+    },
+    "es": {
+      "title": "Soluciones térmicas y FPV por aplicación | DUNADRON",
+      "desc": "Módulos de visión térmica y FPV para rescate, seguridad, inspección industrial, bomberos, FPV profesional y plataformas de drones OEM."
+    }
+  },
+  "distributors": {
+    "en": {
+      "title": "OEM & White-Label Drone Camera Supply | DUNADRON",
+      "desc": "White-label thermal cameras and FPV systems for drone manufacturers, integrators and distributors. Volume pricing, evaluation kits and engineering support."
+    },
+    "es": {
+      "title": "Suministro OEM y marca blanca para drones | DUNADRON",
+      "desc": "Cámaras térmicas y sistemas FPV de marca blanca para fabricantes, integradores y distribuidores de drones. Precios por volumen, kits y soporte técnico."
+    }
+  },
+  "support": {
+    "en": {
+      "title": "Support & FAQ for OEM Integration | DUNADRON",
+      "desc": "Answers on compatibility, OEM pricing, lead times, warranty and radio regulations for our thermal and FPV modules. Datasheets and catalogue downloads."
+    },
+    "es": {
+      "title": "Soporte y preguntas frecuentes OEM | DUNADRON",
+      "desc": "Respuestas sobre compatibilidad, precio OEM, plazos, garantía y normativa radioeléctrica de nuestros módulos térmicos y FPV. Fichas técnicas y catálogo."
+    }
+  },
+  "about": {
+    "en": {
+      "title": "About DUNADRON – Drone Vision Systems, Madrid",
+      "desc": "DUNADRON (WSO Operations S.L., Madrid) supplies thermal imaging, low-light and HD digital FPV modules to drone manufacturers and integrators."
+    },
+    "es": {
+      "title": "Sobre DUNADRON – visión para drones, Madrid",
+      "desc": "DUNADRON (WSO Operations S.L., Madrid) suministra módulos de imagen térmica, baja luz y FPV digital HD a fabricantes e integradores de drones."
+    }
+  },
+  "contact": {
+    "en": {
+      "title": "Contact Sales & Engineering | DUNADRON",
+      "desc": "Talk to our sales and engineering team in Madrid about OEM pricing, evaluation kits and integrating thermal or FPV modules. info@dunadron.com"
+    },
+    "es": {
+      "title": "Contacto comercial e ingeniería | DUNADRON",
+      "desc": "Habla con nuestro equipo comercial y de ingeniería en Madrid sobre precio OEM, kits de evaluación e integración de módulos térmicos o FPV."
+    }
+  },
+  "news": {
+    "en": {
+      "title": "Drone Tech News for OEMs – Weekly | DUNADRON",
+      "desc": "Weekly drone industry news for manufacturers and integrators: thermal imaging, FPV video links, payloads, autonomy and regulation."
+    },
+    "es": {
+      "title": "Noticias de tecnología de drones | DUNADRON",
+      "desc": "Noticias semanales del sector dron para fabricantes e integradores: imagen térmica, enlaces de vídeo FPV, cargas útiles, autonomía y normativa."
+    }
+  },
+  "legal:legal-notice": {
+    "en": {
+      "title": "Legal Notice | DUNADRON",
+      "desc": "Legal notice for dunadron.com: website owner WSO Operations S.L., Calle Playa de Riazor 22, 28042 Madrid, Spain. Terms of use and contact details."
+    },
+    "es": {
+      "title": "Aviso legal | DUNADRON",
+      "desc": "Aviso legal de dunadron.com: titular WSO Operations S.L., Calle Playa de Riazor 22, 28042 Madrid. Condiciones de uso y datos de contacto."
+    }
+  },
+  "legal:privacy": {
+    "en": {
+      "title": "Privacy Policy | DUNADRON",
+      "desc": "How WSO Operations S.L. (DUNADRON) processes personal data sent through quote and contact forms, under the GDPR. Your rights and how to exercise them."
+    },
+    "es": {
+      "title": "Política de privacidad | DUNADRON",
+      "desc": "Cómo trata WSO Operations S.L. (DUNADRON) los datos de los formularios de presupuesto y contacto conforme al RGPD. Tus derechos y cómo ejercerlos."
+    }
+  },
+  "legal:cookies": {
+    "en": {
+      "title": "Cookie Policy | DUNADRON",
+      "desc": "Which cookies and local storage dunadron.com uses, why, and how to accept, reject or change your choice at any time."
+    },
+    "es": {
+      "title": "Política de cookies | DUNADRON",
+      "desc": "Qué cookies y almacenamiento local usa dunadron.com, para qué, y cómo aceptarlas, rechazarlas o cambiar tu elección en cualquier momento."
+    }
+  },
+  "legal:terms": {
+    "en": {
+      "title": "Terms & Conditions of Sale | DUNADRON",
+      "desc": "General terms and conditions for B2B quotes and orders of DUNADRON thermal and FPV modules supplied by WSO Operations S.L., Madrid."
+    },
+    "es": {
+      "title": "Condiciones generales de contratación | DUNADRON",
+      "desc": "Condiciones generales para presupuestos y pedidos B2B de módulos térmicos y FPV DUNADRON suministrados por WSO Operations S.L., Madrid."
+    }
+  }
+}

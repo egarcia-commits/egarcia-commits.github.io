@@ -1,7 +1,11 @@
 /* Site JS – no dependencies. RFQ list, filters, gallery, forms, cookies. */
 (function () {
   'use strict';
-  var S = window.SITE || {}, T = S.t || {}, d = document;
+  var d = document, S = {};
+  try { var sd = d.getElementById('site-data'); S = sd ? JSON.parse(sd.textContent) : (window.SITE || {}); } catch (e) { S = {}; }
+  window.SITE = S; var T = S.t || {};
+  var escH = function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var safeUrl = function (v) { v = String(v || ''); return /^\/(?!\/)/.test(v) ? v : '#'; };
   d.documentElement.classList.add('js');
   var $ = function (s, c) { return (c || d).querySelector(s); }, $$ = function (s, c) { return Array.prototype.slice.call((c || d).querySelectorAll(s)); };
   var store = { get: function (k, def) { try { return JSON.parse(localStorage.getItem(k)) || def; } catch (e) { return def; } }, set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
@@ -49,11 +53,11 @@
   var ql = $('[data-quote-list]');
   function renderQuote() {
     if (!ql) return; var it = Q.items();
-    if (!it.length) { ql.innerHTML = '<p class="muted">' + T.empty + '</p>'; return; }
+    if (!it.length) { ql.innerHTML = '<p class="muted">' + escH(T.empty) + '</p>'; return; }
     ql.innerHTML = it.map(function (x, i) {
-      return '<div class="q-item"><img src="' + x.image + '" alt=""><div class="q-name"><a href="' + x.url + '">' + x.name + '</a><small>Ref. ' + x.sku + '</small></div>' +
-        '<div class="qty"><button type="button" data-qq="' + i + '" data-d="-1" aria-label="-">−</button><input type="number" min="1" value="' + x.qty + '" data-qi="' + i + '" aria-label="' + T.qty + '"><button type="button" data-qq="' + i + '" data-d="1" aria-label="+">+</button></div>' +
-        '<button class="q-rm" type="button" data-rm="' + i + '" aria-label="' + T.remove + '">✕</button></div>';
+      return '<div class="q-item"><img src="' + escH(safeUrl(x.image)) + '" alt=""><div class="q-name"><a href="' + escH(safeUrl(x.url)) + '">' + escH(x.name) + '</a><small>Ref. ' + escH(x.sku) + '</small></div>' +
+        '<div class="qty"><button type="button" data-qq="' + i + '" data-d="-1" aria-label="-">−</button><input type="number" min="1" value="' + (parseInt(x.qty, 10) || 1) + '" data-qi="' + i + '" aria-label="' + escH(T.qty) + '"><button type="button" data-qq="' + i + '" data-d="1" aria-label="+">+</button></div>' +
+        '<button class="q-rm" type="button" data-rm="' + i + '" aria-label="' + escH(T.remove) + '">✕</button></div>';
     }).join('');
   }
   if (ql) {
@@ -116,7 +120,7 @@
   /* ===== Gallery ===== */
   var g = $('[data-gallery]');
   if (g) { var main = $('[data-g-main]', g);
-    $$('[data-g-src]', g).forEach(function (b) { b.addEventListener('click', function () { main.style.opacity = 0; setTimeout(function () { main.src = b.dataset.gSrc; main.style.opacity = 1; }, 150);
+    $$('[data-g-src]', g).forEach(function (b) { b.addEventListener('click', function () { main.style.opacity = 0; setTimeout(function () { if (b.dataset.gSrcset) main.srcset = b.dataset.gSrcset; else main.removeAttribute('srcset'); main.src = b.dataset.gSrc; main.style.opacity = 1; }, 150);
       $$('[data-g-src]', g).forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); }); }); }
 
   /* ===== Cookies + optional analytics (only after consent) ===== */

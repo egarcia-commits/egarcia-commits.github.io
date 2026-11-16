@@ -58,7 +58,15 @@
     "hours": {
       "en": "Mon–Fri 9:00–18:00 (CET)",
       "es": "Lun–Vie 9:00–18:00 (CET)"
-    }
+    },
+    "addressParts": {
+      "street": "Calle Playa de Riazor nº 22, P.4",
+      "postalCode": "28042",
+      "locality": "Madrid",
+      "region": "Comunidad de Madrid",
+      "country": "ES"
+    },
+    "addressParts_note": "Structured address for schema.org (Organization). Keep in sync with 'address'."
   },
   "social": {
     "instagram": "",
@@ -68,7 +76,7 @@
     "tiktok": ""
   },
   "site": {
-    "url": "https://www.[yourdomain].com",
+    "url": "https://egarcia-commits.github.io",
     "productionUrl": "https://dunadron.com",
     "productionUrl_note": "Used only when building with PROD=1 or `npm run build:prod`. The default `url` and previewBanner stay as they are for the GitHub Pages draft.",
     "defaultLang": "en",
@@ -80,7 +88,8 @@
     "showPrices": false,
     "newsPerPage": 12,
     "previewBanner": true,
-    "previewBanner_note": "true = show a thin 'DRAFT · for partner review' bar and highlight [PLACEHOLDERS]. Set false before going live."
+    "previewBanner_note": "true = show a thin 'DRAFT · for partner review' bar and highlight [PLACEHOLDERS]. Set false before going live.",
+    "url_note": "Draft (GitHub Pages) URL. The draft is always built with noindex; production uses productionUrl."
   },
   "forms": {
     "endpoint": "",
