@@ -1,4 +1,3 @@
+# Draft / preview build – not for search engines (pages also carry noindex)
 User-agent: *
 Allow: /
-
-Sitemap: https://www.[yourdomain].com/sitemap.xml
