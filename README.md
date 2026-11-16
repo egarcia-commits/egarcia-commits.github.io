@@ -7,9 +7,17 @@ build. The output in `dist/` is plain HTML/CSS/JS and runs on any cheap host (Ne
 Pages, GitHub Pages, Vercel, or any Apache/Nginx hosting such as a regular cPanel plan).
 
 ```
-node build.js              # builds ./dist   (or: npm run build)
-npm run serve              # build + preview at http://localhost:8088
+node build.js              # builds ./dist         (draft / GitHub Pages)
+PROD=1 node build.js       # builds ./dist-prod    (production for dunadron.com)
+npm run build:prod         # same as PROD=1
+npm run serve              # draft build + preview at http://localhost:8088
 ```
+
+A production build turns off the draft banner, writes canonical URLs as `https://dunadron.com`,
+replaces remaining `[PLACEHOLDER]` commercial lines with “on request / bajo consulta” wording,
+and adds an Apache `.htaccess` (HTTPS, www→apex, 404, gzip, caching). The GitHub Pages draft
+in `dist/` is unchanged unless you run a plain `node build.js`. Zip the contents of `dist-prod/`
+(including the hidden `.htaccess`) to upload to the hosting `public_html`.
 
 ## Folder structure
 
@@ -35,7 +43,10 @@ npm run serve              # build + preview at http://localhost:8088
 4. `node build.js` and upload `dist/`.
 
 Everything written in `[square brackets]` is a **placeholder**. While `site.previewBanner` is `true`,
-placeholders are highlighted in yellow and a "DRAFT · for partner review" bar is shown. Set it to `false` before launch.
+placeholders are highlighted in yellow and a "DRAFT · for partner review" bar is shown. Leave this
+`true` for the GitHub Pages draft. Production wording is applied automatically by `PROD=1 node build.js`
+(or `npm run build:prod`); do not flip `previewBanner` in this file unless you also intend to rebuild
+and redeploy the draft.
 
 ## How to add a product
 

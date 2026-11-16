@@ -1,0 +1,49 @@
+Cómo publicar la web de DUNADRON en dunadron.com
+================================================
+
+Archivo a subir: DUNADRON_web_dunadron.com.zip
+Este ZIP contiene la web ya lista (HTML, CSS, imágenes, PDFs y el archivo oculto .htaccess).
+No es WordPress: es una web estática. No hace falta base de datos ni PHP.
+
+1. Descomprime el ZIP en tu ordenador. Verás carpetas como en, es, assets, img, fonts, downloads
+   y archivos como index.html, robots.txt, sitemap.xml y .htaccess (este último está oculto).
+
+2. Entra en el panel de tu hosting (o conéctate por FTP / SFTP) y abre la carpeta pública
+   del dominio dunadron.com. Suele llamarse public_html, www o httpdocs.
+   Sube el CONTENIDO del ZIP (los archivos y carpetas de dentro), no la carpeta que los envuelve.
+   Si ya hay un index.html, sustitúyelo.
+
+3. Asegúrate de que se ha subido el archivo oculto .htaccess. En el administrador de archivos
+   del hosting, activa la opción de “mostrar archivos ocultos” y comprueba que está en la
+   misma carpeta que index.html. Ese archivo:
+   - redirige el tráfico a HTTPS
+   - redirige www.dunadron.com a dunadron.com
+   - muestra la página 404 si una ruta no existe
+   - activa la compresión gzip y la caché de imágenes y estilos
+
+4. En el panel del hosting, activa el certificado SSL/HTTPS (normalmente Let’s Encrypt,
+   “SSL gratis” o “HTTPS”). Sin esto, el candado no aparecerá y la redirección a HTTPS
+   puede no funcionar.
+
+5. Comprueba en el navegador:
+   - https://dunadron.com  (debe llevarte a /en/)
+   - https://dunadron.com/en/
+   - https://dunadron.com/es/
+   - https://www.dunadron.com  (debe redirigir a dunadron.com, sin www)
+
+Notas importantes
+-----------------
+- El formulario de presupuesto abre el correo del visitante hacia info@dunadron.com.
+  No necesita backend. Asegúrate de que esa cuenta de correo ya recibe mensajes.
+
+- Las noticias de esta copia son las de la fecha de generación del ZIP. La rutina
+  semanal actualiza el borrador de GitHub Pages, pero esos cambios NO llegarán
+  solos a tu servidor. Para tener las noticias nuevas en dunadron.com hay que
+  volver a subir un ZIP actualizado, o dar acceso FTP para que se pueda publicar
+  automáticamente.
+
+- El borrador de revisión para socios sigue en:
+  https://egarcia-commits.github.io/en/
+
+Si algo no carga (estilos, imágenes o el .htaccess), revisa que subiste el contenido
+a la raíz del dominio y no dentro de una subcarpeta.

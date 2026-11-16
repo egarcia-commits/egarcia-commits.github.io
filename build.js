@@ -1,17 +1,30 @@
 #!/usr/bin/env node
-/* Static site builder – zero dependencies. Usage: node build.js  ->  ./dist
+/* Static site builder – zero dependencies.
+   Usage:
+     node build.js                 → ./dist       (draft, GitHub Pages)
+     PROD=1 node build.js          → ./dist-prod  (production for dunadron.com)
+     node build.js --prod
    Content:  site.config.json · products/*.json · news/*.md · content/*  */
 'use strict';
 const fs = require('fs'), path = require('path');
-const ROOT = __dirname, DIST = path.join(ROOT, 'dist');
+const ROOT = __dirname;
+const PROD = process.env.PROD === '1' || process.argv.includes('--prod');
 const readJSON = f => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
 const cfg = readJSON('site.config.json');
+if (PROD) {
+  cfg.site.previewBanner = false;
+  cfg.site.url = String(cfg.site.productionUrl || 'https://dunadron.com').replace(/\/$/, '');
+}
+const DIST = path.join(ROOT, process.env.DIST_DIR || (PROD ? 'dist-prod' : 'dist'));
 const I18N = readJSON('content/i18n.json');
+const prodCopy = PROD ? require('./content/production-copy') : null;
+if (prodCopy) prodCopy.applyToI18n(I18N);
 const CATALOG = readJSON('content/catalog.json');
 const LANGS = cfg.site.languages, DEF = cfg.site.defaultLang;
 const SITE = cfg.site.url.replace(/\/$/, '');
 const BRAND = cfg.brand.name;
 const PREVIEW = !!cfg.site.previewBanner;
+const onRequest = lang => (lang === 'es' ? 'Bajo consulta' : 'On request');
 
 /* ---------- helpers ---------- */
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -280,6 +293,57 @@ function formFields(lang, kind) {
   return x;
 }
 
+
+function apacheHtaccess() {
+  return `# DUNADRON – Apache config for dunadron.com
+Options -Indexes
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # HTTPS (also honours a proxy / load-balancer header)
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  # www → apex (dunadron.com)
+  RewriteCond %{HTTP_HOST} ^www\\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 1 hour"
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType image/x-icon "access plus 30 days"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType application/pdf "access plus 7 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  <FilesMatch "\\.(css|js)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "\\.(webp|jpg|jpeg|png|svg|ico|woff|woff2)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>
+`;
+}
+
 /* ---------- pages ---------- */
 function build() {
   fs.rmSync(DIST, { recursive: true, force: true });
@@ -331,7 +395,7 @@ function build() {
     <h3>${esc(T.oem.tiersTitle)}</h3>
     <p class="muted small">${esc(T.oem.tiersLead)}</p>
     <div class="table-wrap"><table class="oem-table"><thead><tr>${T.oem.tiersHead.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${T.oem.tiers.map(r => `<tr>${r.map(c => `<td>${phText(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
-    <p class="muted small">${phText(T.oem.certs)}</p>
+    ${T.oem.certs ? `<p class="muted small">${phText(T.oem.certs)}</p>` : ''}
     <div class="btn-row"><a class="btn btn-primary" href="${u(lang, 'quote/')}">${esc(T.cta.quote)} ${icon('arrow')}</a><a class="btn btn-ghost" href="${u(lang, 'quote/')}">${esc(T.cta.samples)}</a><a class="btn btn-ghost" href="${u(lang, 'contact/')}">${esc(T.cta.engineering)}</a><a class="btn btn-ghost" href="${kitPdf}" download>${icon('download')} ${esc(T.cta.catalogue)}</a></div>
     <p class="muted small"><a class="link-arrow" href="${u(lang, 'distributors/')}">${esc(T.cta.b2b)} ${icon('arrow')}</a></p>
   </div>
@@ -386,7 +450,7 @@ function build() {
     <ul class="pd-stats">${L.stats.map(s => `<li><b>${esc(s.value)}${s.unit ? `<small>${esc(s.unit)}</small>` : ''}</b><span>${esc(s.label)}</span></li>`).join('')}</ul>
     <div class="buy-box" data-product='${esc(JSON.stringify(cartData))}'>
       <div class="bb-row"><div><span class="muted small">${esc(P_.price)}</span><div class="bb-price">${esc(P_.priceOnRequest)}</div><span class="muted small">${esc(P_.vat)}</span></div><div class="bb-meta"><span>${esc(P_.sku)} <b>${esc(p.sku)}</b></span><span class="stock">${icon('check')} ${esc(P_.stock_on_request)}</span></div></div>
-      <ul class="bb-terms"><li>${esc(T.oem.moq)}: ${ph('[MOQ]')}</li><li>${esc(T.oem.leadTime)}: ${ph('[LEAD TIME]')}</li><li>${phText(T.oem.certs)}</li></ul>
+      <ul class="bb-terms"><li>${esc(T.oem.moq)}: ${PREVIEW ? ph('[MOQ]') : esc(onRequest(lang))}</li><li>${esc(T.oem.leadTime)}: ${PREVIEW ? ph('[LEAD TIME]') : esc(onRequest(lang))}</li>${T.oem.certs ? `<li>${phText(T.oem.certs)}</li>` : ''}</ul>
       <div class="bb-actions">
         <div class="qty"><button type="button" data-qty="-1" aria-label="-">−</button><input type="number" min="1" value="1" aria-label="${esc(T.quote.qty)}" data-qty-input><button type="button" data-qty="1" aria-label="+">+</button></div>
         <button class="btn btn-primary" data-add-quote>${icon('list')} <span>${esc(T.cta.addQuote)}</span></button>
@@ -504,7 +568,8 @@ function build() {
     for (const k of ['legal-notice', 'privacy', 'cookies', 'terms']) {
       const f = path.join(ROOT, 'content/legal', lang, k + '.md');
       const { data, body } = frontmatter(fs.readFileSync(fs.existsSync(f) ? f : path.join(ROOT, 'content/legal', DEF, k + '.md'), 'utf8'));
-      let html = md(body); if (PREVIEW) html = html.replace(/\[[^\]<]{2,}\]/g, m => `<span class="ph">${m}</span>`);
+      const legalBody = prodCopy ? prodCopy.applyToLegal(body, lang) : body;
+      let html = md(legalBody); if (PREVIEW) html = html.replace(/\[[^\]<]{2,}\]/g, m => `<span class="ph">${m}</span>`);
       write(`${lang}/legal/${k}/index.html`, layout(lang, { title: data.title, desc: `${data.title} – ${BRAND}`, path: `legal/${k}/`, nav: '',
         body: pageHead(T.footer.legal, data.title, '', crumbs(lang, [[data.title, u(lang, 'legal/' + k + '/')]])) + `<section class="section tight"><div class="wrap narrow prose legal">${html}</div></section>` }));
     }
@@ -529,7 +594,8 @@ function build() {
   write('en/news/feed.xml', `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>${esc(BRAND)} – ${esc(I18N.en.news.title)}</title><link>${SITE}/en/news/</link><description>${esc(I18N.en.news.metaDesc)}</description>${news.map(n => `<item><title>${esc(n.title)}</title><link>${SITE}/en/news/${n.slug}/</link><guid>${SITE}/en/news/${n.slug}/</guid><pubDate>${new Date(n.date + 'T08:00:00Z').toUTCString()}</pubDate><description>${esc(n.summary)}</description></item>`).join('')}</channel></rss>`);
   /* hosting helpers */
   write('_headers', `/assets/*\n  Cache-Control: public, max-age=604800\n/img/*\n  Cache-Control: public, max-age=2592000\n/fonts/*\n  Cache-Control: public, max-age=31536000, immutable\n/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n`);
-  write('.htaccess', `ErrorDocument 404 /404.html\nOptions -Indexes\n<IfModule mod_expires.c>\nExpiresActive On\nExpiresByType image/webp "access plus 30 days"\nExpiresByType text/css "access plus 7 days"\nExpiresByType application/javascript "access plus 7 days"\n</IfModule>\n`);
-  console.log(`Built ${pagesForSitemap.length} indexable pages · ${products.length} products · ${news.length} news → dist/`);
+  write('.htaccess', PROD ? apacheHtaccess() : `ErrorDocument 404 /404.html\nOptions -Indexes\n<IfModule mod_expires.c>\nExpiresActive On\nExpiresByType image/webp "access plus 30 days"\nExpiresByType text/css "access plus 7 days"\nExpiresByType application/javascript "access plus 7 days"\n</IfModule>\n`);
+  const outRel = path.relative(ROOT, DIST) || DIST;
+  console.log(`Built ${pagesForSitemap.length} indexable pages · ${products.length} products · ${news.length} news → ${outRel}/${PROD ? ' (production)' : ' (draft)'}`);
 }
 build();

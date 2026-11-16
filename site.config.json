@@ -69,6 +69,8 @@
   },
   "site": {
     "url": "https://www.[yourdomain].com",
+    "productionUrl": "https://dunadron.com",
+    "productionUrl_note": "Used only when building with PROD=1 or `npm run build:prod`. The default `url` and previewBanner stay as they are for the GitHub Pages draft.",
     "defaultLang": "en",
     "languages": [
       "en",
