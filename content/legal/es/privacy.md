@@ -4,7 +4,7 @@ title: Política de privacidad
 > **Plantilla – revisar con un abogado antes de publicar.**
 
 ## 1. Responsable del tratamiento
-{{legalName}} ({{brand}}), CIF {{taxId}}, {{address}}. Email de contacto en materia de privacidad: {{email}}.
+{{legalName}} ({{brand}}), {{address}}. Email de contacto en materia de privacidad: {{email}}.
 
 ## 2. Datos que tratamos y finalidades
 - **Formularios de contacto, presupuesto y distribuidores:** nombre, empresa, email, teléfono, país y mensaje, para responder a tu solicitud y, en su caso, preparar una oferta comercial.

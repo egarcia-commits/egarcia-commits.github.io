@@ -13,10 +13,7 @@
     "faviconPng": "/img/brand/favicon-32.png",
     "appleTouchIcon": "/img/brand/icon-512.png",
     "ogImage": "/img/og-default.jpg",
-    "legalName": "WSO Operations S.L.",
-    "taxId": "[CIF/NIF]",
-    "registry": "[Registro Mercantil de ..., Tomo ..., Folio ..., Hoja ...]",
-    "foundedYear": "[YEAR]"
+    "legalName": "WSO Operations S.L."
   },
   "colors": {
     "bg": "#070B12",
@@ -54,7 +51,7 @@
   "contact": {
     "email": "info@dunadron.com",
     "salesEmail": "info@dunadron.com",
-    "phone": "[+34 600 000 000]",
+    "phone": "+34 911 405 924",
     "whatsapp": "[34600000000]",
     "whatsapp_note": "International format, digits only, no + or spaces (e.g. 34612345678)",
     "address": "Calle Playa de Riazor nº 22, P.4, 28042 Madrid, Spain",

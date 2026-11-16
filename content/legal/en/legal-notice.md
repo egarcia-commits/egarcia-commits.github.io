@@ -8,10 +8,8 @@ In compliance with article 10 of Spanish Law 34/2002 on Information Society Serv
 
 - **Owner:** {{legalName}}
 - **Trade name:** {{brand}}
-- **Tax ID (CIF/NIF):** {{taxId}}
 - **Registered address:** {{address}}
 - **Email:** {{email}} · **Phone:** {{phone}}
-- **Commercial registry:** {{registry}}
 
 ## 2. Purpose
 This legal notice governs the use of the website {{url}} (the "Website"), dedicated to information about and sale of FPV video systems, cameras and drone accessories.

@@ -4,7 +4,7 @@ title: Privacy policy
 > **Template – have it reviewed by a lawyer before publishing.** The Spanish version prevails.
 
 ## 1. Data controller
-{{legalName}} ({{brand}}), Tax ID {{taxId}}, {{address}}. Privacy contact: {{email}}.
+{{legalName}} ({{brand}}), {{address}}. Privacy contact: {{email}}.
 
 ## 2. Data we process and purposes
 - **Contact, quote and distributor forms:** name, company, email, phone, country and message, to answer your request and, where applicable, prepare a commercial offer.

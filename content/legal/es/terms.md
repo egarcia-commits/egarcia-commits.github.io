@@ -4,7 +4,7 @@ title: Condiciones generales de contratación
 > **Plantilla – revisar con un abogado antes de publicar.**
 
 ## 1. Ámbito
-Estas condiciones regulan las ventas realizadas por {{legalName}} ({{brand}}), CIF {{taxId}}, a través de la Web {{url}} o mediante presupuesto. Las ventas se ofrecen actualmente a empresas (fabricantes de drones, integradores, distribuidores y otros clientes profesionales). De momento no se ofrece venta al consumidor final. Si se realizara una venta a un consumidor, se aplicarían las protecciones legales resumidas más abajo.
+Estas condiciones regulan las ventas realizadas por {{legalName}} ({{brand}}) a través de la Web {{url}} o mediante presupuesto. Las ventas se ofrecen actualmente a empresas (fabricantes de drones, integradores, distribuidores y otros clientes profesionales). De momento no se ofrece venta al consumidor final. Si se realizara una venta a un consumidor, se aplicarían las protecciones legales resumidas más abajo.
 
 ## 2. Proceso de compra
 Actualmente las ventas se formalizan mediante presupuesto: el cliente envía su solicitud, recibe una oferta con precio, impuestos, gastos de envío y plazo, y el contrato se perfecciona con la aceptación de la oferta y el pago.

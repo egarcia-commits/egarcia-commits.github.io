@@ -4,7 +4,7 @@ title: Terms & conditions
 > **Template – have it reviewed by a lawyer before publishing.** The Spanish version prevails.
 
 ## 1. Scope
-These terms govern sales made by {{legalName}} ({{brand}}), Tax ID {{taxId}}, through the Website {{url}} or by quotation. Sales are currently offered to businesses (drone manufacturers, integrators, distributors and other professional customers). Consumer retail is not offered at this stage. If a consumer sale were made, the mandatory consumer protections summarised below would apply.
+These terms govern sales made by {{legalName}} ({{brand}}) through the Website {{url}} or by quotation. Sales are currently offered to businesses (drone manufacturers, integrators, distributors and other professional customers). Consumer retail is not offered at this stage. If a consumer sale were made, the mandatory consumer protections summarised below would apply.
 
 ## 2. Ordering process
 Sales are currently made by quotation: the customer sends a request, receives an offer stating price, taxes, shipping cost and lead time, and the contract is concluded upon acceptance of the offer and payment.

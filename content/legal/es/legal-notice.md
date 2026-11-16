@@ -8,10 +8,8 @@ En cumplimiento del artículo 10 de la Ley 34/2002, de Servicios de la Sociedad 
 
 - **Titular:** {{legalName}}
 - **Nombre comercial:** {{brand}}
-- **CIF/NIF:** {{taxId}}
 - **Domicilio:** {{address}}
 - **Email:** {{email}} · **Teléfono:** {{phone}}
-- **Datos registrales:** {{registry}}
 
 ## 2. Objeto
 El presente aviso legal regula el uso del sitio web {{url}} (en adelante, la Web), dedicado a la información y comercialización de sistemas de vídeo FPV, cámaras y accesorios para drones.
