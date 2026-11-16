@@ -147,7 +147,11 @@ function logo(lang) {
   if (b.logoFull) return `<a class="logo logo-full" href="${u(lang)}" aria-label="${esc(BRAND)} – home"><img src="${b.logoFull}" alt="${esc(BRAND)}" height="40"></a>`;
   return `<a class="logo" href="${u(lang)}" aria-label="${esc(BRAND)} – ${esc(I18N[lang].nav.home)}">${b.logoMark ? `<img src="${b.logoMark}" alt="" width="38" height="38">` : ''}<span class="logo-txt"><b>${esc(BRAND)}</b><small>${esc(b.tagline[lang])}</small></span></a>`;
 }
-function waLink(text) { return `https://wa.me/${digits(cfg.contact.whatsapp)}?text=${encodeURIComponent(text)}`; }
+function waNumber() {
+  const w = String(cfg.contact.whatsapp || '').trim();
+  return w && !isPh(w) ? digits(w) : '';
+}
+function waLink(text) { return `https://wa.me/${waNumber()}?text=${encodeURIComponent(text)}`; }
 function layout(lang, o) {
   const T = I18N[lang];
   const pth = o.path; // path after /lang/
@@ -157,7 +161,7 @@ function layout(lang, o) {
   pagesForSitemap.push({ loc: canonical, lastmod: o.lastmod });
   const alt = LANGS.map(l => `<link rel="alternate" hreflang="${l}" href="${SITE + u(l, pth)}">`).join('') + `<link rel="alternate" hreflang="x-default" href="${SITE + u(DEF, pth)}">`;
   const c = cfg.colors;
-  const jsCfg = { lang, brand: BRAND, email: cfg.contact.salesEmail || cfg.contact.email, wa: digits(cfg.contact.whatsapp), endpoint: cfg.forms.endpoint || '', analytics: cfg.analytics,
+  const jsCfg = { lang, brand: BRAND, email: cfg.contact.salesEmail || cfg.contact.email, wa: waNumber(), endpoint: cfg.forms.endpoint || '', analytics: cfg.analytics,
     t: { added: T.cta.added, addQuote: T.cta.addQuote, empty: T.quote.empty, qty: T.quote.qty, remove: T.quote.remove, intro: T.quote.intro, sent: T.form.sent, mailto: T.form.mailto, results: T.products.results } };
   const social = Object.entries(cfg.social).filter(([, v]) => v).map(([k, v]) => `<a href="${esc(v)}" target="_blank" rel="noopener">${k}</a>`).join(' · ');
   return `<!doctype html>
@@ -215,7 +219,7 @@ ${o.body}
       <ul class="contact-list">
         <li>${icon('mail')}<a href="mailto:${esc(cfg.contact.email)}">${ph(cfg.contact.email)}</a></li>
         <li>${icon('phone')}<a href="tel:+${digits(cfg.contact.phone)}">${ph(cfg.contact.phone)}</a></li>
-        <li>${WA}<a href="${waLink(BRAND)}" target="_blank" rel="noopener">WhatsApp ${ph('+' + cfg.contact.whatsapp)}</a></li>
+        ${waNumber() ? `<li>${WA}<a href="${waLink(BRAND)}" target="_blank" rel="noopener">WhatsApp ${ph('+' + cfg.contact.whatsapp)}</a></li>` : ''}
       </ul>${social ? `<p class="social">${social}</p>` : ''}
     </div>
     <div><h3>${esc(T.footer.shop)}</h3><ul>${cats.map(c => `<li><a href="${u(lang, 'products/category/' + c.id + '/')}">${esc(c[lang].name)}</a></li>`).join('')}<li><a href="${u(lang, 'quote/')}">${esc(T.nav.quote)}</a></li></ul></div>
@@ -224,7 +228,7 @@ ${o.body}
   </div>
   <div class="wrap foot-bottom"><span>© <span data-year>${new Date().getFullYear()}</span> ${esc(BRAND)} · ${ph(cfg.brand.legalName)} · ${esc(T.footer.rights)}</span><span>${LANGS.map(l => `<a href="${u(l, pth)}" hreflang="${l}" data-lang="${l}"${l === lang ? ' aria-current="true"' : ''}>${esc(I18N[l].langName)}</a>`).join(' · ')}</span></div>
 </footer>
-<a class="wa-float" href="${waLink(lang === 'es' ? `Hola ${BRAND}, me gustaría información OEM (precios, muestras o integración).` : `Hello ${BRAND}, I would like OEM information (pricing, samples or integration).`)}" target="_blank" rel="noopener" aria-label="WhatsApp">${WA}</a>
+${waNumber() ? `<a class="wa-float" href="${waLink(lang === 'es' ? `Hola ${BRAND}, me gustaría información OEM (precios, muestras o integración).` : `Hello ${BRAND}, I would like OEM information (pricing, samples or integration).`)}" target="_blank" rel="noopener" aria-label="WhatsApp">${WA}</a>` : ''}
 <div class="cookie" id="cookie" hidden role="dialog" aria-live="polite" aria-label="Cookies"><p>${esc(T.cookie.text)} <a href="${u(lang, 'legal/cookies/')}">${esc(T.cookie.more)}</a></p><div><button class="btn btn-ghost btn-sm" data-cookie="reject">${esc(T.cookie.reject)}</button><button class="btn btn-primary btn-sm" data-cookie="accept">${esc(T.cookie.accept)}</button></div></div>
 <script>window.SITE=${JSON.stringify(jsCfg)}</script>
 <script src="/assets/main.js?v=${BUILD_ID}" defer></script>
@@ -387,7 +391,7 @@ function build() {
         <div class="qty"><button type="button" data-qty="-1" aria-label="-">−</button><input type="number" min="1" value="1" aria-label="${esc(T.quote.qty)}" data-qty-input><button type="button" data-qty="1" aria-label="+">+</button></div>
         <button class="btn btn-primary" data-add-quote>${icon('list')} <span>${esc(T.cta.addQuote)}</span></button>
       </div>
-      <div class="bb-actions wrap-actions"><a class="btn btn-ghost" href="${esc(mail)}">${icon('mail')} ${esc(T.cta.quote)}</a><a class="btn btn-ghost" href="${esc(evalMail)}">${icon('box')} ${esc(T.cta.samples)}</a><a class="btn btn-ghost" href="${esc(engMail)}">${icon('chat')} ${esc(T.cta.engineering)}</a><a class="btn btn-wa" href="${waLink(waText)}" target="_blank" rel="noopener">${WA} ${esc(T.cta.whatsapp)}</a></div>
+      <div class="bb-actions wrap-actions"><a class="btn btn-ghost" href="${esc(mail)}">${icon('mail')} ${esc(T.cta.quote)}</a><a class="btn btn-ghost" href="${esc(evalMail)}">${icon('box')} ${esc(T.cta.samples)}</a><a class="btn btn-ghost" href="${esc(engMail)}">${icon('chat')} ${esc(T.cta.engineering)}</a>${waNumber() ? `<a class="btn btn-wa" href="${waLink(waText)}" target="_blank" rel="noopener">${WA} ${esc(T.cta.whatsapp)}</a>` : ''}</div>
     </div>
     <div class="downloads"><h2 class="h-sm">${esc(P_.downloads)}</h2>${p.downloads.map(d => `<a class="dl" href="${d.file[lang] || d.file.en}" download>${icon('file')}<span>${esc(d.label[lang] || d.label.en)}</span>${icon('download')}</a>`).join('')}</div>
   </div>
@@ -419,7 +423,7 @@ function build() {
     write(`${lang}/quote/index.html`, layout(lang, { title: Q.title, desc: Q.lead, path: 'quote/', nav: '',
       body: pageHead(T.nav.quote, Q.title, Q.lead, crumbs(lang, [[Q.title, u(lang, 'quote/')]])) + `<section class="section tight"><div class="wrap quote-grid">
       <div><div class="quote-list" data-quote-list><p class="muted">${esc(Q.empty)}</p></div><a class="link-arrow" href="${u(lang, 'products/')}">${esc(T.cta.explore)} ${icon('arrow')}</a></div>
-      <form class="panel form" data-form="quote" novalidate><h2 class="h-sm">${esc(T.cta.quote)}</h2>${formFields(lang, 'quote')}<div class="btn-row"><button class="btn btn-primary" type="submit">${icon('mail')} ${esc(Q.sendEmail)}</button><button class="btn btn-wa" type="button" data-quote-wa>${WA} ${esc(Q.sendWa)}</button></div><p class="form-msg" role="status"></p></form>
+      <form class="panel form" data-form="quote" novalidate><h2 class="h-sm">${esc(T.cta.quote)}</h2>${formFields(lang, 'quote')}<div class="btn-row"><button class="btn btn-primary" type="submit">${icon('mail')} ${esc(Q.sendEmail)}</button>${waNumber() ? `<button class="btn btn-wa" type="button" data-quote-wa>${WA} ${esc(Q.sendWa)}</button>` : ''}</div><p class="form-msg" role="status"></p></form>
       </div></section>` }));
 
     /* SOLUTIONS */
@@ -443,7 +447,7 @@ function build() {
       </div></div></section>
       <section class="section alt"><div class="wrap form-wrap"><div><h2>${esc(B.formTitle)}</h2><p class="muted">${esc(H.b2bLead)}</p><p class="muted small">${esc(B.distributorNote)}</p>
       <div class="btn-row"><a class="btn btn-ghost" href="${u(lang, 'quote/')}">${esc(T.cta.quote)}</a><a class="btn btn-ghost" href="${u(lang, 'contact/')}">${esc(T.cta.engineering)}</a><a class="btn btn-ghost" href="${kitPdf}" download>${icon('download')} ${esc(T.cta.catalogue)}</a></div>
-      <ul class="contact-list big"><li>${icon('mail')}<a href="mailto:${esc(cfg.contact.salesEmail)}">${ph(cfg.contact.salesEmail)}</a></li><li>${WA}<a href="${waLink(lang === 'es' ? 'Hola, soy un fabricante/integrador y quiero información OEM.' : 'Hello, I am a manufacturer/integrator and would like OEM information.')}" target="_blank" rel="noopener">WhatsApp</a></li></ul></div>
+      <ul class="contact-list big"><li>${icon('mail')}<a href="mailto:${esc(cfg.contact.salesEmail)}">${ph(cfg.contact.salesEmail)}</a></li>${waNumber() ? `<li>${WA}<a href="${waLink(lang === 'es' ? 'Hola, soy un fabricante/integrador y quiero información OEM.' : 'Hello, I am a manufacturer/integrator and would like OEM information.')}" target="_blank" rel="noopener">WhatsApp</a></li>` : ''}</ul></div>
       <form class="panel form" data-form="b2b" novalidate>${formFields(lang, 'b2b')}<button class="btn btn-primary" type="submit">${esc(T.cta.send)} ${icon('arrow')}</button><p class="form-msg" role="status"></p></form></div></section>` }));
 
     /* SUPPORT */
@@ -452,7 +456,7 @@ function build() {
     write(`${lang}/support/index.html`, layout(lang, { title: SU.title, desc: SU.metaDesc, path: 'support/', nav: 'support',
       body: pageHead(T.nav.support, SU.title, SU.lead, crumbs(lang, [[SU.title, u(lang, 'support/')]])) + `<section class="section tight"><div class="wrap support-grid"><div class="faq">${SU.faq.map(q => `<details class="reveal"><summary>${esc(q[0])}</summary><p>${PREVIEW && isPh(q[1]) ? q[1].replace(/\[[^\]]+\]/g, m => `<span class="ph">${esc(m)}</span>`) : esc(q[1])}</p></details>`).join('')}</div>
       <aside><div class="panel"><h2 class="h-sm">${icon('file')} ${esc(SU.docsTitle)}</h2><p class="muted small">${esc(SU.docsLead)}</p><a class="dl" href="${kitPdf}" download>${icon('file')}<span>${esc(T.cta.catalogue)}</span>${icon('download')}</a>${products.map(p => `<a class="dl" href="${p.downloads[0].file[lang]}" download>${icon('file')}<span>${esc(pl(p, lang).name)}</span>${icon('download')}</a>`).join('')}</div>
-      <div class="panel"><h2 class="h-sm">${icon('chat')} ${esc(T.nav.contact)}</h2><ul class="contact-list"><li>${icon('mail')}<a href="mailto:${esc(cfg.contact.email)}">${ph(cfg.contact.email)}</a></li><li>${WA}<a href="${waLink(BRAND)}" target="_blank" rel="noopener">WhatsApp</a></li></ul></div></aside></div></section>`,
+      <div class="panel"><h2 class="h-sm">${icon('chat')} ${esc(T.nav.contact)}</h2><ul class="contact-list"><li>${icon('mail')}<a href="mailto:${esc(cfg.contact.email)}">${ph(cfg.contact.email)}</a></li>${waNumber() ? `<li>${WA}<a href="${waLink(BRAND)}" target="_blank" rel="noopener">WhatsApp</a></li>` : ''}</ul></div></aside></div></section>`,
       jsonld: [faqLD, crumbLD(lang, [[SU.title, u(lang, 'support/')]])] }));
 
     /* ABOUT */
@@ -468,7 +472,7 @@ function build() {
       body: pageHead(T.nav.contact, C.title, C.lead, crumbs(lang, [[C.title, u(lang, 'contact/')]])) + `<section class="section tight"><div class="wrap form-wrap"><div>
       <ul class="contact-cards"><li><span class="why-ic">${icon('mail')}</span><div><small>Email</small><a href="mailto:${esc(cfg.contact.email)}">${ph(cfg.contact.email)}</a>${cfg.contact.salesEmail && cfg.contact.salesEmail !== cfg.contact.email ? `<a href="mailto:${esc(cfg.contact.salesEmail)}">${ph(cfg.contact.salesEmail)}</a>` : ''}</div></li>
       <li><span class="why-ic">${icon('phone')}</span><div><small>${esc(T.quote.phone)}</small><a href="tel:+${digits(cfg.contact.phone)}">${ph(cfg.contact.phone)}</a></div></li>
-      <li><span class="why-ic wa">${WA}</span><div><small>WhatsApp</small><a href="${waLink(BRAND)}" target="_blank" rel="noopener">${ph('+' + cfg.contact.whatsapp)}</a></div></li>
+      ${waNumber() ? `<li><span class="why-ic wa">${WA}</span><div><small>WhatsApp</small><a href="${waLink(BRAND)}" target="_blank" rel="noopener">${ph('+' + cfg.contact.whatsapp)}</a></div></li>` : ''}
       <li><span class="why-ic">${icon('map')}</span><div><small>${lang === 'es' ? 'Dirección' : 'Address'}</small><span>${ph(cfg.contact.address)}</span></div></li>
       <li><span class="why-ic">${icon('clock')}</span><div><small>${esc(C.hours)}</small><span>${esc(cfg.contact.hours[lang])}</span></div></li></ul></div>
       <form class="panel form" data-form="contact" novalidate><h2 class="h-sm">${esc(C.formTitle)}</h2>${formFields(lang, 'contact')}<button class="btn btn-primary" type="submit">${esc(T.cta.send)} ${icon('arrow')}</button><p class="form-msg" role="status"></p></form></div></section>`,
